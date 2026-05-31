@@ -8,33 +8,25 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #f7f5f0;
-  --surface: #ffffff;
-  --border: #e2ddd6;
-  --border2: #ccc8c0;
-  --text: #1a1814;
-  --muted: #6b6760;
-  --hint: #9e9b96;
-  --accent: #c8410a;
-  --accent-bg: #fdf0eb;
-  --fav: #e8a020;
-  --fav-bg: #fdf5e6;
-  --radius: 8px;
-  --radius-lg: 12px;
+  --bg: #f4f6f9; --surface: #ffffff; --border: #dde3ea; --border2: #c0cad4;
+  --text: #0d1f33; --muted: #556070; --hint: #8fa0b0;
+  --accent: #0a3d8f; --accent-bg: #dce8f8;
+  --fav: #e8a020; --fav-bg: #fdf5e6;
+  --going: #1a7a4a; --going-bg: #e6f4ed;
+  --radius: 8px; --radius-lg: 12px;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.5; }
 #wrap { max-width: 1200px; margin: 0 auto; padding: 1.5rem 1rem 4rem; }
 header { margin-bottom: 1.5rem; }
 h1 { font-size: 22px; font-weight: 500; letter-spacing: -0.3px; }
-h1 span { color: var(--accent); }
+h1 span { color: #0a3d8f; }
 .sub { font-size: 13px; color: var(--muted); margin-top: 3px; }
 .toolbar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1rem; align-items: center; }
 .toolbar input, .toolbar select {
   height: 36px; font-size: 13px; font-family: inherit;
   border: 1px solid var(--border2); border-radius: var(--radius);
-  padding: 0 10px; background: var(--surface); color: var(--text);
-  outline: none;
+  padding: 0 10px; background: var(--surface); color: var(--text); outline: none;
 }
 .toolbar input { flex: 1; min-width: 160px; }
 .toolbar input:focus, .toolbar select:focus { border-color: var(--accent); }
@@ -45,11 +37,12 @@ h1 span { color: var(--accent); }
   cursor: pointer; white-space: nowrap; display: flex; align-items: center; gap: 6px;
 }
 .btn:hover { background: var(--bg); }
-.btn.active { background: var(--fav-bg); border-color: var(--fav); color: #7a5010; }
+.btn.fav-active { background: var(--fav-bg); border-color: var(--fav); color: #7a5010; }
+.btn.going-active { background: var(--going-bg); border-color: var(--going); color: var(--going); }
+.btn.pro-active { background: #f0f0f0; border-color: #aaa; color: #555; }
 .stats { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
 .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); }
 table { width: 100%; border-collapse: collapse; font-size: 13px; }
-thead { position: sticky; top: 0; z-index: 1; }
 th {
   text-align: left; padding: 10px 12px;
   border-bottom: 1px solid var(--border);
@@ -60,14 +53,19 @@ th {
 th:hover { color: var(--text); }
 td { padding: 7px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
 tr:last-child td { border-bottom: none; }
-tr:hover td { background: #faf9f7; }
-.fav-btn {
+tr:nth-child(even) td { background: #dce8f5; }
+tr:nth-child(odd) td { background: #f5f8fc; }
+tr:not(.sep-row):hover td { background: #c8f0dc; }
+tr.going-row td { background: #e6f4ed; }
+.actions { display: flex; gap: 4px; align-items: center; }
+.icon-btn {
   background: none; border: none; cursor: pointer;
-  font-size: 16px; line-height: 1; padding: 2px 3px;
-  color: var(--hint); transition: transform .12s, color .12s;
+  font-size: 15px; line-height: 1; padding: 3px 4px;
+  color: var(--hint); border-radius: 4px; transition: transform .12s, color .12s;
 }
-.fav-btn:hover { transform: scale(1.25); color: var(--fav); }
-.fav-btn.on { color: var(--fav); }
+.icon-btn:hover { transform: scale(1.2); }
+.icon-btn.fav-on { color: var(--fav); }
+.icon-btn.going-on { color: var(--going); }
 .date-cell { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); white-space: nowrap; }
 .time-cell { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--hint); white-space: nowrap; }
 .band-cell { font-weight: 500; }
@@ -79,16 +77,15 @@ tr:hover td { background: #faf9f7; }
 }
 .sep-row td {
   font-size: 11px; font-weight: 500; letter-spacing: 0.3px;
-  color: var(--muted); background: #f2efe9;
+  color: var(--muted); background: #eaf1fb;
   padding: 5px 12px; border-bottom: 1px solid var(--border);
   text-transform: uppercase;
 }
+.legend { font-size: 12px; color: var(--muted); margin-bottom: 8px; display: flex; gap: 16px; flex-wrap: wrap; }
+.legend span { display: flex; align-items: center; gap: 4px; }
 .add-section {
-  margin-top: 1.5rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 1rem 1.25rem;
-  background: var(--surface);
+  margin-top: 1.5rem; border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 1rem 1.25rem; background: var(--surface);
 }
 .add-section h3 { font-size: 13px; font-weight: 500; margin-bottom: 10px; color: var(--muted); }
 .add-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: flex-end; }
@@ -102,11 +99,45 @@ tr:hover td { background: #faf9f7; }
 .btn-add {
   height: 34px; padding: 0 16px; font-size: 13px; font-family: inherit;
   border: 1px solid var(--accent); border-radius: var(--radius);
-  background: var(--accent); color: white; cursor: pointer; white-space: nowrap;
+  background: var(--accent); color: white; cursor: pointer;
 }
-.btn-add:hover { background: #b03a08; }
+.btn-add:hover { background: #062a6e; }
 .empty { text-align: center; padding: 3rem; color: var(--hint); font-size: 14px; }
-.fav-count { display: inline-block; background: var(--fav-bg); color: #7a5010; border-radius: 10px; padding: 1px 8px; font-size: 11px; margin-left: 4px; }
+.modal-bg {
+  display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:200;
+  align-items:center; justify-content:center;
+}
+.modal-bg.open { display:flex; }
+.modal {
+  background:var(--surface); border-radius:var(--radius-lg); padding:1.5rem;
+  width:420px; max-width:90vw; border:1px solid var(--border);
+}
+.modal h3 { font-size:15px; font-weight:500; margin-bottom:4px; }
+.modal .modal-sub { font-size:12px; color:var(--muted); margin-bottom:12px; }
+.modal textarea {
+  width:100%; height:120px; font-size:13px; font-family:inherit;
+  border:1px solid var(--border2); border-radius:var(--radius);
+  padding:8px 10px; background:var(--bg); color:var(--text);
+  outline:none; resize:vertical; line-height:1.5;
+}
+.modal textarea:focus { border-color:var(--accent); background:var(--surface); }
+.modal-btns { display:flex; gap:8px; margin-top:10px; justify-content:flex-end; }
+.modal-btns button { height:34px; padding:0 16px; font-size:13px; font-family:inherit; border-radius:var(--radius); cursor:pointer; }
+.modal-save { background:var(--accent); color:white; border:1px solid var(--accent); }
+.modal-save:hover { background:#062a6e; }
+.modal-cancel { background:var(--surface); color:var(--text); border:1px solid var(--border2); }
+.modal-cancel:hover { background:var(--bg); }
+.has-note { color:var(--accent); font-size:13px; cursor:pointer; }
+.no-note { color:var(--hint); font-size:13px; cursor:pointer; }
+.ac-wrap { position: relative; display: inline-block; }
+.ac-list {
+  position: absolute; top: 100%; left: 0; right: 0; z-index: 100;
+  background: var(--surface); border: 1px solid var(--border2);
+  border-top: none; border-radius: 0 0 var(--radius) var(--radius);
+  max-height: 200px; overflow-y: auto; font-size: 13px;
+}
+.ac-item { padding: 7px 10px; cursor: pointer; }
+.ac-item:hover, .ac-item.active { background: var(--accent-bg); color: var(--accent); }
 </style>
 </head>
 <body>
@@ -121,17 +152,22 @@ tr:hover td { background: #faf9f7; }
     <select id="lan-filter" onchange="render()">
       <option value="">Alla län</option>
     </select>
+    <select id="manad-filter" onchange="render()">
+      <option value="">Alla månader</option>
+    </select>
     <select id="dag-filter" onchange="render()">
       <option value="">Alla dagar</option>
       <option>Måndag</option><option>Tisdag</option><option>Onsdag</option>
       <option>Torsdag</option><option>Fredag</option><option>Lördag</option><option>Söndag</option>
     </select>
-    <button class="btn" id="fav-toggle" onclick="toggleFavOnly()">
-      ★ Bara favoriter <span class="fav-count" id="fav-count">0</span>
-    </button>
-    <button class="btn" id="pro-toggle" onclick="toggleHidePro()">
-      ✕ Dölj PRO/SPF
-    </button>
+    <button class="btn" id="btn-favbands" onclick="toggleFilter('favbands')">★ Mina band</button>
+    <button class="btn" id="btn-going" onclick="toggleFilter('going')">♥ Jag ska dit</button>
+    <button class="btn" id="btn-pro" onclick="toggleFilter('pro')">✕ Dölj PRO/SPF</button>
+  </div>
+
+  <div class="legend">
+    <span>★ = favoritband (alla deras spelningar)</span>
+    <span>♥ = jag ska dit (enskild spelning)</span>
   </div>
 
   <div class="stats" id="stats"></div>
@@ -140,7 +176,7 @@ tr:hover td { background: #faf9f7; }
     <table>
       <thead>
         <tr>
-          <th style="width:30px"></th>
+          <th style="width:60px"></th>
           <th onclick="setSort('datum')">Datum</th>
           <th onclick="setSort('dag')">Dag</th>
           <th onclick="setSort('tid')">Tid</th>
@@ -149,6 +185,7 @@ tr:hover td { background: #faf9f7; }
           <th onclick="setSort('ort')">Ort</th>
           <th onclick="setSort('lan')">Län</th>
           <th>Övrigt</th>
+          <th title="Privata anteckningar">📝</th>
         </tr>
       </thead>
       <tbody id="tbody"></tbody>
@@ -158,25 +195,53 @@ tr:hover td { background: #faf9f7; }
   <div class="add-section">
     <h3>+ Lägg till spelning</h3>
     <div class="add-row">
-      <input id="a-datum" placeholder="Datum 2026-07-01" style="width:148px">
-      <input id="a-tid" placeholder="Tid 19.00-23.00" style="width:128px">
-      <input id="a-band" placeholder="Band *" style="width:130px">
-      <input id="a-stalle" placeholder="Dansställe" style="width:150px">
-      <input id="a-ort" placeholder="Ort" style="width:100px">
-      <input id="a-kommun" placeholder="Kommun" style="width:100px">
-      <input id="a-lan" placeholder="Län" style="width:100px">
-      <input id="a-ovrigt" placeholder="Övrigt" style="width:90px">
+      <input id="a-datum" placeholder="2026-07-01" style="width:120px">
+      <input id="a-tid" placeholder="19.00-23.00" style="width:115px">
+      <div class="ac-wrap">
+        <input id="a-band" placeholder="Band *" style="width:130px" autocomplete="off" oninput="acInput(this,'ac-band')" onkeydown="acKey(event,'ac-band',null)">
+        <div class="ac-list" id="ac-band" style="display:none"></div>
+      </div>
+      <input id="a-stalle" placeholder="Dansställe" style="width:145px">
+      <input id="a-ort" placeholder="Ort" style="width:90px">
+      <input id="a-kommun" placeholder="Kommun" style="width:95px">
+      <input id="a-lan" placeholder="Län" style="width:90px">
+      <input id="a-ovrigt" placeholder="Övrigt" style="width:85px">
       <button class="btn-add" onclick="addRow()">Lägg till</button>
     </div>
+  </div>
+
+  <div class="modal-bg" id="note-modal">
+    <div class="modal">
+      <h3 id="note-modal-title">Anteckning</h3>
+      <p class="modal-sub" id="note-modal-sub"></p>
+      <textarea id="note-text" placeholder="Skriv din privata anteckning här…"></textarea>
+      <div class="modal-btns">
+        <button class="modal-cancel" onclick="closeNote()">Avbryt</button>
+        <button class="modal-save" onclick="saveNote()">Spara</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="add-section" style="margin-top:1rem">
+    <h3>💾 Säkerhetskopiera inställningar</h3>
+    <div class="add-row">
+      <button class="btn-add" onclick="exportSettings()" style="background:var(--going);border-color:var(--going)">⬇ Exportera inställningar</button>
+      <button class="btn-add" onclick="document.getElementById('import-file').click()" style="background:var(--muted);border-color:var(--muted)">⬆ Importera inställningar</button>
+      <input type="file" id="import-file" accept=".json" style="display:none" onchange="importSettings(this)">
+    </div>
+    <p style="font-size:12px;color:var(--hint);margin-top:8px">Exportera sparar favoriter, blockerade band och "jag ska dit" som en fil på din dator.</p>
   </div>
 
   <div class="add-section" style="margin-top:1rem">
     <h3>⊘ Blockerade band — visas aldrig</h3>
     <div class="add-row" style="margin-bottom:10px">
-      <input id="b-band" placeholder="Bandnamn att blockera" style="width:200px">
+      <div class="ac-wrap">
+        <input id="b-band" placeholder="Bandnamn att blockera" style="width:220px" autocomplete="off" oninput="acInput(this,'ac-block')" onkeydown="acKey(event,'ac-block',addBlock)">
+        <div class="ac-list" id="ac-block" style="display:none"></div>
+      </div>
       <button class="btn-add" onclick="addBlock()">Blockera</button>
     </div>
-    <div id="block-list" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px"></div>
+    <div id="block-list"></div>
   </div>
 </div>
 
@@ -185,87 +250,73 @@ const JUNE_DATA = [["2026-06-01", "Måndag", "", "Spotlight", "Birka Gotland", "
 
 let allData = [];
 let favBands = new Set();
+let goingSet = new Set();
+let blockedBands = new Set();
+let notes = {};
 let extraRows = [];
 let sortCol = 'datum';
 let sortAsc = true;
-let favOnly = false;
-let hidePro = false;
-let blockedBands = new Set();
+let activeFilter = null;
+let currentNoteKey = null; // 'favbands', 'going', 'pro', null
 
-function loadStorage() {
+function load() {
   try { const v = localStorage.getItem('favBands'); if(v) favBands = new Set(JSON.parse(v)); } catch(e){}
-  try { const v = localStorage.getItem('extraRows'); if(v) extraRows = JSON.parse(v); } catch(e){}
+  try { const v = localStorage.getItem('goingSet'); if(v) goingSet = new Set(JSON.parse(v)); } catch(e){}
   try { const v = localStorage.getItem('blockedBands'); if(v) blockedBands = new Set(JSON.parse(v)); } catch(e){}
-  try { const v = localStorage.getItem('hidePro'); if(v) hidePro = JSON.parse(v); } catch(e){}
+  try { const v = localStorage.getItem('extraRows'); if(v) extraRows = JSON.parse(v); } catch(e){}
+  try { const v = localStorage.getItem('notes'); if(v) notes = JSON.parse(v); } catch(e){}
+  try { const v = localStorage.getItem('activeFilter'); if(v) activeFilter = JSON.parse(v); } catch(e){}
 }
-function saveFavs() { try { localStorage.setItem('favBands', JSON.stringify([...favBands])); } catch(e){} }
-function saveExtra() { try { localStorage.setItem('extraRows', JSON.stringify(extraRows)); } catch(e){} }
+function saveFavBands() { try { localStorage.setItem('favBands', JSON.stringify([...favBands])); } catch(e){} }
+function saveGoing() { try { localStorage.setItem('goingSet', JSON.stringify([...goingSet])); } catch(e){} }
 function saveBlocked() { try { localStorage.setItem('blockedBands', JSON.stringify([...blockedBands])); } catch(e){} }
-function saveHidePro() { try { localStorage.setItem('hidePro', JSON.stringify(hidePro)); } catch(e){} }
+function saveExtra() { try { localStorage.setItem('extraRows', JSON.stringify(extraRows)); } catch(e){} }
+function saveNotes() { try { localStorage.setItem('notes', JSON.stringify(notes)); } catch(e){} }
+function saveFilter() { try { localStorage.setItem('activeFilter', JSON.stringify(activeFilter)); } catch(e){} }
 
+function rowKey(r) { return r[0] + '|' + r[3] + '|' + r[4]; }
+
+function toggleFavBand(band) {
+  if(favBands.has(band)) favBands.delete(band); else favBands.add(band);
+  saveFavBands(); render();
+}
+function toggleGoing(key) {
+  if(goingSet.has(key)) goingSet.delete(key); else goingSet.add(key);
+  saveGoing(); render();
+}
+function toggleFilter(f) {
+  activeFilter = activeFilter === f ? null : f;
+  saveFilter();
+  document.querySelectorAll('.btn[id^="btn-"]').forEach(b => b.className = 'btn');
+  if(activeFilter) {
+    const cls = activeFilter === 'favbands' ? 'fav-active' : activeFilter === 'going' ? 'going-active' : 'pro-active';
+    document.getElementById('btn-' + activeFilter).className = 'btn ' + cls;
+  }
+  render();
+}
 function setSort(col) {
   sortAsc = sortCol === col ? !sortAsc : true;
-  sortCol = col;
-  render();
-}
-function toggleFavOnly() {
-  favOnly = !favOnly;
-  document.getElementById('fav-toggle').classList.toggle('active', favOnly);
-  render();
-}
-function toggleFav(band) {
-  if(favBands.has(band)) favBands.delete(band);
-  else favBands.add(band);
-  saveFavs();
-  render();
-}
-function toggleHidePro() {
-  hidePro = !hidePro;
-  document.getElementById('pro-toggle').classList.toggle('active', hidePro);
-  saveHidePro();
-  render();
-}
-function addBlock() {
-  const band = document.getElementById('b-band').value.trim();
-  if(!band) return;
-  blockedBands.add(band);
-  saveBlocked();
-  document.getElementById('b-band').value = '';
-  renderBlockList();
-  render();
-}
-function removeBlock(band) {
-  blockedBands.delete(band);
-  saveBlocked();
-  renderBlockList();
-  render();
-}
-function renderBlockList() {
-  const el = document.getElementById('block-list');
-  if(!el) return;
-  if(!blockedBands.size) { el.innerHTML = '<span style="font-size:12px;color:var(--hint)">Inga blockerade band ännu.</span>'; return; }
-  el.innerHTML = [...blockedBands].sort((a,b)=>a.localeCompare(b,'sv')).map(b =>
-    `<span style="display:inline-flex;align-items:center;gap:4px;background:var(--bg);border:1px solid var(--border2);border-radius:6px;padding:3px 8px;font-size:12px">
-      ${b} <button onclick="removeBlock('${b.replace(/'/g,"\'")}')" style="background:none;border:none;cursor:pointer;color:var(--hint);font-size:14px;line-height:1;padding:0 2px" title="Ta bort blockering">×</button>
-    </span>`
-  ).join('');
+  sortCol = col; render();
 }
 
 function getFiltered() {
-  const q = document.getElementById('search').value.toLowerCase();
+  const q = (document.getElementById('search').value || '').toLowerCase();
   const lan = document.getElementById('lan-filter').value;
   const dag = document.getElementById('dag-filter').value;
   const colMap = {datum:0,dag:1,tid:2,band:3,stalle:4,ort:5,kommun:6,lan:7};
   const ci = colMap[sortCol] ?? 0;
   let rows = [...allData];
   rows = rows.filter(r => !blockedBands.has(r[3]));
-  if(hidePro) rows = rows.filter(r => !/(PRO|SPF)/i.test(r[8]));
-  if(favOnly) rows = rows.filter(r => favBands.has(r[3]));
-  if(q) rows = rows.filter(r => r.some(c => c.toLowerCase().includes(q)));
+  if(activeFilter === 'pro') rows = rows.filter(r => !/(PRO|SPF)/i.test(r[8]));
+  if(activeFilter === 'favbands') rows = rows.filter(r => favBands.has(r[3]));
+  if(activeFilter === 'going') rows = rows.filter(r => goingSet.has(rowKey(r)));
+  if(q) rows = rows.filter(r => r.some(c => String(c).toLowerCase().includes(q)));
   if(lan) rows = rows.filter(r => r[7] === lan);
   if(dag) rows = rows.filter(r => r[1] === dag);
+  const manad = document.getElementById('manad-filter').value;
+  if(manad) rows = rows.filter(r => r[0].startsWith(manad));
   rows.sort((a,b) => {
-    const av = a[ci]||'', bv = b[ci]||'';
+    const av = String(a[ci]||''), bv = String(b[ci]||'');
     return sortAsc ? av.localeCompare(bv,'sv') : bv.localeCompare(av,'sv');
   });
   return rows;
@@ -276,28 +327,36 @@ function render() {
   let html = '';
   let prevDate = '';
   rows.forEach(r => {
-    const isFav = favBands.has(r[3]);
+    const isFavBand = favBands.has(r[3]);
+    const key = rowKey(r);
+    const isGoing = goingSet.has(key);
     if(r[0] !== prevDate && sortCol === 'datum') {
-      html += `<tr class="sep-row"><td colspan="9">${r[0]} &mdash; ${r[1]}</td></tr>`;
+      html += '<tr class="sep-row"><td colspan="9">' + r[0] + ' &mdash; ' + r[1] + '</td></tr>';
       prevDate = r[0];
     }
-    const bandEsc = r[3].replace(/'/g,"\\'").replace(/"/g,'&quot;');
-    html += `<tr>
-      <td><button class="fav-btn ${isFav?'on':''}" onclick="toggleFav('${bandEsc}')" title="${isFav?'Ta bort favorit':'Markera som favorit'}">★</button></td>
-      <td class="date-cell">${r[0]}</td>
-      <td>${r[1]}</td>
-      <td class="time-cell">${r[2]}</td>
-      <td class="band-cell ${isFav?'fav':''}">${r[3]}</td>
-      <td>${r[4]}</td>
-      <td>${r[5]}</td>
-      <td>${r[7]}</td>
-      <td>${r[8]?`<span class="badge">${r[8]}</span>`:''}</td>
-    </tr>`;
+    const rowIdx = allData.indexOf(r);
+    html += '<tr class="' + (isGoing?'going-row':'') + '" data-idx="' + rowIdx + '">'
+      + '<td><div class="actions">'
+      + '<button class="icon-btn ' + (isFavBand?'fav-on':'') + '" data-action="fav" data-idx="' + rowIdx + '" title="' + (isFavBand?'Ta bort favoritband':'Favoritband') + '">&#9733;</button>'
+      + '<button class="icon-btn ' + (isGoing?'going-on':'') + '" data-action="going" data-idx="' + rowIdx + '" title="' + (isGoing?'Ta bort':'Jag ska dit!') + '">&#9829;</button>'
+      + '</div></td>'
+      + '<td class="date-cell">' + r[0] + '</td>'
+      + '<td>' + r[1] + '</td>'
+      + '<td class="time-cell">' + r[2] + '</td>'
+      + '<td class="band-cell ' + (isFavBand?'fav':'') + '">' + r[3] + '</td>'
+      + '<td>' + r[4] + '</td>'
+      + '<td>' + r[5] + '</td>'
+      + '<td>' + r[7] + '</td>'
+      + '<td>' + (r[8]?'<span class="badge">'+r[8]+'</span>':'') + '</td>'
+      + '<td><span class="' + (notes[key]?'has-note':'no-note') + '" data-action="note" data-idx="' + rowIdx + '" title="' + (notes[key]?'Redigera anteckning':'Lägg till anteckning') + '">' + (notes[key]?'📝':'＋') + '</span></td>'
+      + '</tr>';
   });
   if(!rows.length) html = '<tr><td colspan="9" class="empty">Inga spelningar matchar sökningen.</td></tr>';
   document.getElementById('tbody').innerHTML = html;
-  document.getElementById('stats').textContent = `${rows.length} spelningar visas`;
-  document.getElementById('fav-count').textContent = favBands.size;
+  const favCount = favBands.size;
+  const goingCount = goingSet.size;
+  document.getElementById('stats').textContent =
+    `${rows.length} spelningar visas${favCount?' · '+favCount+' favoritband':''}${goingCount?' · '+goingCount+' jag ska dit':''}`;
 }
 
 function buildLanFilter() {
@@ -312,29 +371,199 @@ function addRow() {
   if(!datum || !band) { alert('Datum och band krävs.'); return; }
   const dagNames = ['Söndag','Måndag','Tisdag','Onsdag','Torsdag','Fredag','Lördag'];
   const d = new Date(datum+'T12:00:00');
-  const dagName = dagNames[d.getDay()] || '';
-  const row = [
-    datum, dagName,
-    document.getElementById('a-tid').value.trim(),
-    band,
+  const row = [datum, dagNames[d.getDay()]||'',
+    document.getElementById('a-tid').value.trim(), band,
     document.getElementById('a-stalle').value.trim(),
     document.getElementById('a-ort').value.trim(),
     document.getElementById('a-kommun').value.trim(),
     document.getElementById('a-lan').value.trim(),
-    document.getElementById('a-ovrigt').value.trim()
-  ];
-  extraRows.push(row);
-  allData.push(row);
-  saveExtra();
-  ['a-datum','a-tid','a-band','a-stalle','a-ort','a-kommun','a-lan','a-ovrigt'].forEach(id => document.getElementById(id).value='');
+    document.getElementById('a-ovrigt').value.trim()];
+  extraRows.push(row); allData.push(row); saveExtra();
+  ['a-datum','a-tid','a-band','a-stalle','a-ort','a-kommun','a-lan','a-ovrigt'].forEach(id=>document.getElementById(id).value='');
   render();
 }
 
-loadStorage();
+function addBlock() {
+  const band = document.getElementById('b-band').value.trim();
+  if(!band) return;
+  blockedBands.add(band); saveBlocked();
+  document.getElementById('b-band').value = '';
+  renderBlockList(); render();
+}
+function removeBlock(band) {
+  blockedBands.delete(band); saveBlocked();
+  renderBlockList(); render();
+}
+function renderBlockList() {
+  const el = document.getElementById('block-list');
+  if(!blockedBands.size) { el.innerHTML = '<span style="font-size:12px;color:var(--hint)">Inga blockerade band ännu.</span>'; return; }
+  el.innerHTML = [...blockedBands].sort((a,b)=>a.localeCompare(b,'sv')).map(b =>
+    '<span style="display:inline-flex;align-items:center;gap:4px;background:var(--bg);border:1px solid var(--border2);border-radius:6px;padding:3px 8px;font-size:12px;margin:2px" data-block="' + encodeURIComponent(b) + '">'
+      + b + ' <button onclick="removeBlockEnc(this)" style="background:none;border:none;cursor:pointer;color:var(--hint);font-size:14px;line-height:1;padding:0 2px">×</button>'
+      + '</span>'
+  ).join('');
+}
+
+function removeBlockEnc(btn) {
+  const band = decodeURIComponent(btn.parentElement.getAttribute('data-block'));
+  removeBlock(band);
+}
+
+document.addEventListener('click', function(e) {
+  const btn = e.target.closest('[data-action]');
+  if(!btn) return;
+  const idx = parseInt(btn.getAttribute('data-idx'));
+  const r = allData[idx];
+  if(!r) return;
+  if(btn.getAttribute('data-action') === 'fav') toggleFavBand(r[3]);
+  else if(btn.getAttribute('data-action') === 'going') toggleGoing(rowKey(r));
+  else if(btn.getAttribute('data-action') === 'note') openNote(rowKey(r), r);
+});
+
+function exportSettings() {
+  const data = {
+    version: 1,
+    favBands: [...favBands],
+    goingSet: [...goingSet],
+    blockedBands: [...blockedBands],
+    notes: notes,
+    extraRows: extraRows,
+    exportDate: new Date().toISOString()
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'dansprogram-installningar.json';
+  a.click();
+}
+
+function importSettings(input) {
+  const file = input.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const data = JSON.parse(e.target.result);
+      if(data.version !== 1) { alert('Okänt filformat.'); return; }
+      if(data.favBands) { favBands = new Set(data.favBands); saveFavBands(); }
+      if(data.goingSet) { goingSet = new Set(data.goingSet); saveGoing(); }
+      if(data.blockedBands) { blockedBands = new Set(data.blockedBands); saveBlocked(); }
+      if(data.notes) { notes = data.notes; saveNotes(); }
+      if(data.extraRows) { extraRows = data.extraRows; saveExtra(); allData = [...JUNE_DATA, ...extraRows]; }
+      renderBlockList();
+      render();
+      alert('Inställningar importerade! ' + (data.favBands?.length||0) + ' favoritband, ' + (data.blockedBands?.length||0) + ' blockerade band.');
+    } catch(err) {
+      alert('Kunde inte läsa filen. Kontrollera att det är rätt fil.');
+    }
+    input.value = '';
+  };
+  reader.readAsText(file);
+}
+
+function openNote(key, r) {
+  currentNoteKey = key;
+  document.getElementById('note-modal-title').textContent = r[3];
+  document.getElementById('note-modal-sub').textContent = r[0] + ' · ' + r[4] + ' · ' + r[5];
+  document.getElementById('note-text').value = notes[key] || '';
+  document.getElementById('note-modal').classList.add('open');
+  setTimeout(() => document.getElementById('note-text').focus(), 50);
+}
+function closeNote() {
+  document.getElementById('note-modal').classList.remove('open');
+  currentNoteKey = null;
+}
+function saveNote() {
+  const txt = document.getElementById('note-text').value.trim();
+  if(txt) notes[currentNoteKey] = txt;
+  else delete notes[currentNoteKey];
+  saveNotes();
+  closeNote();
+  render();
+}
+document.addEventListener('keydown', function(e) {
+  if(e.key === 'Escape') closeNote();
+});
+
+function buildManadFilter() {
+  const manader = [...new Set(allData.map(r => r[0].substring(0,7)))].sort();
+  const names = {
+    '2026-06':'Juni 2026','2026-07':'Juli 2026','2026-08':'Augusti 2026',
+    '2026-09':'September 2026','2026-10':'Oktober 2026','2026-11':'November 2026',
+    '2026-12':'December 2026','2027-01':'Januari 2027','2027-02':'Februari 2027',
+    '2027-03':'Mars 2027','2027-04':'April 2027','2027-05':'Maj 2027'
+  };
+  const sel = document.getElementById('manad-filter');
+  manader.forEach(m => {
+    const o = document.createElement('option');
+    o.value = m; o.textContent = names[m] || m;
+    sel.appendChild(o);
+  });
+}
+
+function getBandNames() {
+  return [...new Set(allData.map(r => r[3]).filter(Boolean))].sort((a,b) => a.localeCompare(b,'sv'));
+}
+
+function acInput(inp, listId) {
+  const q = inp.value.trim().toLowerCase();
+  const list = document.getElementById(listId);
+  if(!q) { list.style.display='none'; return; }
+  const matches = getBandNames().filter(b => b.toLowerCase().includes(q)).slice(0, 10);
+  if(!matches.length) { list.style.display='none'; return; }
+  list.innerHTML = matches.map((b,i) => 
+    `<div class="ac-item" data-val="${b}" onmousedown="acPick(event,'${listId}')">${b}</div>`
+  ).join('');
+  list.style.display = 'block';
+}
+
+function acPick(e, listId) {
+  e.preventDefault();
+  const val = e.target.getAttribute('data-val');
+  const list = document.getElementById(listId);
+  const inp = list.previousElementSibling;
+  inp.value = val;
+  list.style.display = 'none';
+}
+
+function acKey(e, listId, callback) {
+  const list = document.getElementById(listId);
+  const items = list.querySelectorAll('.ac-item');
+  const active = list.querySelector('.ac-item.active');
+  if(e.key === 'ArrowDown') {
+    e.preventDefault();
+    const next = active ? active.nextElementSibling : items[0];
+    if(active) active.classList.remove('active');
+    if(next) { next.classList.add('active'); e.target.value = next.getAttribute('data-val'); }
+  } else if(e.key === 'ArrowUp') {
+    e.preventDefault();
+    const prev = active ? active.previousElementSibling : items[items.length-1];
+    if(active) active.classList.remove('active');
+    if(prev) { prev.classList.add('active'); e.target.value = prev.getAttribute('data-val'); }
+  } else if(e.key === 'Enter') {
+    if(active) { list.style.display='none'; if(callback) callback(); }
+    else if(callback) callback();
+  } else if(e.key === 'Escape') {
+    list.style.display = 'none';
+  }
+}
+
+document.addEventListener('click', function(e) {
+  document.querySelectorAll('.ac-list').forEach(l => {
+    if(!l.parentElement.contains(e.target)) l.style.display='none';
+  });
+});
+
+load();
 allData = [...JUNE_DATA, ...extraRows];
 buildLanFilter();
+buildManadFilter();
 renderBlockList();
-if(hidePro) document.getElementById('pro-toggle').classList.add('active');
+if(activeFilter) {
+  const cls = activeFilter==='favbands'?'fav-active':activeFilter==='going'?'going-active':'pro-active';
+  const btn = document.getElementById('btn-'+activeFilter);
+  if(btn) btn.className = 'btn ' + cls;
+}
 render();
 </script>
 </body>
