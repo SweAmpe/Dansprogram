@@ -39,6 +39,7 @@ h1 span { color: #0a3d8f; }
 .btn:hover { background: var(--bg); }
 .btn.fav-active { background: var(--fav-bg); border-color: var(--fav); color: #7a5010; }
 .btn.going-active { background: var(--going-bg); border-color: var(--going); color: var(--going); }
+.btn.venue-active { background: #f3e8fc; border-color: #7b2fbf; color: #7b2fbf; }
 .btn.pro-active { background: #f0f0f0; border-color: #aaa; color: #555; }
 .stats { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
 .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); }
@@ -60,12 +61,13 @@ tr.going-row td { background: #e6f4ed; }
 .actions { display: flex; gap: 4px; align-items: center; }
 .icon-btn {
   background: none; border: none; cursor: pointer;
-  font-size: 15px; line-height: 1; padding: 3px 4px;
+  font-size: 20px; line-height: 1; padding: 3px 5px;
   color: var(--hint); border-radius: 4px; transition: transform .12s, color .12s;
 }
-.icon-btn:hover { transform: scale(1.2); }
+.icon-btn:hover { transform: scale(1.2); color: var(--accent); }
 .icon-btn.fav-on { color: var(--fav); }
 .icon-btn.going-on { color: var(--going); }
+.icon-btn.venue-on { color: #7b2fbf; }
 .date-cell { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); white-space: nowrap; }
 .time-cell { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--hint); white-space: nowrap; }
 .band-cell { font-weight: 500; }
@@ -166,8 +168,10 @@ tr.going-row td { background: #e6f4ed; }
   </div>
 
   <div class="legend">
-    <span>★ = favoritband (alla deras spelningar)</span>
-    <span>♥ = jag ska dit (enskild spelning)</span>
+    <span style="color:var(--fav)">★</span> favoritband &nbsp;|&nbsp;
+    <span style="color:#7b2fbf">★</span> favoritställe &nbsp;|&nbsp;
+    <span>⊘ blockera band</span> &nbsp;|&nbsp;
+    <span>♥ jag ska dit</span>
   </div>
 
   <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:1rem">
@@ -199,7 +203,7 @@ tr.going-row td { background: #e6f4ed; }
     <table>
       <thead>
         <tr>
-          <th style="width:60px"></th>
+          <th style="width:36px"></th>
           <th onclick="setSort('datum')">Datum</th>
           <th onclick="setSort('dag')">Dag</th>
           <th onclick="setSort('tid')">Tid</th>
@@ -255,6 +259,7 @@ const JUNE_DATA = [["2026-06-01", "Måndag", "", "Spotlight", "Birka Gotland", "
 
 let allData = [];
 let favBands = new Set();
+let favVenues = new Set();
 let goingSet = new Set();
 let blockedBands = new Set();
 let notes = {};
@@ -267,6 +272,7 @@ let currentNoteKey = null; // 'favbands', 'going', 'pro', null
 function load() {
   try { const v = localStorage.getItem('favBands'); if(v) favBands = new Set(JSON.parse(v)); } catch(e){}
   try { const v = localStorage.getItem('goingSet'); if(v) goingSet = new Set(JSON.parse(v)); } catch(e){}
+  try { const v = localStorage.getItem('favVenues'); if(v) favVenues = new Set(JSON.parse(v)); } catch(e){}
   try { const v = localStorage.getItem('blockedBands'); if(v) blockedBands = new Set(JSON.parse(v)); } catch(e){}
   try { const v = localStorage.getItem('extraRows'); if(v) extraRows = JSON.parse(v); } catch(e){}
   try { const v = localStorage.getItem('notes'); if(v) notes = JSON.parse(v); } catch(e){}
@@ -274,6 +280,7 @@ function load() {
 }
 function saveFavBands() { try { localStorage.setItem('favBands', JSON.stringify([...favBands])); } catch(e){} }
 function saveGoing() { try { localStorage.setItem('goingSet', JSON.stringify([...goingSet])); } catch(e){} }
+function saveFavVenues() { try { localStorage.setItem('favVenues', JSON.stringify([...favVenues])); } catch(e){} }
 function saveBlocked() { try { localStorage.setItem('blockedBands', JSON.stringify([...blockedBands])); } catch(e){} }
 function saveExtra() { try { localStorage.setItem('extraRows', JSON.stringify(extraRows)); } catch(e){} }
 function saveNotes() { try { localStorage.setItem('notes', JSON.stringify(notes)); } catch(e){} }
@@ -285,6 +292,10 @@ function toggleFavBand(band) {
   if(favBands.has(band)) favBands.delete(band); else favBands.add(band);
   saveFavBands(); render();
 }
+function toggleFavVenue(venue) {
+  if(favVenues.has(venue)) favVenues.delete(venue); else favVenues.add(venue);
+  saveFavVenues(); render();
+}
 function toggleGoing(key) {
   if(goingSet.has(key)) goingSet.delete(key); else goingSet.add(key);
   saveGoing(); render();
@@ -294,7 +305,7 @@ function toggleFilter(f) {
   saveFilter();
   document.querySelectorAll('.btn[id^="btn-"]').forEach(b => b.className = 'btn');
   if(activeFilter) {
-    const cls = activeFilter === 'favbands' ? 'fav-active' : activeFilter === 'going' ? 'going-active' : 'pro-active';
+    const cls = activeFilter === 'favbands' ? 'fav-active' : activeFilter === 'going' ? 'going-active' : activeFilter === 'favvenues' ? 'venue-active' : 'pro-active';
     document.getElementById('btn-' + activeFilter).className = 'btn ' + cls;
   }
   render();
@@ -311,10 +322,11 @@ function getFiltered() {
   const colMap = {datum:0,dag:1,tid:2,band:3,stalle:4,ort:5,kommun:6,lan:7};
   const ci = colMap[sortCol] ?? 0;
   let rows = [...allData];
-  rows = rows.filter(r => !blockedBands.has(r[3]));
+  rows = rows.filter(r => ![...blockedBands].some(b => b.toLowerCase() === r[3].toLowerCase()));
   if(activeFilter === 'pro') rows = rows.filter(r => !/(PRO|SPF)/i.test(r[8]));
   if(activeFilter === 'favbands') rows = rows.filter(r => favBands.has(r[3]));
   if(activeFilter === 'going') rows = rows.filter(r => goingSet.has(rowKey(r)));
+  if(activeFilter === 'favvenues') rows = rows.filter(r => favVenues.has(r[4]));
   if(q) rows = rows.filter(r => r.some(c => String(c).toLowerCase().includes(q)));
   if(lan) rows = rows.filter(r => r[7] === lan);
   if(dag) rows = rows.filter(r => r[1] === dag);
@@ -342,14 +354,24 @@ function render() {
     const rowIdx = allData.indexOf(r);
     html += '<tr class="' + (isGoing?'going-row':'') + '" data-idx="' + rowIdx + '">'
       + '<td><div class="actions">'
-      + '<button class="icon-btn ' + (isFavBand?'fav-on':'') + '" data-action="fav" data-idx="' + rowIdx + '" title="' + (isFavBand?'Ta bort favoritband':'Favoritband') + '">&#9733;</button>'
-      + '<button class="icon-btn ' + (isGoing?'going-on':'') + '" data-action="going" data-idx="' + rowIdx + '" title="' + (isGoing?'Ta bort':'Jag ska dit!') + '">&#9829;</button>'
+      + '<button class="icon-btn ' + (isGoing?'going-on':'') + '" data-action="going" data-idx="' + rowIdx + '" title="' + (isGoing?'Ta bort — jag ska dit':'Jag ska dit!') + '">&#9829;</button>'
       + '</div></td>'
       + '<td class="date-cell">' + r[0] + '</td>'
       + '<td>' + r[1] + '</td>'
       + '<td class="time-cell">' + r[2] + '</td>'
-      + '<td class="band-cell ' + (isFavBand?'fav':'') + '">' + r[3] + '</td>'
-      + '<td>' + r[4] + '</td>'
+      + '<td class="band-cell">'
+      + '<div style="display:flex;align-items:center;gap:2px">'
+      + '<button class="icon-btn ' + (isFavBand?'fav-on':'') + '" data-action="fav" data-idx="' + rowIdx + '" title="' + (isFavBand?'Ta bort favoritband':'Markera som favoritband') + '" style="font-size:16px">&#9733;</button>'
+      + '<button class="icon-btn" data-action="block" data-idx="' + rowIdx + '" title="Blockera ' + r[3] + '" style="font-size:14px;opacity:0.35;margin-right:4px">&#8960;</button>'
+      + '<span style="font-weight:500;' + (isFavBand?'color:var(--accent)':'') + '">' + r[3] + '</span>'
+      + '</div>'
+      + '</td>'
+      + '<td>'
+      + '<div style="display:flex;align-items:center;gap:4px">'
+      + '<button class="icon-btn ' + (favVenues.has(r[4])?'venue-on':'') + '" data-action="venue" data-idx="' + rowIdx + '" title="' + (favVenues.has(r[4])?'Ta bort favoritställe':'Favoritställe') + '" style="font-size:16px">&#9733;</button>'
+      + '<span>' + r[4] + '</span>'
+      + '</div>'
+      + '</td>'
       + '<td>' + r[5] + '</td>'
       + '<td>' + r[7] + '</td>'
       + '<td>' + (r[8]?'<span class="badge">'+r[8]+'</span>':'') + '</td>'
@@ -391,7 +413,7 @@ function addRow() {
 function addBlock() {
   const band = document.getElementById('b-band').value.trim();
   if(!band) return;
-  blockedBands.add(band); saveBlocked();
+  blockedBands.add(band.toLowerCase()); saveBlocked();
   document.getElementById('b-band').value = '';
   renderBlockList(); render();
 }
@@ -423,12 +445,22 @@ document.addEventListener('click', function(e) {
   if(btn.getAttribute('data-action') === 'fav') toggleFavBand(r[3]);
   else if(btn.getAttribute('data-action') === 'going') toggleGoing(rowKey(r));
   else if(btn.getAttribute('data-action') === 'note') openNote(rowKey(r), r);
+  else if(btn.getAttribute('data-action') === 'venue') toggleFavVenue(r[4]);
+  else if(btn.getAttribute('data-action') === 'block') {
+    if(confirm('Blockera ' + r[3] + '? Bandet försvinner från listan men kan återställas i blocklistan.')) {
+      blockedBands.add(r[3].toLowerCase());
+      saveBlocked();
+      renderBlockList();
+      render();
+    }
+  }
 });
 
 function exportSettings() {
   const data = {
     version: 1,
     favBands: [...favBands],
+    favVenues: [...favVenues],
     goingSet: [...goingSet],
     blockedBands: [...blockedBands],
     notes: notes,
@@ -451,6 +483,7 @@ function importSettings(input) {
       const data = JSON.parse(e.target.result);
       if(data.version !== 1) { alert('Okänt filformat.'); return; }
       if(data.favBands) { favBands = new Set(data.favBands); saveFavBands(); }
+      if(data.favVenues) { favVenues = new Set(data.favVenues); saveFavVenues(); }
       if(data.goingSet) { goingSet = new Set(data.goingSet); saveGoing(); }
       if(data.blockedBands) { blockedBands = new Set(data.blockedBands); saveBlocked(); }
       if(data.notes) { notes = data.notes; saveNotes(); }
