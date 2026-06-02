@@ -141,6 +141,7 @@ tr.going-row td { background: #e6f4ed; }
 .ac-item { padding: 7px 10px; cursor: pointer; }
 .ac-item:hover, .ac-item.active { background: var(--accent-bg); color: var(--accent); }
 </style>
+<script src="data.js"></script>
 </head>
 <body>
 <div id="wrap">
@@ -487,7 +488,7 @@ function importSettings(input) {
       if(data.goingSet) { goingSet = new Set(data.goingSet); saveGoing(); }
       if(data.blockedBands) { blockedBands = new Set(data.blockedBands); saveBlocked(); }
       if(data.notes) { notes = data.notes; saveNotes(); }
-      if(data.extraRows) { extraRows = data.extraRows; saveExtra(); allData = [...JUNE_DATA, ...extraRows]; }
+      if(data.extraRows) { extraRows = data.extraRows; saveExtra(); allData = [...JUNE_DATA, ...(typeof JULY_DATA!=='undefined'?JULY_DATA:[]), ...(typeof AUG_DATA!=='undefined'?AUG_DATA:[]), ...(typeof SEP_DATA!=='undefined'?SEP_DATA:[]), ...(typeof OCT_DATA!=='undefined'?OCT_DATA:[]), ...(typeof NOV_DATA!=='undefined'?NOV_DATA:[]), ...(typeof DEC_DATA!=='undefined'?DEC_DATA:[]), ...extraRows]; }
       renderBlockList();
       render();
       alert('Inställningar importerade! ' + (data.favBands?.length||0) + ' favoritband, ' + (data.blockedBands?.length||0) + ' blockerade band.');
@@ -593,7 +594,7 @@ document.addEventListener('click', function(e) {
 });
 
 load();
-allData = [...JUNE_DATA, ...extraRows];
+allData = [...JUNE_DATA, ...(typeof JULY_DATA!=='undefined'?JULY_DATA:[]), ...(typeof AUG_DATA!=='undefined'?AUG_DATA:[]), ...(typeof SEP_DATA!=='undefined'?SEP_DATA:[]), ...(typeof OCT_DATA!=='undefined'?OCT_DATA:[]), ...(typeof NOV_DATA!=='undefined'?NOV_DATA:[]), ...(typeof DEC_DATA!=='undefined'?DEC_DATA:[]), ...extraRows];
 buildLanFilter();
 buildManadFilter();
 renderBlockList();
