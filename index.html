@@ -172,6 +172,18 @@ tr.going-row td { background: #2d1525; }
 .sync-icon { display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:6px; }
 .sync-ok { background:#27ae60; }
 .sync-off { background:var(--hint); }
+.admin-modal { background:var(--surface); border:1px solid var(--border2); border-radius:var(--radius-lg); padding:2rem; width:500px; max-width:90vw; max-height:80vh; overflow-y:auto; }
+.admin-modal h3 { color:var(--accent); margin-bottom:1rem; }
+.admin-user { display:flex; align-items:center; justify-content:space-between; padding:10px; border-bottom:1px solid var(--border); }
+.admin-user:last-child { border-bottom:none; }
+.admin-user .au-name { font-weight:500; color:var(--text); }
+.admin-user .au-date { font-size:12px; color:var(--muted); }
+.admin-user button { font-size:12px; padding:4px 10px; background:var(--accent-bg); border:1px solid var(--accent); color:var(--accent); border-radius:var(--radius); cursor:pointer; font-family:inherit; }
+.admin-detail { margin-top:12px; padding:12px; background:var(--bg); border-radius:var(--radius); font-size:13px; }
+.admin-detail h4 { color:var(--accent); margin-bottom:6px; font-size:13px; }
+.admin-detail .ad-going { display:flex; gap:12px; padding:4px 0; border-bottom:1px solid var(--border); font-size:12px; }
+.admin-detail .ad-going:last-child { border-bottom:none; }
+.admin-detail .ad-list { color:var(--muted); font-size:12px; margin-top:4px; }
 .ac-wrap { position: relative; display: inline-block; }
 .ac-list {
   position: absolute; top: 100%; left: 0; right: 0; z-index: 100;
@@ -192,7 +204,7 @@ tr.going-row td { background: #2d1525; }
   </header>
 
   <div class="user-bar" id="user-bar">
-    <span id="user-status"><span class="sync-icon sync-off"></span>Inte inloggad</span>
+    <span id="user-status"><span class="sync-icon sync-off"></span>Titta fritt — eller skapa ett smeknamn för att spara favoriter</span>
     <button onclick="showLogin()">Logga in</button>
   </div>
 
@@ -209,6 +221,13 @@ tr.going-row td { background: #2d1525; }
         <button class="btn-skip" onclick="closeLogin()">Hoppa över</button>
       </div>
       <div class="login-msg" id="login-msg"></div>
+    </div>
+  </div>
+
+  <div class="login-modal-bg" id="admin-modal" onclick="if(event.target===this)this.classList.remove('open')">
+    <div class="admin-modal">
+      <h3>👑 Användare</h3>
+      <div id="admin-list">Laddar...</div>
     </div>
   </div>
 
@@ -517,11 +536,11 @@ function applyCloudSettings(s) {
 function updateUserBar(synced) {
   const bar = document.getElementById('user-bar');
   if(currentUser) {
-    bar.innerHTML = '<span><span class="sync-icon ' + (synced?'sync-ok':'sync-off') + '"></span>Inloggad som <span class="user-name">' + currentUser.namn + '</span></span>'
-      + (currentUser.is_admin ? ' <button onclick="showAdminUsers()">Admin</button>' : '')
+    bar.innerHTML = '<span><span class="sync-icon ' + (synced?'sync-ok':'sync-off') + '"></span><span class="user-name">' + currentUser.namn + '</span> — ändringar sparas automatiskt</span>'
+      + (currentUser.is_admin ? ' <button onclick="showAdminUsers()">👑 Användare</button>' : '')
       + ' <button onclick="doLogout()">Logga ut</button>';
   } else {
-    bar.innerHTML = '<span><span class="sync-icon sync-off"></span>Inte inloggad</span> <button onclick="showLogin()">Logga in</button>';
+    bar.innerHTML = '<span><span class="sync-icon sync-off"></span>Titta fritt — eller skapa ett smeknamn för att spara favoriter</span> <button onclick="showLogin()">Logga in</button>';
   }
 }
 
@@ -533,17 +552,64 @@ function doLogout() {
 
 function showAdminUsers() {
   if(!currentUser || !currentUser.is_admin) return;
+  document.getElementById('admin-modal').classList.add('open');
+  document.getElementById('admin-list').innerHTML = 'Laddar...';
   fetch(API_URL + '?action=admin-users', {
     method: 'POST',
     headers: {'Content-Type':'application/json'},
     body: JSON.stringify({namn: currentUser.namn, pin: currentUser.pin})
   }).then(r => r.json()).then(d => {
-    if(!d.ok) { alert(d.error); return; }
-    let txt = 'Registrerade användare:\n\n';
-    d.users.forEach(u => {
-      txt += (u.is_admin==='1'||u.is_admin===1 ? '👑 ' : '   ') + u.namn + '\n   Gick med: ' + u.created_at + '\n   Senast aktiv: ' + u.updated_at + '\n\n';
+    if(!d.ok) { document.getElementById('admin-list').innerHTML = d.error; return; }
+    document.getElementById('admin-list').innerHTML = d.users.map(u =>
+      '<div class="admin-user" id="au-' + encodeURIComponent(u.namn) + '">'
+      + '<div><span class="au-name">' + (u.is_admin==='1'||u.is_admin===1?'👑 ':'') + u.namn + '</span>'
+      + '<br><span class="au-date">Gick med: ' + u.created_at.substring(0,10) + ' · Senast: ' + u.updated_at.substring(0,10) + '</span></div>'
+      + '<button onclick="showUserDetail(\'' + u.namn.replace(/'/g,"\\'") + '\')">Visa</button>'
+      + '</div>'
+    ).join('');
+  });
+}
+
+function showUserDetail(namn) {
+  fetch(API_URL + '?action=admin-users', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({namn: currentUser.namn, pin: currentUser.pin})
+  }).then(r => r.json()).then(d => {
+    if(!d.ok) return;
+    const user = d.users.find(u => u.namn === namn);
+    if(!user) return;
+    fetch(API_URL + '?action=admin-detail', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({namn: currentUser.namn, pin: currentUser.pin, target: namn})
+    }).then(r => r.json()).then(s => {
+      if(!s.ok) return;
+      const sets = s.settings || {};
+      const el = document.getElementById('au-' + encodeURIComponent(namn));
+      if(!el) return;
+      let existing = el.querySelector('.admin-detail');
+      if(existing) { existing.remove(); return; }
+      let html = '<div class="admin-detail">';
+      if(sets.goingSet && sets.goingSet.length) {
+        html += '<h4>♥ Jag ska dit</h4>';
+        const goingRows = sets.goingSet.map(key => {
+          const parts = key.split('|');
+          return {datum: parts[0]||'', band: parts[1]||'', stalle: parts[2]||''};
+        }).sort((a,b) => a.datum.localeCompare(b.datum));
+        goingRows.forEach(g => {
+          html += '<div class="ad-going"><span style="min-width:90px">' + g.datum + '</span><span style="min-width:120px;color:var(--accent)">' + g.band + '</span><span>' + g.stalle + '</span></div>';
+        });
+      } else { html += '<p class="ad-list">Inga "jag ska dit" valda.</p>'; }
+      if(sets.favBands && sets.favBands.length) {
+        html += '<h4 style="margin-top:10px">★ Favoritband</h4><p class="ad-list">' + sets.favBands.join(', ') + '</p>';
+      }
+      if(sets.blockedBands && sets.blockedBands.length) {
+        html += '<h4 style="margin-top:10px">✕ Blockerade</h4><p class="ad-list">' + sets.blockedBands.join(', ') + '</p>';
+      }
+      html += '</div>';
+      el.insertAdjacentHTML('beforeend', html);
     });
-    alert(txt);
   });
 }
 
