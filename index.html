@@ -12,7 +12,7 @@
   --text: #0d1f33; --muted: #556070; --hint: #8fa0b0;
   --accent: #0a3d8f; --accent-bg: #dce8f8;
   --fav: #e8a020; --fav-bg: #fdf5e6;
-  --going: #1a7a4a; --going-bg: #e6f4ed;
+  --going: #e84393; --going-bg: #fce4ec;
   --radius: 8px; --radius-lg: 12px;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -38,7 +38,7 @@ h1 span { color: #0a3d8f; }
 }
 .btn:hover { background: var(--bg); }
 .btn.fav-active { background: var(--fav-bg); border-color: var(--fav); color: #7a5010; }
-.btn.going-active { background: var(--going-bg); border-color: var(--going); color: var(--going); }
+.btn.going-active { background: var(--going-bg); border-color: var(--going); color: #c0295e; }
 .btn.venue-active { background: #f3e8fc; border-color: #7b2fbf; color: #7b2fbf; }
 .btn.pro-active { background: #f0f0f0; border-color: #aaa; color: #555; }
 .stats { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
@@ -57,7 +57,7 @@ tr:last-child td { border-bottom: none; }
 tr:nth-child(even) td { background: #dce8f5; }
 tr:nth-child(odd) td { background: #f5f8fc; }
 tr:not(.sep-row):hover td { background: #c8f0dc; }
-tr.going-row td { background: #e6f4ed; }
+tr.going-row td { background: #fce4ec; }
 .actions { display: flex; gap: 4px; align-items: center; }
 .icon-btn {
   background: none; border: none; cursor: pointer;
@@ -66,7 +66,9 @@ tr.going-row td { background: #e6f4ed; }
 }
 .icon-btn:hover { transform: scale(1.2); color: var(--accent); }
 .icon-btn.fav-on { color: var(--fav); }
-.icon-btn.going-on { color: var(--going); }
+.block-btn { font-size: 12px !important; color: #ccc !important; opacity: 0.5; margin-left: 4px; }
+.block-btn:hover { color: #e74c3c !important; opacity: 1 !important; transform: scale(1.3); }
+.icon-btn.going-on { color: #e84393; }
 .icon-btn.venue-on { color: #7b2fbf; }
 .date-cell { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); white-space: nowrap; }
 .time-cell { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--hint); white-space: nowrap; }
@@ -166,6 +168,7 @@ tr.going-row td { background: #e6f4ed; }
     <button class="btn" id="btn-favbands" onclick="toggleFilter('favbands')">★ Mina band</button>
     <button class="btn" id="btn-going" onclick="toggleFilter('going')">♥ Jag ska dit</button>
     <button class="btn" id="btn-pro" onclick="toggleFilter('pro')">✕ Dölj PRO/SPF</button>
+    <button class="btn" id="btn-blocklist" onclick="toggleBlockPanel()" style="margin-left:auto">⊘ Blockerade <span id="block-count"></span></button>
   </div>
 
   <div class="legend">
@@ -185,14 +188,17 @@ tr.going-row td { background: #e6f4ed; }
       </div>
       <p style="font-size:12px;color:var(--hint)">Sparar favoriter, blockeringar och anteckningar.</p>
     </div>
-    <div class="add-section" style="flex:2;min-width:260px">
-      <h3>⊘ Blockerade band — visas aldrig</h3>
+  </div>
+
+  <div id="block-panel" style="display:none;margin-top:1rem">
+    <div class="add-section" style="border-color:#e74c3c40">
+      <h3 style="color:#e74c3c">⊘ Blockerade band — visas aldrig</h3>
       <div class="add-row" style="margin-bottom:10px">
         <div class="ac-wrap">
           <input id="b-band" placeholder="Bandnamn att blockera" style="width:220px" autocomplete="off" oninput="acInput(this,'ac-block')" onkeydown="acKey(event,'ac-block',addBlock)">
           <div class="ac-list" id="ac-block" style="display:none"></div>
         </div>
-        <button class="btn-add" onclick="addBlock()">Blockera</button>
+        <button class="btn-add" style="background:#e74c3c;border-color:#e74c3c" onclick="addBlock()">Blockera</button>
       </div>
       <div id="block-list"></div>
     </div>
@@ -363,8 +369,8 @@ function render() {
       + '<td class="band-cell">'
       + '<div style="display:flex;align-items:center;gap:2px">'
       + '<button class="icon-btn ' + (isFavBand?'fav-on':'') + '" data-action="fav" data-idx="' + rowIdx + '" title="' + (isFavBand?'Ta bort favoritband':'Markera som favoritband') + '" style="font-size:16px">&#9733;</button>'
-      + '<button class="icon-btn" data-action="block" data-idx="' + rowIdx + '" title="Blockera ' + r[3] + '" style="font-size:14px;opacity:0.35;margin-right:4px">&#8960;</button>'
       + '<span style="font-weight:500;' + (isFavBand?'color:var(--accent)':'') + '">' + r[3] + '</span>'
+      + '<button class="icon-btn block-btn" data-action="block" data-idx="' + rowIdx + '" title="Blockera ' + r[3] + '">&#10005;</button>'
       + '</div>'
       + '</td>'
       + '<td>'
@@ -422,12 +428,29 @@ function removeBlock(band) {
   blockedBands.delete(band); saveBlocked();
   renderBlockList(); render();
 }
+function toggleBlockPanel() {
+  const panel = document.getElementById('block-panel');
+  const btn = document.getElementById('btn-blocklist');
+  if(panel.style.display === 'none') {
+    panel.style.display = 'block';
+    btn.style.background = '#fde8e8';
+    btn.style.borderColor = '#e74c3c';
+    btn.style.color = '#e74c3c';
+  } else {
+    panel.style.display = 'none';
+    btn.style.background = '';
+    btn.style.borderColor = '';
+    btn.style.color = '';
+  }
+}
 function renderBlockList() {
   const el = document.getElementById('block-list');
+  const countEl = document.getElementById('block-count');
+  if(countEl) countEl.textContent = blockedBands.size ? '(' + blockedBands.size + ')' : '';
   if(!blockedBands.size) { el.innerHTML = '<span style="font-size:12px;color:var(--hint)">Inga blockerade band ännu.</span>'; return; }
   el.innerHTML = [...blockedBands].sort((a,b)=>a.localeCompare(b,'sv')).map(b =>
-    '<span style="display:inline-flex;align-items:center;gap:4px;background:var(--bg);border:1px solid var(--border2);border-radius:6px;padding:3px 8px;font-size:12px;margin:2px" data-block="' + encodeURIComponent(b) + '">'
-      + b + ' <button onclick="removeBlockEnc(this)" style="background:none;border:none;cursor:pointer;color:var(--hint);font-size:14px;line-height:1;padding:0 2px">×</button>'
+    '<span style="display:inline-flex;align-items:center;gap:4px;background:#fde8e8;border:1px solid #e74c3c40;border-radius:6px;padding:3px 8px;font-size:12px;margin:2px;color:#c0392b" data-block="' + encodeURIComponent(b) + '">'
+      + b + ' <button onclick="removeBlockEnc(this)" style="background:none;border:none;cursor:pointer;color:#e74c3c;font-size:14px;line-height:1;padding:0 2px">×</button>'
       + '</span>'
   ).join('');
 }
@@ -488,7 +511,7 @@ function importSettings(input) {
       if(data.goingSet) { goingSet = new Set(data.goingSet); saveGoing(); }
       if(data.blockedBands) { blockedBands = new Set(data.blockedBands); saveBlocked(); }
       if(data.notes) { notes = data.notes; saveNotes(); }
-      if(data.extraRows) { extraRows = data.extraRows; saveExtra(); allData = [...JUNE_DATA, ...(typeof JULY_DATA!=='undefined'?JULY_DATA:[]), ...(typeof AUG_DATA!=='undefined'?AUG_DATA:[]), ...(typeof SEP_DATA!=='undefined'?SEP_DATA:[]), ...(typeof OCT_DATA!=='undefined'?OCT_DATA:[]), ...(typeof NOV_DATA!=='undefined'?NOV_DATA:[]), ...(typeof DEC_DATA!=='undefined'?DEC_DATA:[]), ...extraRows]; }
+      if(data.extraRows) { extraRows = data.extraRows; saveExtra(); allData = [...JUNE_DATA, ...jul, ...aug, ...sep, ...okt, ...nov, ...dec, ...extraRows]; }
       renderBlockList();
       render();
       alert('Inställningar importerade! ' + (data.favBands?.length||0) + ' favoritband, ' + (data.blockedBands?.length||0) + ' blockerade band.');
@@ -593,8 +616,30 @@ document.addEventListener('click', function(e) {
   });
 });
 
+function fixData(rows) {
+  return rows.map(r => {
+    if(r.length !== 9) return r;
+    if(r[3] === '' && r[4] !== '') {
+      return [r[0], r[1], r[2], r[4], r[5], r[6], r[7], r[8], ''];
+    }
+    return r;
+  });
+}
+function fixSepData(rows) {
+  return rows.map(r => {
+    if(r.length !== 9) return r;
+    return [r[0], r[1], r[2], r[3], r[4], r[5], r[6], r[8], r[7]];
+  });
+}
+
 load();
-allData = [...JUNE_DATA, ...(typeof JULY_DATA!=='undefined'?JULY_DATA:[]), ...(typeof AUG_DATA!=='undefined'?AUG_DATA:[]), ...(typeof SEP_DATA!=='undefined'?SEP_DATA:[]), ...(typeof OCT_DATA!=='undefined'?OCT_DATA:[]), ...(typeof NOV_DATA!=='undefined'?NOV_DATA:[]), ...(typeof DEC_DATA!=='undefined'?DEC_DATA:[]), ...extraRows];
+const jul = typeof JULY_DATA!=='undefined' ? JULY_DATA : [];
+const aug = typeof AUG_DATA!=='undefined' ? AUG_DATA : [];
+const sep = typeof SEP_DATA!=='undefined' ? fixSepData(SEP_DATA) : [];
+const okt = typeof OCT_DATA!=='undefined' ? fixData(OCT_DATA) : [];
+const nov = typeof NOV_DATA!=='undefined' ? fixData(NOV_DATA) : [];
+const dec = typeof DEC_DATA!=='undefined' ? fixData(DEC_DATA) : [];
+allData = [...JUNE_DATA, ...jul, ...aug, ...sep, ...okt, ...nov, ...dec, ...extraRows];
 buildLanFilter();
 buildManadFilter();
 renderBlockList();
