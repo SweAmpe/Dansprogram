@@ -55,6 +55,7 @@ h1 span { color: #d4a648; }
 .btn.fav-active { background: var(--fav-bg); border-color: var(--fav); color: #e8a020; }
 .btn.going-active { background: var(--going-bg); border-color: var(--going); color: #e84393; }
 .btn.venue-active { background: #1f1530; border-color: #9b59b6; color: #bb7fe0; }
+.btn.past-active { background: #1a2535; border-color: #5a7a9a; color: #8ab4d8; }
 .btn.pro-active { background: #1a1a22; border-color: #555; color: #8899ab; }
 .stats { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
 .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); }
@@ -88,7 +89,7 @@ tr.going-row td { background: #2d1525; }
 .companion-row:hover td { opacity: 0.8; }
 .icon-btn.going-on { color: #e84393; }
 .icon-btn:hover { color: #d4a648; }
-.icon-btn.venue-on { color: #bb7fe0; }
+.icon-btn.venue-on { color: #cc6cff; text-shadow: 0 0 6px #9b59b680; }
 .date-cell { font-family: 'DM Sans', sans-serif; font-size: 12px; color: #d4a648; white-space: nowrap; font-variant-numeric: tabular-nums; }
 .time-cell { font-family: 'DM Sans', sans-serif; font-size: 12px; color: #7eb8da; white-space: nowrap; font-variant-numeric: tabular-nums; }
 .band-cell { font-weight: 500; }
@@ -251,6 +252,7 @@ tr.going-row td { background: #2d1525; }
     <button class="btn" id="btn-favvenues" onclick="toggleFilter('favvenues')">★ Mina ställen</button>
     <button class="btn" id="btn-going" onclick="toggleFilter('going')">♥ Jag ska dit</button>
     <button class="btn" id="btn-pro" onclick="toggleFilter('pro')">✕ Dölj PRO/SPF</button>
+    <button class="btn" id="btn-past" onclick="togglePast()">◷ Visa tidigare</button>
     <button class="btn" id="btn-blocklist" onclick="toggleBlockPanel()" style="margin-left:auto">⊘ Blockerade <span id="block-count"></span></button>
   </div>
 
@@ -361,6 +363,7 @@ let extraRows = [];
 let sortCol = 'datum';
 let sortAsc = true;
 let activeFilter = null;
+let showPast = false;
 let currentNoteKey = null;
 let _searchTimer = null;
 let _acIdx = -1;
@@ -669,6 +672,10 @@ function getFiltered() {
   const colMap = {datum:0,dag:1,tid:2,band:3,stalle:4,ort:5,kommun:6,lan:7};
   const ci = colMap[sortCol] ?? 0;
   let rows = [...allData];
+  if(!showPast) {
+    const today = new Date().toISOString().substring(0,10);
+    rows = rows.filter(r => r[0] >= today);
+  }
   rows = rows.filter(r => ![...blockedBands].some(b => b.toLowerCase() === r[3].toLowerCase()));
   if(activeFilter === 'pro') rows = rows.filter(r => !/(PRO|SPF)/i.test(r[8]));
   if(activeFilter === 'favbands') {
@@ -785,6 +792,18 @@ function addBlock() {
 function removeBlock(band) {
   blockedBands.delete(band); saveBlocked();
   renderBlockList(); render();
+}
+function togglePast() {
+  showPast = !showPast;
+  const btn = document.getElementById('btn-past');
+  if(showPast) {
+    btn.textContent = '◷ Dölj tidigare';
+    btn.classList.add('past-active');
+  } else {
+    btn.textContent = '◷ Visa tidigare';
+    btn.classList.remove('past-active');
+  }
+  render();
 }
 function toggleBlockPanel() {
   const panel = document.getElementById('block-panel');
