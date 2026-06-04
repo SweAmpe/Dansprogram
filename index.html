@@ -221,7 +221,7 @@ tr.going-row td { background: #2d1525; }
         </p>
         <p><b style="color:#e74c3c">✕ Blockera band</b> — band du aldrig vill se. Kan återställas via "Blockerade".</p>
         <p><b>◷ Visa tidigare</b> — se danser som redan varit.</p>
-        <p><b>📝 Anteckningar</b> — skriv privata noteringar på varje dans. Bara du kan se dem.</p>
+        <p><b>📝 Anteckningar</b> — tryck ＋ på valfri rad för att skriva en privat notering. Bara du kan se dem.</p>
         <p><b>Filter</b> — välj län, månad eller dag för att begränsa listan.</p>
         <p style="margin-top:12px;padding:10px;background:var(--bg);border-radius:var(--radius);color:var(--muted)">
           💡 <b>Smeknamn</b> — skapa ett smeknamn och använd det varje gång. Då sparas dina val och du kommer åt dem från mobil, surfplatta eller dator. Bara du ser dina egna val.
@@ -715,7 +715,13 @@ function getFiltered() {
     rows._isFavFilter = true;
   }
   if(activeFilter === 'going') rows = rows.filter(r => goingSet.has(rowKey(r)));
-  if(activeFilter === 'favvenues') rows = rows.filter(r => favVenues.has(r[4]));
+  if(activeFilter === 'favvenues') {
+    rows = allData.filter(r => favVenues.has(r[4]));
+    if(!showPast) {
+      const today = new Date().toISOString().substring(0,10);
+      rows = rows.filter(r => r[0] >= today);
+    }
+  }
   if(q) rows = rows.filter(r => r.some(c => String(c).toLowerCase().includes(q)));
   if(lan) rows = rows.filter(r => r[7] === lan);
   if(dag) rows = rows.filter(r => r[1] === dag);
