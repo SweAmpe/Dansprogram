@@ -1047,6 +1047,25 @@ function fixSepData(rows) {
   });
 }
 
+function fixDays(rows) {
+  const dagNames = ['Söndag','Måndag','Tisdag','Onsdag','Torsdag','Fredag','Lördag'];
+  const dagIdx = {}; dagNames.forEach((n,i) => dagIdx[n] = i);
+  return rows.map(r => {
+    if(!r[0] || r[0].length < 10 || !r[1]) return r;
+    const d = new Date(r[0] + 'T12:00:00');
+    if(isNaN(d)) return r;
+    const actual = d.getDay();
+    const claimed = dagIdx[r[1]];
+    if(claimed === undefined || actual === claimed) return r;
+    let diff = claimed - actual;
+    if(diff > 3) diff -= 7;
+    if(diff < -3) diff += 7;
+    const c = new Date(d.getTime() + diff * 86400000);
+    r[0] = c.getFullYear() + '-' + String(c.getMonth()+1).padStart(2,'0') + '-' + String(c.getDate()).padStart(2,'0');
+    return r;
+  });
+}
+
 load();
 const jul = typeof JULY_DATA!=='undefined' ? JULY_DATA : [];
 const aug = typeof AUG_DATA!=='undefined' ? AUG_DATA : [];
@@ -1054,7 +1073,7 @@ const sep = typeof SEP_DATA!=='undefined' ? fixSepData(SEP_DATA) : [];
 const okt = typeof OCT_DATA!=='undefined' ? fixData(OCT_DATA) : [];
 const nov = typeof NOV_DATA!=='undefined' ? fixData(NOV_DATA) : [];
 const dec = typeof DEC_DATA!=='undefined' ? fixData(DEC_DATA) : [];
-allData = [...JUNE_DATA, ...jul, ...aug, ...sep, ...okt, ...nov, ...dec, ...extraRows];
+allData = fixDays([...JUNE_DATA, ...jul, ...aug, ...sep, ...okt, ...nov, ...dec, ...extraRows]);
 buildLanFilter();
 buildManadFilter();
 renderBlockList();
