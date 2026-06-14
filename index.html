@@ -175,8 +175,17 @@ tr.going-row td { background: #2d1525; }
 .user-bar .bar-btns button { background:none; border:1px solid var(--border2); border-radius:var(--radius); padding:4px 12px; color:var(--muted); cursor:pointer; font-size:12px; font-family:inherit; }
 .user-bar .bar-btns button:hover { border-color:var(--accent); color:var(--accent); }
 .user-bar .bar-btns button.bar-create { border-color:var(--accent); color:var(--accent); }
-.admin-user .au-btns { display:flex; gap:6px; }
-.admin-user .au-del { font-size:12px; padding:4px 10px; background:transparent; border:1px solid #e74c3c; color:#e74c3c; border-radius:var(--radius); cursor:pointer; font-family:inherit; }
+.admin-user { border-bottom:1px solid var(--border); }
+.admin-user:last-child { border-bottom:none; }
+.admin-user-row { display:grid; grid-template-columns:84px 1fr 84px; align-items:center; gap:16px; padding:10px 6px; }
+.admin-user .au-info { text-align:center; min-width:0; }
+.admin-user .au-name { font-weight:500; color:var(--text); }
+.admin-user .au-date { font-size:12px; color:var(--muted); }
+.admin-user .au-side { display:flex; align-items:center; }
+.admin-user .au-side-left { justify-content:flex-start; }
+.admin-user .au-side-right { justify-content:flex-end; }
+.admin-user .au-view { font-size:12px; padding:4px 12px; background:var(--accent-bg); border:1px solid var(--accent); color:var(--accent); border-radius:var(--radius); cursor:pointer; font-family:inherit; white-space:nowrap; }
+.admin-user .au-del { font-size:12px; padding:4px 12px; background:transparent; border:1px solid #e74c3c; color:#e74c3c; border-radius:var(--radius); cursor:pointer; font-family:inherit; white-space:nowrap; }
 .admin-user .au-del:hover { background:rgba(231,76,60,.15); }
 .login-modal .login-msg { font-size:12px; color:#e74c3c; margin-top:6px; min-height:18px; }
 .login-modal .pin-row { font-size:12px; color:var(--muted); margin-bottom:6px; }
@@ -186,12 +195,7 @@ tr.going-row td { background: #2d1525; }
 .sync-off { background:var(--hint); }
 .admin-modal { background:var(--surface); border:1px solid var(--border2); border-radius:var(--radius-lg); padding:2rem; width:500px; max-width:90vw; max-height:80vh; overflow-y:auto; }
 .admin-modal h3 { color:var(--accent); margin-bottom:1rem; }
-.admin-user { display:flex; align-items:center; justify-content:space-between; padding:10px; border-bottom:1px solid var(--border); }
-.admin-user:last-child { border-bottom:none; }
-.admin-user .au-name { font-weight:500; color:var(--text); }
-.admin-user .au-date { font-size:12px; color:var(--muted); }
-.admin-user button { font-size:12px; padding:4px 10px; background:var(--accent-bg); border:1px solid var(--accent); color:var(--accent); border-radius:var(--radius); cursor:pointer; font-family:inherit; }
-.admin-detail { margin-top:12px; padding:12px; background:var(--bg); border-radius:var(--radius); font-size:13px; }
+.admin-detail { margin:0 6px 10px; padding:12px; background:var(--bg); border-radius:var(--radius); font-size:13px; }
 .admin-detail h4 { color:var(--accent); margin-bottom:6px; font-size:13px; }
 .admin-detail .ad-going { display:flex; gap:12px; padding:4px 0; border-bottom:1px solid var(--border); font-size:12px; }
 .admin-detail .ad-going:last-child { border-bottom:none; }
@@ -644,12 +648,13 @@ function showAdminUsers() {
       const isAdmin = u.is_admin==='1' || u.is_admin===1;
       const canDelete = !isAdmin && u.namn !== currentUser.namn;
       return '<div class="admin-user" id="au-' + encodeURIComponent(u.namn) + '">'
-      + '<div><span class="au-name">' + (isAdmin?'👑 ':'') + u.namn + '</span>'
+      + '<div class="admin-user-row">'
+      + '<div class="au-side au-side-left"><button class="au-view" onclick="showUserDetail(\'' + u.namn.replace(/'/g,"\\'") + '\')">Visa</button></div>'
+      + '<div class="au-info"><span class="au-name">' + (isAdmin?'👑 ':'') + u.namn + '</span>'
       + '<br><span class="au-date">Gick med: ' + u.created_at.substring(0,10) + ' · Senast: ' + u.updated_at.substring(0,10) + '</span></div>'
-      + '<div class="au-btns">'
-      + '<button onclick="showUserDetail(\'' + u.namn.replace(/'/g,"\\'") + '\')">Visa</button>'
+      + '<div class="au-side au-side-right">'
       + (canDelete ? '<button class="au-del" onclick="deleteUser(\'' + u.namn.replace(/'/g,"\\'") + '\')">Ta bort</button>' : '')
-      + '</div></div>';
+      + '</div></div></div>';
     }).join('');
   });
 }
