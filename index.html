@@ -106,8 +106,6 @@ tr.going-row td { background: #2d1525; }
   padding: 5px 12px; border-bottom: 1px solid #2a3a55;
   text-transform: uppercase;
 }
-.legend { font-size: 12px; color: var(--muted); margin-bottom: 8px; display: flex; gap: 16px; flex-wrap: wrap; }
-.legend span { display: flex; align-items: center; gap: 4px; }
 .add-section {
   margin-top: 1.5rem; border: 1px solid var(--border);
   border-radius: var(--radius-lg); padding: 1rem 1.25rem; background: var(--surface);
@@ -322,15 +320,6 @@ tr.going-row td { background: #2d1525; }
     <button class="btn" id="btn-pro" onclick="toggleFilter('pro')">✕ Dölj PRO/SPF</button>
     <button class="btn" id="btn-past" onclick="togglePast()">◷ Visa tidigare</button>
     <button class="btn" id="btn-blocklist" onclick="toggleBlockPanel()" style="margin-left:auto">⊘ Blockerade <span id="block-count"></span></button>
-  </div>
-
-  <div class="legend">
-    <span style="color:#e8a020">★</span> favoritband &nbsp;|&nbsp;
-    <span style="color:#bb7fe0">★</span> favoritställe &nbsp;|&nbsp;
-    <span style="color:#e74c3c">✕</span> blockera band &nbsp;|&nbsp;
-    <span style="color:#e84393">♥</span> jag ska dit &nbsp;|&nbsp;
-    <span style="color:#6a7a90">📅</span> kalender med påminnelse &nbsp;|&nbsp;
-    <span style="color:#6a7a90">＋</span> / <span style="color:#d4a648">📝</span> anteckning
   </div>
 
   <div id="snart-going-panel" class="snart-going-panel add-section" style="display:none">
