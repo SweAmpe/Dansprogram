@@ -168,7 +168,16 @@ tr.going-row td { background: #2d1525; }
 .login-modal .login-btns { display:flex; gap:8px; margin-top:6px; }
 .login-modal .login-btns button { flex:1; padding:10px; border-radius:var(--radius); font-size:14px; font-family:inherit; cursor:pointer; border:none; }
 .login-modal .btn-login { background:var(--accent); color:#000; font-weight:500; }
-.login-modal .btn-skip { background:var(--border); color:var(--muted); }
+.login-modal .btn-create { background:var(--surface); color:var(--accent); font-weight:500; border:1px solid var(--accent); }
+.login-modal .btn-create:hover { background:var(--accent-bg); }
+.login-modal .btn-skip { background:var(--border); color:var(--muted); width:100%; margin-top:8px; }
+.user-bar .bar-btns { display:flex; gap:6px; margin-left:auto; }
+.user-bar .bar-btns button { background:none; border:1px solid var(--border2); border-radius:var(--radius); padding:4px 12px; color:var(--muted); cursor:pointer; font-size:12px; font-family:inherit; }
+.user-bar .bar-btns button:hover { border-color:var(--accent); color:var(--accent); }
+.user-bar .bar-btns button.bar-create { border-color:var(--accent); color:var(--accent); }
+.admin-user .au-btns { display:flex; gap:6px; }
+.admin-user .au-del { font-size:12px; padding:4px 10px; background:transparent; border:1px solid #e74c3c; color:#e74c3c; border-radius:var(--radius); cursor:pointer; font-family:inherit; }
+.admin-user .au-del:hover { background:rgba(231,76,60,.15); }
 .login-modal .login-msg { font-size:12px; color:#e74c3c; margin-top:6px; min-height:18px; }
 .login-modal .pin-row { font-size:12px; color:var(--muted); margin-bottom:6px; }
 .login-modal .pin-row input { width:100px; display:inline; margin:0 6px; padding:6px; }
@@ -234,21 +243,25 @@ tr.going-row td { background: #2d1525; }
 
   <div class="user-bar" id="user-bar">
     <span id="user-status"><span class="sync-icon sync-off"></span>Titta fritt — eller skapa ett smeknamn för att spara favoriter</span>
-    <button onclick="showLogin()">Logga in</button>
+    <div class="bar-btns">
+      <button onclick="showLogin()">Logga in</button>
+      <button class="bar-create" onclick="showRegister()">Skapa</button>
+    </div>
   </div>
 
   <div class="login-modal-bg" id="login-modal">
     <div class="login-modal">
-      <h3>Välkommen!</h3>
-      <p style="color:var(--muted);font-size:13px;margin-bottom:14px">Skapa ett smeknamn och använd det varje gång — så sparas dina favoriter och du kommer åt dem från vilken enhet som helst. Bara du ser dina egna val.</p>
+      <h3 id="login-modal-title">Logga in</h3>
+      <p id="login-modal-desc" style="color:var(--muted);font-size:13px;margin-bottom:14px">Logga in med ditt smeknamn. Har du inget än? Tryck Skapa.</p>
       <input type="text" id="login-name" placeholder="Ditt smeknamn" maxlength="50" autocomplete="off">
       <div class="pin-row" id="pin-row" style="display:none">
         PIN: <input type="text" id="login-pin" placeholder="PIN" maxlength="10" autocomplete="off">
       </div>
       <div class="login-btns">
-        <button class="btn-login" onclick="doLogin()">Logga in / Skapa</button>
-        <button class="btn-skip" onclick="closeLogin()">Hoppa över</button>
+        <button class="btn-login" onclick="doLogin()">Logga in</button>
+        <button class="btn-create" onclick="doRegister()">Skapa</button>
       </div>
+      <button class="btn-skip" onclick="closeLogin()">Hoppa över</button>
       <div class="login-msg" id="login-msg"></div>
     </div>
   </div>
@@ -488,21 +501,42 @@ function cloudSave() {
 
 function showLogin() {
   document.getElementById('login-modal').classList.add('open');
+  document.getElementById('login-modal-title').textContent = 'Logga in';
+  document.getElementById('login-modal-desc').textContent = 'Logga in med ditt smeknamn. Har du inget än? Tryck Skapa.';
   document.getElementById('login-name').value = '';
   document.getElementById('login-pin').value = '';
   document.getElementById('login-msg').textContent = '';
   document.getElementById('pin-row').style.display = 'none';
   setTimeout(function(){ document.getElementById('login-name').focus(); }, 100);
 }
+function showRegister() {
+  document.getElementById('login-modal').classList.add('open');
+  document.getElementById('login-modal-title').textContent = 'Skapa profil';
+  document.getElementById('login-modal-desc').textContent = 'Skapa ett smeknamn och använd det varje gång — så sparas dina val från mobil, surfplatta eller dator. Bara du ser dina egna val.';
+  document.getElementById('login-name').value = '';
+  document.getElementById('login-pin').value = '';
+  document.getElementById('login-msg').textContent = '';
+  document.getElementById('pin-row').style.display = 'block';
+  setTimeout(function(){ document.getElementById('login-name').focus(); }, 100);
+}
 function closeLogin() {
   document.getElementById('login-modal').classList.remove('open');
+}
+
+function loginSuccess(namn, pin, is_admin, settings) {
+  currentUser = {namn: namn, pin: pin, is_admin: is_admin};
+  localStorage.setItem('cloudUser', JSON.stringify(currentUser));
+  if(settings) applyCloudSettings(settings);
+  closeLogin();
+  updateUserBar(true);
+  render();
 }
 
 function doLogin() {
   const namn = document.getElementById('login-name').value.trim();
   const pin = document.getElementById('login-pin').value.trim() || null;
   const msg = document.getElementById('login-msg');
-  if(namn.length < 2) { msg.textContent = 'Minst 2 tecken.'; return; }
+  if(namn.length < 2) { msg.textContent = 'Minst 2 tecken.'; msg.style.color = '#e74c3c'; return; }
   msg.textContent = 'Ansluter...';
   msg.style.color = 'var(--muted)';
 
@@ -512,38 +546,51 @@ function doLogin() {
     body: JSON.stringify({namn: namn, pin: pin})
   }).then(r => r.json()).then(d => {
     if(d.ok) {
-      currentUser = {namn: d.namn, pin: pin, is_admin: d.is_admin};
-      localStorage.setItem('cloudUser', JSON.stringify(currentUser));
-      applyCloudSettings(d.settings);
-      closeLogin();
-      updateUserBar(true);
-      render();
-      return;
-    }
-    if(d.error === 'Profilen finns inte') {
-      fetch(API_URL + '?action=register', {
-        method: 'POST',
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({namn: namn, pin: pin})
-      }).then(r => r.json()).then(d2 => {
-        if(d2.ok) {
-          currentUser = {namn: namn, pin: pin, is_admin: false};
-          localStorage.setItem('cloudUser', JSON.stringify(currentUser));
-          cloudSave();
-          closeLogin();
-          updateUserBar(true);
-          msg.textContent = '';
-        } else {
-          msg.style.color = '#e74c3c';
-          msg.textContent = d2.error || 'Något gick fel.';
-        }
-      });
+      loginSuccess(d.namn, pin, d.is_admin, d.settings);
+      msg.textContent = '';
       return;
     }
     if(d.error === 'Fel PIN') {
       document.getElementById('pin-row').style.display = 'block';
       msg.style.color = '#e74c3c';
       msg.textContent = 'Den profilen har en PIN — fyll i den.';
+      return;
+    }
+    if(d.error === 'Profilen finns inte') {
+      msg.style.color = '#e74c3c';
+      msg.textContent = 'Profilen finns inte. Tryck Skapa om du vill skapa ett nytt smeknamn.';
+      return;
+    }
+    msg.style.color = '#e74c3c';
+    msg.textContent = d.error || 'Något gick fel.';
+  }).catch(function() {
+    msg.style.color = '#e74c3c';
+    msg.textContent = 'Kunde inte ansluta till servern.';
+  });
+}
+
+function doRegister() {
+  const namn = document.getElementById('login-name').value.trim();
+  const pin = document.getElementById('login-pin').value.trim() || null;
+  const msg = document.getElementById('login-msg');
+  if(namn.length < 2) { msg.textContent = 'Minst 2 tecken.'; msg.style.color = '#e74c3c'; return; }
+  msg.textContent = 'Skapar profil...';
+  msg.style.color = 'var(--muted)';
+
+  fetch(API_URL + '?action=register', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({namn: namn, pin: pin})
+  }).then(r => r.json()).then(d => {
+    if(d.ok) {
+      loginSuccess(namn, pin, false, null);
+      cloudSave();
+      msg.textContent = '';
+      return;
+    }
+    if(d.error === 'Namnet är redan taget') {
+      msg.style.color = '#e74c3c';
+      msg.textContent = 'Namnet är redan taget. Tryck Logga in om du redan har en profil.';
       return;
     }
     msg.style.color = '#e74c3c';
@@ -572,7 +619,8 @@ function updateUserBar(synced) {
       + (currentUser.is_admin ? ' <button onclick="showAdminUsers()">👑 Användare</button>' : '')
       + ' <button onclick="doLogout()">Logga ut</button>';
   } else {
-    bar.innerHTML = '<span><span class="sync-icon sync-off"></span>Titta fritt — eller skapa ett smeknamn för att spara favoriter</span> <button onclick="showLogin()">Logga in</button>';
+    bar.innerHTML = '<span><span class="sync-icon sync-off"></span>Titta fritt — eller skapa ett smeknamn för att spara favoriter</span>'
+      + '<div class="bar-btns"><button onclick="showLogin()">Logga in</button><button class="bar-create" onclick="showRegister()">Skapa</button></div>';
   }
 }
 
@@ -592,13 +640,17 @@ function showAdminUsers() {
     body: JSON.stringify({namn: currentUser.namn, pin: currentUser.pin})
   }).then(r => r.json()).then(d => {
     if(!d.ok) { document.getElementById('admin-list').innerHTML = d.error; return; }
-    document.getElementById('admin-list').innerHTML = d.users.map(u =>
-      '<div class="admin-user" id="au-' + encodeURIComponent(u.namn) + '">'
-      + '<div><span class="au-name">' + (u.is_admin==='1'||u.is_admin===1?'👑 ':'') + u.namn + '</span>'
+    document.getElementById('admin-list').innerHTML = d.users.map(u => {
+      const isAdmin = u.is_admin==='1' || u.is_admin===1;
+      const canDelete = !isAdmin && u.namn !== currentUser.namn;
+      return '<div class="admin-user" id="au-' + encodeURIComponent(u.namn) + '">'
+      + '<div><span class="au-name">' + (isAdmin?'👑 ':'') + u.namn + '</span>'
       + '<br><span class="au-date">Gick med: ' + u.created_at.substring(0,10) + ' · Senast: ' + u.updated_at.substring(0,10) + '</span></div>'
+      + '<div class="au-btns">'
       + '<button onclick="showUserDetail(\'' + u.namn.replace(/'/g,"\\'") + '\')">Visa</button>'
-      + '</div>'
-    ).join('');
+      + (canDelete ? '<button class="au-del" onclick="deleteUser(\'' + u.namn.replace(/'/g,"\\'") + '\')">Ta bort</button>' : '')
+      + '</div></div>';
+    }).join('');
   });
 }
 
@@ -642,6 +694,25 @@ function showUserDetail(namn) {
       html += '</div>';
       el.insertAdjacentHTML('beforeend', html);
     });
+  });
+}
+
+function deleteUser(namn) {
+  if(!currentUser || !currentUser.is_admin) return;
+  if(!confirm('Ta bort profilen "' + namn + '"? Det går inte att ångra.')) return;
+  fetch(API_URL + '?action=admin-delete', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({namn: currentUser.namn, pin: currentUser.pin, target: namn})
+  }).then(r => r.json()).then(d => {
+    if(d.ok) {
+      const el = document.getElementById('au-' + encodeURIComponent(namn));
+      if(el) el.remove();
+      return;
+    }
+    alert(d.error || 'Kunde inte ta bort.');
+  }).catch(function() {
+    alert('Kunde inte ansluta till servern.');
   });
 }
 
