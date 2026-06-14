@@ -31,31 +31,39 @@ function looksLikeTime(s) {
 
 function mapTds(tds) {
   if (tds.length < 8) return null;
-  const ovrigt = tds[tds.length - 1] || '';
-  const lan = tds[tds.length - 2] || '';
-  const kommun = tds[tds.length - 3] || '';
-  const ort = tds[tds.length - 4] || '';
-  const stalle = tds[tds.length - 5] || '';
-  const left = tds.slice(0, tds.length - 5);
-  let i = 0;
-  let dayAbbr = left[i++];
-  let dayNum = left[i++];
+  let i = tds.length - 1;
+  const ovrigt = tds[i] || '';
+  i--;
+  const loc = [];
+  while (i >= 0 && loc.length < 4) {
+    if (tds[i] !== '') loc.unshift(tds[i]);
+    i--;
+  }
+  if (loc.length < 3) return null;
+  const lan = loc.length >= 4 ? loc[3] : '';
+  const kommun = loc.length >= 3 ? loc[2] : '';
+  const ort = loc.length >= 2 ? loc[1] : '';
+  const stalle = loc[0] || '';
+  const left = tds.slice(0, i + 1);
+  let j = 0;
+  let dayAbbr = left[j++];
+  let dayNum = left[j++];
   if (!dayMap[dayAbbr] && dayMap[dayNum]) {
     dayAbbr = dayNum;
-    dayNum = left[i++];
+    dayNum = left[j++];
   }
   if (!dayMap[dayAbbr]) return null;
-  while (i < left.length && left[i] === '') i++;
+  while (j < left.length && left[j] === '') j++;
   let tid = '';
-  if (i < left.length && looksLikeTime(left[i])) {
-    tid = left[i++];
-    while (i < left.length && left[i] === '') i++;
+  if (j < left.length && looksLikeTime(left[j])) {
+    tid = left[j++];
+    while (j < left.length && left[j] === '') j++;
   }
   let band = '';
-  if (i < left.length) {
-    band = left[i++];
-    while (i < left.length && left[i] === '') i++;
-    if (i < left.length && !band) band = left[i++];
+  if (j < left.length) {
+    band = left[j++];
+    while (j < left.length && left[j] === '') j++;
+    if (j < left.length && !band) band = left[j++];
   }
   return [dayAbbr, dayNum, tid, band, stalle, ort, kommun, lan, ovrigt];
 }
