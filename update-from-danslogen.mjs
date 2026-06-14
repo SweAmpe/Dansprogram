@@ -14,37 +14,51 @@ const monthMap = {
   'Maj': '05', 'Juni': '06', 'Juli': '07', 'Augusti': '08',
   'September': '09', 'Oktober': '10', 'November': '11', 'December': '12'
 };
+const slugToMonth = {
+  juni: '06', juli: '07', augusti: '08', september: '09',
+  oktober: '10', november: '11', december: '12'
+};
 
 function looksLikeTime(s) {
   return /^\d{1,2}[.:]\d{2}/.test(String(s || '').trim());
 }
 
+// Läs platsfält från höger — danslogen har varierande tomma celler mitt i raden
 function mapTds(tds) {
   if (tds.length < 8) return null;
+  const ovrigt = tds[tds.length - 1] || '';
+  const lan = tds[tds.length - 2] || '';
+  const kommun = tds[tds.length - 3] || '';
+  const ort = tds[tds.length - 4] || '';
+  const stalle = tds[tds.length - 5] || '';
+  const left = tds.slice(0, tds.length - 5);
+
   let i = 0;
-  let dayAbbr = tds[i++];
-  let dayNum = tds[i++];
+  let dayAbbr = left[i++];
+  let dayNum = left[i++];
   if (!dayMap[dayAbbr] && dayMap[dayNum]) {
     dayAbbr = dayNum;
-    dayNum = tds[i++];
+    dayNum = left[i++];
   }
   if (!dayMap[dayAbbr]) return null;
-  let tid = tds[i++] || '';
-  let band = tds[i++] || '';
-  // Extra tom cell före tid (båtdanser m.m.) — annars hamnar tid i band-kolumnen
-  if (!tid && looksLikeTime(band)) {
-    tid = band;
-    while (i < tds.length && tds[i] === '') i++;
-    band = tds[i++] || '';
+
+  while (i < left.length && left[i] === '') i++;
+  let tid = '';
+  if (i < left.length && looksLikeTime(left[i])) {
+    tid = left[i++];
+    while (i < left.length && left[i] === '') i++;
   }
-  while (i < tds.length && tds[i] === '') i++;
-  const stalle = tds[i++] || '';
-  while (i < tds.length && tds[i] === '') i++;
-  const ort = tds[i++] || '';
-  const kommun = tds[i++] || '';
-  const lan = tds[i++] || '';
-  const ovrigt = tds[i] || '';
+  let band = '';
+  if (i < left.length) {
+    band = left[i++];
+    while (i < left.length && left[i] === '') i++;
+    if (i < left.length && !band) band = left[i++];
+  }
   return [dayAbbr, dayNum, tid, band, stalle, ort, kommun, lan, ovrigt];
+}
+
+function isPreviewRow(ovrigt) {
+  return String(ovrigt || '').trim() === '>';
 }
 
 function parseHTML(html, slug) {
@@ -92,6 +106,7 @@ function parseHTML(html, slug) {
 
     const [dayAbbr, dayNumRaw, tid, band, stalle, ort, kommun, lan, ovrigt] = mapped;
     if (!band) continue;
+    if (isPreviewRow(ovrigt)) continue;
     const dayNum = String(dayNumRaw).padStart(2, '0');
     const fullDay = dayMap[dayAbbr] || dayAbbr;
     let datum = currentYear + '-' + activeMonth + '-' + dayNum;
@@ -107,6 +122,8 @@ function parseHTML(html, slug) {
       const c = new Date(d.getTime() + diff * 86400000);
       datum = c.getFullYear() + '-' + String(c.getMonth() + 1).padStart(2, '0') + '-' + String(c.getDate()).padStart(2, '0');
     }
+    const pageMonth = slugToMonth[slug];
+    if (pageMonth && datum.slice(5, 7) !== pageMonth) continue;
     rows.push([datum, fullDay, tid, band, stalle, ort, kommun, lan, ovrigt]);
   }
   return dedupeRows(rows);

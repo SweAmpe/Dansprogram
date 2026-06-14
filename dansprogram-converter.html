@@ -81,29 +81,39 @@ function looksLikeTime(s) {
 
 function mapTdsFromCells(tds) {
   if (tds.length < 8) return null;
+  const ovrigt = tds[tds.length - 1] || '';
+  const lan = tds[tds.length - 2] || '';
+  const kommun = tds[tds.length - 3] || '';
+  const ort = tds[tds.length - 4] || '';
+  const stalle = tds[tds.length - 5] || '';
+  const left = tds.slice(0, tds.length - 5);
+
   let i = 0;
-  let dayAbbr = tds[i++];
-  let dayNum = tds[i++];
+  let dayAbbr = left[i++];
+  let dayNum = left[i++];
   if (!dayMap[dayAbbr] && dayMap[dayNum]) {
     dayAbbr = dayNum;
-    dayNum = tds[i++];
+    dayNum = left[i++];
   }
   if (!dayMap[dayAbbr]) return null;
-  let tid = tds[i++] || '';
-  let band = tds[i++] || '';
-  if (!tid && looksLikeTime(band)) {
-    tid = band;
-    while (i < tds.length && tds[i] === '') i++;
-    band = tds[i++] || '';
+
+  while (i < left.length && left[i] === '') i++;
+  let tid = '';
+  if (i < left.length && looksLikeTime(left[i])) {
+    tid = left[i++];
+    while (i < left.length && left[i] === '') i++;
   }
-  while (i < tds.length && tds[i] === '') i++;
-  const stalle = tds[i++] || '';
-  while (i < tds.length && tds[i] === '') i++;
-  const ort = tds[i++] || '';
-  const kommun = tds[i++] || '';
-  const lan = tds[i++] || '';
-  const ovrigt = tds[i] || '';
+  let band = '';
+  if (i < left.length) {
+    band = left[i++];
+    while (i < left.length && left[i] === '') i++;
+    if (i < left.length && !band) band = left[i++];
+  }
   return [dayAbbr, dayNum, tid, band, stalle, ort, kommun, lan, ovrigt];
+}
+
+function isPreviewRow(ovrigt) {
+  return String(ovrigt || '').trim() === '>';
 }
 
 const dropZone = document.getElementById('dropZone');
@@ -187,6 +197,7 @@ function parseHTML(html, filename) {
     const mapped = mapTdsFromCells(cells);
     if (!mapped) return;
     const [dayAbbr, dayNumRaw, tid, band, stalle, ort, kommun, lan, ovrigt] = mapped;
+    if (!band || isPreviewRow(ovrigt)) return;
     const dayNum = dayNumRaw.padStart(2, '0');
 
     const fullDay = dayMap[dayAbbr] || dayAbbr;
@@ -204,6 +215,8 @@ function parseHTML(html, filename) {
       const c = new Date(d.getTime() + diff * 86400000);
       datum = c.getFullYear() + '-' + String(c.getMonth()+1).padStart(2,'0') + '-' + String(c.getDate()).padStart(2,'0');
     }
+
+    if (currentMonth && datum.slice(5, 7) !== currentMonth) return;
 
     allRows.push([datum, fullDay, tid, band, stalle, ort, kommun, lan, ovrigt]);
     count++;
