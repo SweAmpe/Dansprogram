@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<title>Danslogen → Dansprogram konverterare</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', sans-serif; background: #f4f6f9; color: #1a1a2e; padding: 2rem; }
+h1 { font-size: 22px; margin-bottom: 0.5rem; }
+.sub { color: #666; font-size: 14px; margin-bottom: 1.5rem; }
+.drop-zone {
+  border: 2px dashed #0a3d8f; border-radius: 12px; padding: 3rem 2rem;
+  text-align: center; background: #fff; margin-bottom: 1.5rem; cursor: pointer;
+  transition: background 0.2s;
+}
+.drop-zone:hover, .drop-zone.drag-over { background: #dce8f8; }
+.drop-zone p { font-size: 16px; color: #0a3d8f; }
+.drop-zone .hint { font-size: 13px; color: #888; margin-top: 8px; }
+input[type="file"] { display: none; }
+.status { font-size: 14px; color: #333; margin-bottom: 1rem; }
+.status .count { font-weight: 600; color: #0a3d8f; }
+#output {
+  width: 100%; min-height: 200px; font-family: 'Consolas', monospace;
+  font-size: 12px; padding: 1rem; border: 1px solid #ccc; border-radius: 8px;
+  background: #fff; white-space: pre; overflow-x: auto; display: none;
+}
+.btns { display: flex; gap: 8px; margin-bottom: 1rem; }
+.btn {
+  padding: 8px 20px; font-size: 14px; border: 1px solid #0a3d8f;
+  border-radius: 8px; background: #0a3d8f; color: #fff; cursor: pointer;
+}
+.btn:hover { background: #062a6e; }
+.btn.secondary { background: #fff; color: #0a3d8f; }
+.btn.secondary:hover { background: #dce8f8; }
+.files-list { margin-bottom: 1rem; }
+.file-tag {
+  display: inline-block; background: #dce8f8; color: #0a3d8f;
+  padding: 4px 12px; border-radius: 6px; font-size: 13px; margin: 4px 4px 4px 0;
+}
+</style>
+</head>
+<body>
+<h1>Danslogen → Dansprogram</h1>
+<p class="sub">Dra in sparade HTML-filer från danslogen.se — verktyget plockar ut datan.</p>
+
+<div class="drop-zone" id="dropZone" onclick="fileInput.click()">
+  <p>Dra HTML-filer hit eller klicka för att välja</p>
+  <p class="hint">Spara sidor från danslogen.se med Ctrl+S, sedan dra hit filerna</p>
+</div>
+<input type="file" id="fileInput" multiple accept=".html,.htm">
+
+<div class="files-list" id="filesList"></div>
+<div class="status" id="status"></div>
+
+<div class="btns" id="buttons" style="display:none">
+  <button class="btn" onclick="copyOutput()">Kopiera till urklipp</button>
+  <button class="btn secondary" onclick="downloadOutput()">Ladda ner som .js</button>
+  <button class="btn secondary" onclick="clearAll()">Rensa</button>
+</div>
+
+<pre id="output"></pre>
+
+<script>
+const dayMap = {
+  'Mån': 'Måndag', 'Tis': 'Tisdag', 'Ons': 'Onsdag',
+  'Tor': 'Torsdag', 'Fre': 'Fredag', 'Lör': 'Lördag', 'Sön': 'Söndag'
+};
+
+const monthMap = {
+  'Januari': '01', 'Februari': '02', 'Mars': '03', 'April': '04',
+  'Maj': '05', 'Juni': '06', 'Juli': '07', 'Augusti': '08',
+  'September': '09', 'Oktober': '10', 'November': '11', 'December': '12'
+};
+
+let allRows = [];
+let processedFiles = [];
+
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+dropZone.addEventListener('drop', e => { e.preventDefault(); dropZone.classList.remove('drag-over'); handleFiles(e.dataTransfer.files); });
+fileInput.addEventListener('change', e => handleFiles(e.target.files));
+
+function handleFiles(files) {
+  Array.from(files).forEach(file => {
+    if (!file.name.match(/\.html?$/i)) return;
+    const reader = new FileReader();
+    reader.onload = e => parseHTML(e.target.result, file.name);
+    reader.readAsText(file);
+  });
+}
+
+function parseHTML(html, filename) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, 'text/html');
+  const rows = doc.querySelectorAll('tr[class^="r"]');
+
+  let currentMonth = '';
+  let currentYear = '2026';
+
+  const title = doc.title || '';
+  const yearMatch = title.match(/20\d{2}/);
+  if (yearMatch) currentYear = yearMatch[0];
+
+  const headerRows = doc.querySelectorAll('tr');
+  const monthHeaders = {};
+  headerRows.forEach(tr => {
+    const td = tr.querySelector('td[colspan]');
+    if (td) {
+      const text = td.textContent.trim();
+      for (const [name, num] of Object.entries(monthMap)) {
+        if (text.includes(name)) {
+          monthHeaders[name] = num;
+          currentMonth = num;
+        }
+      }
+    }
+  });
+
+  if (!currentMonth) {
+    for (const [name, num] of Object.entries(monthMap)) {
+      if ((title + filename).toLowerCase().includes(name.toLowerCase())) {
+        currentMonth = num;
+        break;
+      }
+    }
+  }
+
+  let count = 0;
+  let activeMonth = currentMonth;
+
+  const allTrs = doc.querySelectorAll('tr');
+  allTrs.forEach(tr => {
+    const colspanTd = tr.querySelector('td[colspan]');
+    if (colspanTd) {
+      const hText = colspanTd.textContent.trim();
+      for (const [name, num] of Object.entries(monthMap)) {
+        if (hText.includes(name)) {
+          activeMonth = num;
+          if (num === '01' && currentMonth >= '06') {
+            currentYear = String(parseInt(currentYear) + 1);
+          }
+        }
+      }
+      return;
+    }
+
+    if (!tr.className.match(/^r\d+$/)) return;
+
+    const tds = tr.querySelectorAll('td');
+    if (tds.length < 8) return;
+
+    const dayAbbr = tds[0].textContent.trim();
+    const dayNum = tds[1].textContent.trim().padStart(2, '0');
+    const tid = tds[2].textContent.trim();
+    const band = tds[3].textContent.trim();
+    const stalle = tds[4].textContent.trim();
+    const ort = tds[5].textContent.trim();
+    const kommun = tds[6].textContent.trim();
+    const lan = tds[7].textContent.trim();
+    const ovrigt = tds.length > 8 ? tds[8].textContent.trim() : '';
+
+    const fullDay = dayMap[dayAbbr] || dayAbbr;
+    let datum = currentYear + '-' + activeMonth + '-' + dayNum;
+
+    // Räkna om datumet om dagnamnet inte matchar
+    const dagNames = ['Söndag','Måndag','Tisdag','Onsdag','Torsdag','Fredag','Lördag'];
+    const dagIdx = {}; dagNames.forEach((n,i) => dagIdx[n] = i);
+    const d = new Date(datum + 'T12:00:00');
+    const claimed = dagIdx[fullDay];
+    if(!isNaN(d) && claimed !== undefined && d.getDay() !== claimed) {
+      let diff = claimed - d.getDay();
+      if(diff > 3) diff -= 7;
+      if(diff < -3) diff += 7;
+      const c = new Date(d.getTime() + diff * 86400000);
+      datum = c.getFullYear() + '-' + String(c.getMonth()+1).padStart(2,'0') + '-' + String(c.getDate()).padStart(2,'0');
+    }
+
+    allRows.push([datum, fullDay, tid, band, stalle, ort, kommun, lan, ovrigt]);
+    count++;
+  });
+
+  processedFiles.push({ name: filename, count });
+  updateUI();
+}
+
+function updateUI() {
+  allRows.sort((a, b) => {
+    const d = a[0].localeCompare(b[0]);
+    if (d !== 0) return d;
+    return a[2].localeCompare(b[2]);
+  });
+
+  const filesList = document.getElementById('filesList');
+  filesList.innerHTML = processedFiles.map(f =>
+    `<span class="file-tag">${f.name} (${f.count} danser)</span>`
+  ).join('');
+
+  document.getElementById('status').innerHTML =
+    `Totalt: <span class="count">${allRows.length}</span> danser från ${processedFiles.length} fil(er)`;
+
+  const months = {};
+  allRows.forEach(r => {
+    const m = r[0].substring(0, 7);
+    if (!months[m]) months[m] = [];
+    months[m].push(r);
+  });
+
+  const monthVarNames = {
+    '01': 'JAN', '02': 'FEB', '03': 'MAR', '04': 'APR',
+    '05': 'MAY', '06': 'JUNE', '07': 'JULY', '08': 'AUG',
+    '09': 'SEP', '10': 'OCT', '11': 'NOV', '12': 'DEC'
+  };
+
+  let output = '';
+  for (const [key, rows] of Object.entries(months).sort()) {
+    const mm = key.substring(5, 7);
+    const varName = monthVarNames[mm] + '_DATA';
+    output += `const ${varName} = ` + JSON.stringify(rows, null, 0)
+      .replace(/\],\[/g, '],\n[')
+      .replace('[[', '[\n[')
+      .replace(']]', ']\n]') + ';\n\n';
+  }
+
+  const outputEl = document.getElementById('output');
+  outputEl.textContent = output;
+  outputEl.style.display = 'block';
+  document.getElementById('buttons').style.display = 'flex';
+}
+
+function copyOutput() {
+  navigator.clipboard.writeText(document.getElementById('output').textContent);
+  document.getElementById('status').innerHTML += ' — <strong>Kopierat!</strong>';
+}
+
+function downloadOutput() {
+  const blob = new Blob([document.getElementById('output').textContent], { type: 'text/javascript' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'dansprogram-data.js';
+  a.click();
+}
+
+function clearAll() {
+  allRows = [];
+  processedFiles = [];
+  document.getElementById('filesList').innerHTML = '';
+  document.getElementById('status').innerHTML = '';
+  document.getElementById('output').style.display = 'none';
+  document.getElementById('buttons').style.display = 'none';
+}
+</script>
+</body>
+</html>

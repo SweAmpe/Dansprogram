@@ -1,0 +1,7 @@
+# Backend med databaslösenord — ska bara ligga på One.com (cronstierna.se)
+api.php
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
