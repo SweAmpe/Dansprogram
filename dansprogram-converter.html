@@ -75,6 +75,37 @@ const monthMap = {
 let allRows = [];
 let processedFiles = [];
 
+function looksLikeTime(s) {
+  return /^\d{1,2}[.:]\d{2}/.test(String(s || '').trim());
+}
+
+function mapTdsFromCells(tds) {
+  if (tds.length < 8) return null;
+  let i = 0;
+  let dayAbbr = tds[i++];
+  let dayNum = tds[i++];
+  if (!dayMap[dayAbbr] && dayMap[dayNum]) {
+    dayAbbr = dayNum;
+    dayNum = tds[i++];
+  }
+  if (!dayMap[dayAbbr]) return null;
+  let tid = tds[i++] || '';
+  let band = tds[i++] || '';
+  if (!tid && looksLikeTime(band)) {
+    tid = band;
+    while (i < tds.length && tds[i] === '') i++;
+    band = tds[i++] || '';
+  }
+  while (i < tds.length && tds[i] === '') i++;
+  const stalle = tds[i++] || '';
+  while (i < tds.length && tds[i] === '') i++;
+  const ort = tds[i++] || '';
+  const kommun = tds[i++] || '';
+  const lan = tds[i++] || '';
+  const ovrigt = tds[i] || '';
+  return [dayAbbr, dayNum, tid, band, stalle, ort, kommun, lan, ovrigt];
+}
+
 const dropZone = document.getElementById('dropZone');
 const fileInput = document.getElementById('fileInput');
 
@@ -152,15 +183,11 @@ function parseHTML(html, filename) {
     const tds = tr.querySelectorAll('td');
     if (tds.length < 8) return;
 
-    const dayAbbr = tds[0].textContent.trim();
-    const dayNum = tds[1].textContent.trim().padStart(2, '0');
-    const tid = tds[2].textContent.trim();
-    const band = tds[3].textContent.trim();
-    const stalle = tds[4].textContent.trim();
-    const ort = tds[5].textContent.trim();
-    const kommun = tds[6].textContent.trim();
-    const lan = tds[7].textContent.trim();
-    const ovrigt = tds.length > 8 ? tds[8].textContent.trim() : '';
+    const cells = [...tds].map(td => td.textContent.trim());
+    const mapped = mapTdsFromCells(cells);
+    if (!mapped) return;
+    const [dayAbbr, dayNumRaw, tid, band, stalle, ort, kommun, lan, ovrigt] = mapped;
+    const dayNum = dayNumRaw.padStart(2, '0');
 
     const fullDay = dayMap[dayAbbr] || dayAbbr;
     let datum = currentYear + '-' + activeMonth + '-' + dayNum;
