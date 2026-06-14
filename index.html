@@ -219,6 +219,14 @@ tr.going-row td { background: #2d1525; }
 }
 .band-link-item:hover { background:var(--accent); color:#000; }
 .band-links-hint { font-size:13px; color:var(--muted); }
+.snart-going-panel { border-color:#e8439340; margin-top:1rem; }
+.snart-going-panel h3 { color:#e84393; font-size:14px; margin-bottom:10px; }
+.snart-going-item { font-size:13px; padding:6px 0; border-bottom:1px solid var(--border); }
+.snart-going-item:last-child { border-bottom:none; }
+.snart-date { color:var(--accent); font-weight:500; min-width:90px; display:inline-block; }
+.snart-time { color:var(--muted); margin-right:6px; }
+.snart-band { color:#e84393; font-weight:500; }
+.snart-hint { font-size:12px; color:var(--hint); margin-top:10px; }
 </style>
 <script src="data.js"></script>
 <script src="band-lankar.js"></script>
@@ -308,6 +316,7 @@ tr.going-row td { background: #2d1525; }
     <button class="btn" id="btn-bandlinks" onclick="toggleBandLinksPanel()">🌐 Hemsidor</button>
     <button class="btn" id="btn-favvenues" onclick="toggleFilter('favvenues')">★ Mina ställen</button>
     <button class="btn" id="btn-going" onclick="toggleFilter('going')">♥ Jag ska dit</button>
+    <button class="btn" id="btn-going-cal" onclick="exportGoingToCalendar()" title="Påminnelse dagen före kl 18">📅 Kalender ♥</button>
     <button class="btn" id="btn-pro" onclick="toggleFilter('pro')">✕ Dölj PRO/SPF</button>
     <button class="btn" id="btn-past" onclick="togglePast()">◷ Visa tidigare</button>
     <button class="btn" id="btn-blocklist" onclick="toggleBlockPanel()" style="margin-left:auto">⊘ Blockerade <span id="block-count"></span></button>
@@ -318,7 +327,13 @@ tr.going-row td { background: #2d1525; }
     <span style="color:#bb7fe0">★</span> favoritställe &nbsp;|&nbsp;
     <span style="color:#e74c3c">✕</span> blockera band &nbsp;|&nbsp;
     <span style="color:#e84393">♥</span> jag ska dit &nbsp;|&nbsp;
+    <span style="color:#6a7a90">📅</span> kalender med påminnelse &nbsp;|&nbsp;
     <span style="color:#6a7a90">＋</span> / <span style="color:#d4a648">📝</span> anteckning
+  </div>
+
+  <div id="snart-going-panel" class="snart-going-panel add-section" style="display:none">
+    <h3>♥ Snart — jag ska dit (7 dagar)</h3>
+    <div id="snart-going-list"></div>
   </div>
 
   <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:1rem">
@@ -799,6 +814,88 @@ function toggleGoing(key) {
   if(goingSet.has(key)) goingSet.delete(key); else goingSet.add(key);
   saveGoing(); render();
 }
+function getGoingRowsUpcoming() {
+  const today = new Date().toISOString().substring(0, 10);
+  return allData.filter(r => goingSet.has(rowKey(r)) && r[0] >= today);
+}
+function parseTid(tid) {
+  const m = (tid || '').match(/(\d{1,2})[.:](\d{2})\s*-\s*(\d{1,2})[.:](\d{2})/);
+  if (m) return { startH: +m[1], startM: +m[2], endH: +m[3], endM: +m[4] };
+  return { startH: 19, startM: 0, endH: 22, endM: 30 };
+}
+function icsDateTime(dateStr, h, m) {
+  const p = dateStr.split('-');
+  return p[0] + p[1] + p[2] + 'T' + String(h).padStart(2, '0') + String(m).padStart(2, '0') + '00';
+}
+function icsEscape(s) {
+  return String(s).replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\n/g, '\\n');
+}
+function exportGoingToCalendar() {
+  const rows = getGoingRowsUpcoming();
+  if (!rows.length) {
+    alert('Markera danser med ♥ först — inget att lägga i kalendern.');
+    return;
+  }
+  let ics = 'BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Dansprogram//SV\r\nCALSCALE:GREGORIAN\r\n';
+  rows.forEach(r => {
+    const { startH, startM, endH, endM } = parseTid(r[2]);
+    const dtStart = icsDateTime(r[0], startH, startM);
+    let endDate = r[0];
+    if (endH < startH || (endH === startH && endM <= startM)) {
+      const d = new Date(r[0] + 'T12:00:00');
+      d.setDate(d.getDate() + 1);
+      endDate = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    }
+    const dtEnd = icsDateTime(endDate, endH, endM);
+    const alarmD = new Date(r[0] + 'T12:00:00');
+    alarmD.setDate(alarmD.getDate() - 1);
+    const alarmDt = alarmD.getFullYear() + String(alarmD.getMonth() + 1).padStart(2, '0') + String(alarmD.getDate()).padStart(2, '0') + 'T180000';
+    const summary = icsEscape(r[3] + ' — ' + r[4]);
+    const location = icsEscape([r[4], r[5], r[6]].filter(Boolean).join(', '));
+    ics += 'BEGIN:VEVENT\r\n';
+    ics += 'UID:' + rowKey(r).replace(/[^a-zA-Z0-9|]/g, '_') + '@dansprogram\r\n';
+    ics += 'DTSTART:' + dtStart + '\r\n';
+    ics += 'DTEND:' + dtEnd + '\r\n';
+    ics += 'SUMMARY:' + summary + '\r\n';
+    if (location) ics += 'LOCATION:' + location + '\r\n';
+    ics += 'BEGIN:VALARM\r\n';
+    ics += 'TRIGGER;VALUE=DATE-TIME:' + alarmDt + '\r\n';
+    ics += 'ACTION:DISPLAY\r\n';
+    ics += 'DESCRIPTION:Påminnelse: ' + summary + '\r\n';
+    ics += 'END:VALARM\r\n';
+    ics += 'END:VEVENT\r\n';
+  });
+  ics += 'END:VCALENDAR\r\n';
+  const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'dansprogram-jag-ska-dit.ics';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+function renderSnartGoing() {
+  const panel = document.getElementById('snart-going-panel');
+  const list = document.getElementById('snart-going-list');
+  if (!panel || !list) return;
+  const today = new Date();
+  const todayStr = today.toISOString().substring(0, 10);
+  const week = new Date(today);
+  week.setDate(week.getDate() + 7);
+  const weekStr = week.toISOString().substring(0, 10);
+  const rows = allData.filter(r => goingSet.has(rowKey(r)) && r[0] >= todayStr && r[0] <= weekStr);
+  rows.sort((a, b) => a[0].localeCompare(b[0]) || String(a[2]).localeCompare(String(b[2])));
+  if (!rows.length) {
+    panel.style.display = 'none';
+    return;
+  }
+  panel.style.display = 'block';
+  list.innerHTML = rows.map(r =>
+    '<div class="snart-going-item"><span class="snart-date">' + r[0] + '</span>'
+    + '<span class="snart-time">' + (r[2] || '') + '</span>'
+    + '<span class="snart-band">' + r[3] + '</span> @ ' + r[4] + ', ' + r[5] + '</div>'
+  ).join('')
+  + '<p class="snart-hint">📅 <button class="btn-add" onclick="exportGoingToCalendar()" style="margin-top:4px">Lägg alla i kalender</button> — påminnelse dagen före kl 18</p>';
+}
 function toggleFilter(f) {
   activeFilter = activeFilter === f ? null : f;
   saveFilter();
@@ -911,6 +1008,7 @@ function render() {
   const goingCount = goingSet.size;
   document.getElementById('stats').textContent =
     `${rows.length} spelningar visas${favCount?' · '+favCount+' favoritband':''}${goingCount?' · '+goingCount+' jag ska dit':''}`;
+  renderSnartGoing();
 }
 
 function buildLanFilter() {
