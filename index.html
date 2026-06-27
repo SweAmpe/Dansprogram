@@ -106,6 +106,8 @@ tr.going-row td { background: #2d1525; }
   padding: 5px 12px; border-bottom: 1px solid #2a3a55;
   text-transform: uppercase;
 }
+.legend { font-size: 12px; color: var(--muted); margin-bottom: 8px; display: flex; gap: 16px; flex-wrap: wrap; }
+.legend span { display: flex; align-items: center; gap: 4px; }
 .add-section {
   margin-top: 1.5rem; border: 1px solid var(--border);
   border-radius: var(--radius-lg); padding: 1rem 1.25rem; background: var(--surface);
@@ -166,25 +168,7 @@ tr.going-row td { background: #2d1525; }
 .login-modal .login-btns { display:flex; gap:8px; margin-top:6px; }
 .login-modal .login-btns button { flex:1; padding:10px; border-radius:var(--radius); font-size:14px; font-family:inherit; cursor:pointer; border:none; }
 .login-modal .btn-login { background:var(--accent); color:#000; font-weight:500; }
-.login-modal .btn-create { background:var(--surface); color:var(--accent); font-weight:500; border:1px solid var(--accent); }
-.login-modal .btn-create:hover { background:var(--accent-bg); }
-.login-modal .btn-skip { background:var(--border); color:var(--muted); width:100%; margin-top:8px; }
-.user-bar .bar-btns { display:flex; gap:6px; margin-left:auto; }
-.user-bar .bar-btns button { background:none; border:1px solid var(--border2); border-radius:var(--radius); padding:4px 12px; color:var(--muted); cursor:pointer; font-size:12px; font-family:inherit; }
-.user-bar .bar-btns button:hover { border-color:var(--accent); color:var(--accent); }
-.user-bar .bar-btns button.bar-create { border-color:var(--accent); color:var(--accent); }
-.admin-user { border-bottom:1px solid var(--border); }
-.admin-user:last-child { border-bottom:none; }
-.admin-user-row { display:grid; grid-template-columns:84px 1fr 84px; align-items:center; gap:16px; padding:10px 6px; }
-.admin-user .au-info { text-align:center; min-width:0; }
-.admin-user .au-name { font-weight:500; color:var(--text); }
-.admin-user .au-date { font-size:12px; color:var(--muted); }
-.admin-user .au-side { display:flex; align-items:center; }
-.admin-user .au-side-left { justify-content:flex-start; }
-.admin-user .au-side-right { justify-content:flex-end; }
-.admin-user .au-view { font-size:12px; padding:4px 12px; background:var(--accent-bg); border:1px solid var(--accent); color:var(--accent); border-radius:var(--radius); cursor:pointer; font-family:inherit; white-space:nowrap; }
-.admin-user .au-del { font-size:12px; padding:4px 12px; background:transparent; border:1px solid #e74c3c; color:#e74c3c; border-radius:var(--radius); cursor:pointer; font-family:inherit; white-space:nowrap; }
-.admin-user .au-del:hover { background:rgba(231,76,60,.15); }
+.login-modal .btn-skip { background:var(--border); color:var(--muted); }
 .login-modal .login-msg { font-size:12px; color:#e74c3c; margin-top:6px; min-height:18px; }
 .login-modal .pin-row { font-size:12px; color:var(--muted); margin-bottom:6px; }
 .login-modal .pin-row input { width:100px; display:inline; margin:0 6px; padding:6px; }
@@ -193,7 +177,12 @@ tr.going-row td { background: #2d1525; }
 .sync-off { background:var(--hint); }
 .admin-modal { background:var(--surface); border:1px solid var(--border2); border-radius:var(--radius-lg); padding:2rem; width:500px; max-width:90vw; max-height:80vh; overflow-y:auto; }
 .admin-modal h3 { color:var(--accent); margin-bottom:1rem; }
-.admin-detail { margin:0 6px 10px; padding:12px; background:var(--bg); border-radius:var(--radius); font-size:13px; }
+.admin-user { display:flex; align-items:center; justify-content:space-between; padding:10px; border-bottom:1px solid var(--border); }
+.admin-user:last-child { border-bottom:none; }
+.admin-user .au-name { font-weight:500; color:var(--text); }
+.admin-user .au-date { font-size:12px; color:var(--muted); }
+.admin-user button { font-size:12px; padding:4px 10px; background:var(--accent-bg); border:1px solid var(--accent); color:var(--accent); border-radius:var(--radius); cursor:pointer; font-family:inherit; }
+.admin-detail { margin-top:12px; padding:12px; background:var(--bg); border-radius:var(--radius); font-size:13px; }
 .admin-detail h4 { color:var(--accent); margin-bottom:6px; font-size:13px; }
 .admin-detail .ad-going { display:flex; gap:12px; padding:4px 0; border-bottom:1px solid var(--border); font-size:12px; }
 .admin-detail .ad-going:last-child { border-bottom:none; }
@@ -207,27 +196,8 @@ tr.going-row td { background: #2d1525; }
 }
 .ac-item { padding: 7px 10px; cursor: pointer; }
 .ac-item:hover, .ac-item.active { background: var(--accent-bg); color: var(--accent); }
-.band-links-panel { margin-top:1rem; }
-.band-links-panel h3 { font-size:14px; color:var(--accent); margin-bottom:10px; }
-.band-links-grid { display:flex; flex-wrap:wrap; gap:8px; }
-.band-link-item {
-  display:inline-block; padding:6px 14px; font-size:13px;
-  background:var(--accent-bg); border:1px solid var(--accent); color:var(--accent);
-  border-radius:var(--radius); text-decoration:none;
-}
-.band-link-item:hover { background:var(--accent); color:#000; }
-.band-links-hint { font-size:13px; color:var(--muted); }
-.snart-going-panel { border-color:#e8439340; margin-top:1rem; }
-.snart-going-panel h3 { color:#e84393; font-size:14px; margin-bottom:10px; }
-.snart-going-item { font-size:13px; padding:6px 0; border-bottom:1px solid var(--border); }
-.snart-going-item:last-child { border-bottom:none; }
-.snart-date { color:var(--accent); font-weight:500; min-width:90px; display:inline-block; }
-.snart-time { color:var(--muted); margin-right:6px; }
-.snart-band { color:#e84393; font-weight:500; }
-.snart-hint { font-size:12px; color:var(--hint); margin-top:10px; }
 </style>
 <script src="data.js"></script>
-<script src="band-lankar.js"></script>
 </head>
 <body>
 <div id="wrap">
@@ -246,9 +216,7 @@ tr.going-row td { background: #2d1525; }
         <p><b style="color:var(--accent)">🔍 Sök</b> — skriv band, ort eller ställe. Förslag dyker upp medan du skriver.</p>
         <p><b style="color:#e8a020">★ Favoritband</b> — tryck stjärnan vid bandet för att markera det.</p>
         <p><b style="color:#cc6cff">★ Favoritställe</b> — tryck stjärnan vid stället.</p>
-        <p><b style="color:#e84393">♥ Jag ska dit</b> — markera danser du planerar besöka. Kommande danser visas i rutan <b>Snart — jag ska dit</b> (7 dagar).</p>
-        <p><b style="color:#e84393">📅 Kalender ♥</b> — exporterar alla dina ♥ till kalenderappen (Google, Apple, Outlook). Påminnelse är förvald: <b>dagen före kl 18</b>.</p>
-        <p><b style="color:var(--accent)">🌐 Hemsidor</b> — länkar till hemsidor för dina favoritband (bara band du markerat med ★).</p>
+        <p><b style="color:#e84393">♥ Jag ska dit</b> — markera danser du planerar besöka.</p>
         <p style="margin:12px 0;padding:10px;background:var(--bg);border-radius:var(--radius);color:var(--muted)">
           💡 Knapparna <b>Mina band</b>, <b>Mina ställen</b> och <b>Jag ska dit</b> filtrerar listan — visar bara dina markerade. Tryck igen för att visa alla. Du behöver inte ta bort något — filtret gömmer resten tillfälligt.
         </p>
@@ -257,7 +225,7 @@ tr.going-row td { background: #2d1525; }
         <p><b>📝 Anteckningar</b> — tryck ＋ på valfri rad för att skriva en privat notering. Bara du kan se dem.</p>
         <p><b>Filter</b> — välj län, månad eller dag för att begränsa listan.</p>
         <p style="margin-top:12px;padding:10px;background:var(--bg);border-radius:var(--radius);color:var(--muted)">
-          💡 <b>Smeknamn</b> — <b>Skapa</b> ett nytt smeknamn, eller <b>Logga in</b> om du redan har ett. Då sparas dina val och du kommer åt dem från mobil, surfplatta eller dator. Bara du ser dina egna val.
+          💡 <b>Smeknamn</b> — skapa ett smeknamn och använd det varje gång. Då sparas dina val och du kommer åt dem från mobil, surfplatta eller dator. Bara du ser dina egna val.
         </p>
       </div>
       <button onclick="document.getElementById('help-modal').classList.remove('open')" style="margin-top:14px;padding:8px 20px;background:var(--accent);color:#000;border:none;border-radius:var(--radius);cursor:pointer;font-family:inherit;font-weight:500">Stäng</button>
@@ -266,25 +234,21 @@ tr.going-row td { background: #2d1525; }
 
   <div class="user-bar" id="user-bar">
     <span id="user-status"><span class="sync-icon sync-off"></span>Titta fritt — eller skapa ett smeknamn för att spara favoriter</span>
-    <div class="bar-btns">
-      <button onclick="showLogin()">Logga in</button>
-      <button class="bar-create" onclick="showRegister()">Skapa</button>
-    </div>
+    <button onclick="showLogin()">Logga in</button>
   </div>
 
   <div class="login-modal-bg" id="login-modal">
     <div class="login-modal">
-      <h3 id="login-modal-title">Logga in</h3>
-      <p id="login-modal-desc" style="color:var(--muted);font-size:13px;margin-bottom:14px">Logga in med ditt smeknamn. Har du inget än? Tryck Skapa.</p>
+      <h3>Välkommen!</h3>
+      <p style="color:var(--muted);font-size:13px;margin-bottom:14px">Skapa ett smeknamn och använd det varje gång — så sparas dina favoriter och du kommer åt dem från vilken enhet som helst. Bara du ser dina egna val.</p>
       <input type="text" id="login-name" placeholder="Ditt smeknamn" maxlength="50" autocomplete="off">
       <div class="pin-row" id="pin-row" style="display:none">
         PIN: <input type="text" id="login-pin" placeholder="PIN" maxlength="10" autocomplete="off">
       </div>
       <div class="login-btns">
-        <button class="btn-login" onclick="doLogin()">Logga in</button>
-        <button class="btn-create" onclick="doRegister()">Skapa</button>
+        <button class="btn-login" onclick="doLogin()">Logga in / Skapa</button>
+        <button class="btn-skip" onclick="closeLogin()">Hoppa över</button>
       </div>
-      <button class="btn-skip" onclick="closeLogin()">Hoppa över</button>
       <div class="login-msg" id="login-msg"></div>
     </div>
   </div>
@@ -313,18 +277,19 @@ tr.going-row td { background: #2d1525; }
       <option>Torsdag</option><option>Fredag</option><option>Lördag</option><option>Söndag</option>
     </select>
     <button class="btn" id="btn-favbands" onclick="toggleFilter('favbands')">★ Mina band</button>
-    <button class="btn" id="btn-bandlinks" onclick="toggleBandLinksPanel()">🌐 Hemsidor</button>
     <button class="btn" id="btn-favvenues" onclick="toggleFilter('favvenues')">★ Mina ställen</button>
     <button class="btn" id="btn-going" onclick="toggleFilter('going')">♥ Jag ska dit</button>
-    <button class="btn" id="btn-going-cal" onclick="exportGoingToCalendar()" title="Påminnelse dagen före kl 18">📅 Kalender ♥</button>
     <button class="btn" id="btn-pro" onclick="toggleFilter('pro')">✕ Dölj PRO/SPF</button>
     <button class="btn" id="btn-past" onclick="togglePast()">◷ Visa tidigare</button>
     <button class="btn" id="btn-blocklist" onclick="toggleBlockPanel()" style="margin-left:auto">⊘ Blockerade <span id="block-count"></span></button>
   </div>
 
-  <div id="snart-going-panel" class="snart-going-panel add-section" style="display:none">
-    <h3>♥ Snart — jag ska dit (7 dagar)</h3>
-    <div id="snart-going-list"></div>
+  <div class="legend">
+    <span style="color:#e8a020">★</span> favoritband &nbsp;|&nbsp;
+    <span style="color:#bb7fe0">★</span> favoritställe &nbsp;|&nbsp;
+    <span style="color:#e74c3c">✕</span> blockera band &nbsp;|&nbsp;
+    <span style="color:#e84393">♥</span> jag ska dit &nbsp;|&nbsp;
+    <span style="color:#6a7a90">＋</span> / <span style="color:#d4a648">📝</span> anteckning
   </div>
 
   <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:1rem">
@@ -337,11 +302,6 @@ tr.going-row td { background: #2d1525; }
       </div>
       <p style="font-size:12px;color:var(--hint)">Sparar favoriter, blockeringar och anteckningar.</p>
     </div>
-  </div>
-
-  <div id="band-links-panel" class="band-links-panel add-section" style="display:none">
-    <h3>🌐 Hemsidor — dina favoritband</h3>
-    <div id="band-links-list"></div>
   </div>
 
   <div id="block-panel" style="display:none;margin-top:1rem">
@@ -416,7 +376,7 @@ tr.going-row td { background: #2d1525; }
 </div>
 
 <script>
-const JUNE_DATA = [["2026-06-14","Söndag","","Rospiggarna","Birka Gotland","Södermalm, Stadsgårdshamnen","Stockholm","Stockholm",""],["2026-06-14","Söndag","15.00-18.30","Kent & Henke","Dahls loge","Nordankärr Dal","Katrineholm","Södermanland",""],["2026-06-14","Söndag","16.00-19.30","Eklöfs","Gamleby Folkpark","Gamleby","Västervik","Kalmar","SPF"],["2026-06-14","Söndag","16.30-20.30","Sannex","Gemla Folkpark","Gemla","Växjö","Kronoberg",""],["2026-06-14","Söndag","17.00-21.00","Streaks","Alingsåsparken","Alingsås","Alingsås","Västra Götaland",""],["2026-06-14","Söndag","17.00-21.00","Thor Görans","Folkets Park Hedemora","Hedemora","Hedemora","Dalarna",""],["2026-06-14","Söndag","18.00-21.30","Engdahls","Kungälvsparken","Kungälv","Kungälv","Västra Götaland",""],["2026-06-14","Söndag","18.00-21.30","Tobbez","Upperudslogen","Molkom","Karlstad","Värmland","PRO"],["2026-06-14","Söndag","18.00-21.30","Mickes","Ånäsparken Kovland","Kovland","Sundsvall","Västernorrland",""],["2026-06-14","Söndag","18.00-22.00","Rignells","Stallet Vassmolösa","Vassmolösa","Kalmar","Kalmar",""],["2026-06-14","Söndag","18.30-22.00","Glads","Hårkvallen Lit","Lit","Östersund","Jämtland",""],["2026-06-14","Söndag","19.00-22.30","Avant","Folkparken Bursiljum","Bursiljum","Skellefteå","Västerbotten",""],["2026-06-15","Måndag","","Rospiggarna","Birka Gotland","Södermalm, Stadsgårdshamnen","Stockholm","Stockholm",""],["2026-06-15","Måndag","13.30-17.00","BarraBazz","Svedboäng","Västerfärnebo","Sala","Västmanland",""],["2026-06-15","Måndag","17.00-20.30","Elvis4ever","Fågelsångs festplats","Våxtorp","Laholm","Halland","SPF"],["2026-06-15","Måndag","18.00-21.30","Voize","Tidaholmsparken","Tidaholm","Tidaholm","Västra Götaland",""],["2026-06-15","Måndag","19.30-23.00","Streaks","Hjortnäs Festplats","Torestorp","Mark","Västra Götaland",""],["2026-06-16","Tisdag","13.00-16.00","Sverre Carlsson","Wij Gammelgård","Hölö","Södertälje","Stockholm",""],["2026-06-16","Tisdag","13.00-17.00","Rignells","Liljekonvaljeholmen","Sunnersta","Uppsala","Uppsala",""],["2026-06-16","Tisdag","13.30-16.30","Magnus Persson","Nya Åhusparken","Åhus","Kristianstad","Skåne",""],["2026-06-16","Tisdag","15.00-19.00","Ingvar Fahsts","Folkets Park Sjöbo","Sjöbo","Sjöbo","Skåne","PRO/SPF"],["2026-06-16","Tisdag","18.00-21.30","Hazzes med Maria","Hindås Rotunda","Hindås","Härryda","Västra Götaland",""],["2026-06-16","Tisdag","18.00-21.30","Brogrens","Timmeleparken","Timmele","Ulricehamn","Västra Götaland",""],["2026-06-16","Tisdag","18.00-22.00","B&W","Pilaboparken","Anneberg","Nässjö","Jönköping",""],["2026-06-16","Tisdag","18.30-22.00","Orient","Bredasjön","Holmsjö","Karlskrona","Blekinge",""],["2026-06-16","Tisdag","18.30-22.00","Kenneth & Classe","Folkets Park Smålandsstenar","Smålandsstenar","Gislaved","Jönköping",""],["2026-06-16","Tisdag","18.30-22.00","Bendix","Logen Hej","Jörn","Skellefteå","Västerbotten",""],["2026-06-16","Tisdag","18.30-22.30","Bob Stevens","Folkets Park Billesholm","Billesholm","Bjuv","Skåne",""],["2026-06-16","Tisdag","19.00-21.00","Stisses Duo","Dansbanan Gamla Linköping","Gamla Linköping","Linköping","Östergötland",""],["2026-06-16","Tisdag","19.00-22.00","Junix","Ulvsättra loge","Kallhäll","Järfälla","Stockholm",""],["2026-06-16","Tisdag","19.00-23.00","Micke Ahlgrens","Broby Bettna","Bettna","Flen","Södermanland",""],["2026-06-16","Tisdag","19.00-23.00","Highlights","Tyllsnäs Udde","Borlänge","Borlänge","Dalarna",""],["2026-06-16","Tisdag","19.00-23.00","Martinez","Åsliden","Nor","Ljusdal","Gävleborg",""],["2026-06-16","Tisdag","20.30-24.00","Emg","Västerhagen","Haverdal","Halmstad","Halland",""],["2026-06-16","Tisdag","20.30-24.00","Excess","Västerhagen","Haverdal","Halmstad","Halland",""],["2026-06-17","Onsdag","","18 30-22.30","Fröjden, Stadsparken","Jönköping","Jönköping","Jönköping",""],["2026-06-17","Onsdag","11.00-14.00","Frippez","Liseberg Polketten","Göteborg","Göteborg","Västra Götaland","Fri entré"],["2026-06-17","Onsdag","13.30-17.00","Cedrix","Kolbäcksparken","Kolbäck","Hallstahammar","Västmanland",""],["2026-06-17","Onsdag","14.00-16.00","Tyttiz","Nya Åhusparken","Åhus","Kristianstad","Skåne",""],["2026-06-17","Onsdag","17.00-20.00","Bosse Franks","Löfstad Loge","Löfstad","Norrköping","Östergötland","PRO"],["2026-06-17","Onsdag","18.00-21.30","Junix","Folkets Park Degerfors","Degerfors","Degerfors","Örebro",""],["2026-06-17","Onsdag","18.00-21.30","Stefan & Tony","Orrnäset","Högboda","Kil","Värmland",""],["2026-06-17","Onsdag","18.00-22.00","Bennrix","Folkets Park Åseda","Åseda","Uppvidinge","Kronoberg",""],["2026-06-17","Onsdag","18.00-22.00","Titanix","Gröna Lund","Djurgården","Stockholm","Stockholm",""],["2026-06-17","Onsdag","18.30-21.30","Sandraz","Folkets Park Nora","Nora","Nora","Örebro","Föranmälan: 0738253753"],["2026-06-17","Onsdag","18.30-22.00","Strike","Grönänge","Dvärsätt","Krokom","Jämtland",""],["2026-06-17","Onsdag","18.30-22.30","Bob Stevens","Lyktan Vilshult","Vilshult","Olofström","Blekinge",""],["2026-06-17","Onsdag","19.30-22.30","Kenneth & Classe","Folkets Park Ödeborg","Ödeborg","Färgelanda","Västra Götaland",""],["2026-06-18","Torsdag","","Höilands","Viking Glory","Södermalm, Stadsgårdshamnen","Stockholm","Stockholm",""],["2026-06-18","Torsdag","18.30-22.30","Tribond","Sandsjöns Festplats","Lockryd","Svenljunga","Västra Götaland",""],["2026-06-18","Torsdag","19.00-22.00","Engdahls","Liseberg Polketten","Göteborg","Göteborg","Västra Götaland",""],["2026-06-18","Torsdag","19.00-23.00","Sandins","Barva Loge","Barva","Eskilstuna","Södermanland",""],["2026-06-18","Torsdag","20.00-01.00","Streaks","Aspåsnäset","Aspås","Krokom","Jämtland",""],["2026-06-18","Torsdag","20.00-01.00","Mickeys","Aspåsnäset","Aspås","Krokom","Jämtland",""],["2026-06-19","Fredag","15.00-18.00","Roffe Larsson","Årstaliden","Årsta","Stockholm","Stockholm",""],["2026-06-19","Fredag","18.00-21.30","Sounders","Kungälvsparken","Kungälv","Kungälv","Västra Götaland",""],["2026-06-19","Fredag","18.00-22.00","Sandins","Skansen Galejan","Djurgården","Stockholm","Stockholm",""],["2026-06-19","Fredag","18.00-22.30","Candys","Tornsborgs Tivoli","Färingtofta","Klippan","Skåne","SPF Föranmälan"],["2026-06-19","Fredag","19.00-22.00","Titanix","Liseberg Polketten","Göteborg","Göteborg","Västra Götaland",""],["2026-06-19","Fredag","20.00-24.00","Duo Gredes","Bystugan Havsnäs","Havsnäs","Strömsund","Jämtland",""],["2026-06-19","Fredag","20.00-24.00","Ola & Jag","Fromhedens danspaviljong","Fromheden","Norsjö","Västerbotten",""],["2026-06-19","Fredag","20.00-24.00","Kjellez","Kärrasand","Urshult","Tingsryd","Kronoberg",""],["2026-06-19","Fredag","20.00-24.00","Engdahls","Rangelstorps loge","Rangelstorp","Vimmerby","Kalmar",""],["2026-06-19","Fredag","21.00-01.00","Finezze","Brattbäckens loge","Hoting","Strömsund","Jämtland",""],["2026-06-19","Fredag","21.00-01.00","Magnus Wilenz Kvintett","Fröjdholmen","Oviken","Berg","Jämtland",""],["2026-06-19","Fredag","21.00-01.00","Mickes","Norsträsk Camping","Norsträsk","Vindeln","Västerbotten",""],["2026-06-20","Lördag","16.00-19.30","Cedrix","Folkets Park Nora","Nora","Nora","Örebro",""],["2026-06-20","Lördag","18.00-22.00","Sandins","Skansen Galejan","Djurgården","Stockholm","Stockholm",""],["2026-06-20","Lördag","19.00-23.00","Canyons","Rangelstorps loge","Rangelstorp","Vimmerby","Kalmar",""],["2026-06-20","Lördag","20.00-24.00","Frisco","Ava havsbad","Lögdeå","Nordmaling","Västerbotten",""],["2026-06-20","Lördag","20.00-24.00","Blender","Folkets Park Vadstena Krogaränga","Vadstena","Vadstena","Östergötland",""],["2026-06-20","Lördag","20.00-24.00","Ola & Jag","Fromhedens danspaviljong","Fromheden","Norsjö","Västerbotten",""],["2026-06-20","Lördag","20.00-24.00","Engdahls","Fågelsångs festplats","Våxtorp","Laholm","Halland",""],["2026-06-20","Lördag","20.00-24.00","Westlights","Hjortnäs Brygga","Hjortnäs","Leksand","Dalarna",""],["2026-06-20","Lördag","20.00-24.00","Finezze","Kornsjö-Strand","Kornsjöstrand","Örnsköldsvik","Västernorrland",""],["2026-06-20","Lördag","20.00-24.00","eBand","Kulla Nöjesplats","Rörum","Simrishamn","Skåne",""],["2026-06-20","Lördag","20.00-24.00","Jive","Kärrasand","Urshult","Tingsryd","Kronoberg",""],["2026-06-20","Lördag","20.00-24.00","Lundbergs","Rätans hembygdsgård","Rätansbyn","Berg","Jämtland",""],["2026-06-20","Lördag","20.00-24.00","Rignells","Tallparken","Vinslöv","Hässleholm","Skåne",""],["2026-06-20","Lördag","21.00-01.00","Titanix","Lustikullen","Brevens Bruk","Örebro","Örebro",""],["2026-06-20","Lördag","21.00-01.00","Casanovas","Mannes Loge","Boda, Svärdsjö","Falun","Dalarna",""],["2026-06-20","Lördag","21.00-01.00","Micke Ahlgrens","Pottåkers loge","Funbo","Uppsala","Uppsala",""],["2026-06-20","Lördag","21.00-02.00","Fernandoz","Gunnevi Festplats","Gunnarskog","Arvika","Värmland",""],["2026-06-20","Lördag","21.00-02.00","Pia Pihlgrens","Gunnevi Festplats","Gunnarskog","Arvika","Värmland",""],["2026-06-20","Lördag","21.00-02.00","Mickes","Logen, Örträsk Hembygdsgård","Örträsk","Lycksele","Västerbotten",""],["2026-06-21","Söndag","14.00-18.00","Lövgrens Duo","Folkets Park Åseda","Åseda","Uppvidinge","Kronoberg",""],["2026-06-21","Söndag","15.00-18.30","Gideons","Dahls loge","Nordankärr Dal","Katrineholm","Södermanland",""],["2026-06-21","Söndag","17.00-20.30","Robert Nilssons Orkester","Gemla Folkpark","Gemla","Växjö","Kronoberg",""],["2026-06-21","Söndag","17.00-21.00","Blender","Alingsåsparken","Alingsås","Alingsås","Västra Götaland",""],["2026-06-21","Söndag","17.00-21.00","Swedish Dance Mafia","Bellevueparken","Karlshamn","Karlshamn","Blekinge",""],["2026-06-21","Söndag","17.00-21.00","Casanovas","Broby Bettna","Bettna","Flen","Södermanland",""],["2026-06-21","Söndag","18.00-21.00","Hardys","Folkets Park Rabbalshede","Rabbalshede","Tanum","Västra Götaland",""],["2026-06-21","Söndag","18.00-21.30","Mickes","Festplatsen Vännäsby","Vännäsby","Vännäs","Västerbotten",""],["2026-06-21","Söndag","18.00-21.30","Cedrix","Upperudslogen","Molkom","Karlstad","Värmland","PRO"],["2026-06-21","Söndag","18.00-21.30","Finezze","Ånäsparken Kovland","Kovland","Sundsvall","Västernorrland",""],["2026-06-21","Söndag","18.00-22.00","Avant","Logen Käcktjärn","Bölebyn","Piteå","Norrbotten",""],["2026-06-21","Söndag","18.00-22.00","Engdahls","Stallet Vassmolösa","Vassmolösa","Kalmar","Kalmar",""],["2026-06-21","Söndag","19.00-22.30","Bendix","Folkparken Bursiljum","Bursiljum","Skellefteå","Västerbotten",""],["2026-06-21","Söndag","19.00-23.00","Donnez","Lilltorpet","Falun","Falun","Dalarna",""],["2026-06-21","Söndag","19.00-23.00","Tony Mobergs","Sommarparadiset Sandviken","Sandviken","Östersund","Jämtland",""],["2026-06-22","Måndag","","Höilands","Viking Glory","Södermalm, Stadsgårdshamnen","Stockholm","Stockholm",""],["2026-06-22","Måndag","17.00-20.30","Deluxe","Fågelsångs festplats","Våxtorp","Laholm","Halland","SPF"],["2026-06-22","Måndag","18.00-21.30","Engdahls","Folkets Park Falköping","Falköping","Falköping","Västra Götaland",""],["2026-06-22","Måndag","19.00-23.00","Excess","Rotundan, Nöjesparken","Varberg","Varberg","Halland",""],["2026-06-23","Tisdag","","Höilands","Viking Glory","Södermalm, Stadsgårdshamnen","Stockholm","Stockholm",""],["2026-06-23","Tisdag","15.00-19.00","Christer & Fredrik","Folkets Park Sjöbo","Sjöbo","Sjöbo","Skåne","PRO/SPF"],["2026-06-23","Tisdag","16.00-19.00","Svenne och Jörgen","Kungälvsparken","Kungälv","Kungälv","Västra Götaland","SPF/PRO"],["2026-06-23","Tisdag","18.00-21.30","Kent & Henke","Folkets Park Lidköping","Lidköping","Lidköping","Västra Götaland",""],["2026-06-23","Tisdag","18.30-22.00","Hedins","Bredasjön","Holmsjö","Karlskrona","Blekinge",""],["2026-06-23","Tisdag","18.30-22.00","Mickes","Logen Hej","Jörn","Skellefteå","Västerbotten",""],["2026-06-23","Tisdag","18.30-22.00","Cedrix","Sjöviken Ätran","Ätran","Falkenberg","Halland",""],["2026-06-23","Tisdag","18.30-22.30","Streaplers","Folkets Park Billesholm","Billesholm","Bjuv","Skåne",""],["2026-06-23","Tisdag","19.00-22.00","Lars Erikssons","Ulvsättra loge","Kallhäll","Järfälla","Stockholm",""],["2026-06-23","Tisdag","19.00-23.00","Engdahls","Broby Bettna","Bettna","Flen","Södermanland",""],["2026-06-23","Tisdag","19.00-23.00","Donnez","Brunnsparken","Örebro","Örebro","Örebro",""],["2026-06-23","Tisdag","19.00-23.00","Extract","Tyllsnäs Udde","Borlänge","Borlänge","Dalarna",""],["2026-06-23","Tisdag","19.00-23.00","Perikles","Åsliden","Nor","Ljusdal","Gävleborg",""],["2026-06-23","Tisdag","20.00-24.00","Martinez","Folkets Hus Överkalix","Överkalix","Överkalix","Norrbotten",""],["2026-06-23","Tisdag","20.30-24.00","Charlies","Västerhagen","Haverdal","Halmstad","Halland",""],["2026-06-23","Tisdag","20.30-24.00","Blender","Västerhagen","Haverdal","Halmstad","Halland",""],["2026-06-24","Onsdag","","Höilands","Viking Glory","Södermalm, Stadsgårdshamnen","Stockholm","Stockholm",""],["2026-06-24","Onsdag","11.00-14.00","Sven-Gunnars","Liseberg Polketten","Göteborg","Göteborg","Västra Götaland","Fri Entré"],["2026-06-24","Onsdag","13.30-17.00","Orient","Kolbäcksparken","Kolbäck","Hallstahammar","Västmanland",""],["2026-06-24","Onsdag","17.00-20.00","Lars Erikssons","Löfstad Loge","Löfstad","Norrköping","Östergötland","PRO"],["2026-06-24","Onsdag","18.00-21.30","Loffez","Folkets Park Degerfors","Degerfors","Degerfors","Örebro",""],["2026-06-24","Onsdag","18.00-22.00","Black Jack","Gröna Lund","Djurgården","Stockholm","Stockholm",""],["2026-06-24","Onsdag","18.00-22.00","Bob Stevens","Vallsjöbaden","Sävsjö","Sävsjö","Jönköping",""],["2026-06-24","Onsdag","18.00-23.00","Blender","Fröjden, Stadsparken","Jönköping","Jönköping","Jönköping",""],["2026-06-24","Onsdag","18.00-23.00","Casanovas","Fröjden, Stadsparken","Jönköping","Jönköping","Jönköping",""],["2026-06-24","Onsdag","18.30-21.30","Wickys","Djäknebergets dansbana","Västerås","Västerås","Västmanland","Fri entré"],["2026-06-24","Onsdag","18.30-22.00","Pär Norlings","Grönänge","Dvärsätt","Krokom","Jämtland",""],["2026-06-24","Onsdag","18.30-22.30","Streaplers","Lyktan Vilshult","Vilshult","Olofström","Blekinge",""],["2026-06-24","Onsdag","19.00-22.00","Janssons orkester","Lohärads bygdegård","Lohärad","Norrtälje","Stockholm",""],["2026-06-24","Onsdag","19.00-23.00","Framed","Gårdsjölogen","Gårdsjö","Sunne","Värmland",""],["2026-06-24","Onsdag","19.30-22.30","Junix","Folkets Park Ödeborg","Ödeborg","Färgelanda","Västra Götaland",""],["2026-06-24","Onsdag","20.00-24.00","Martinez","Folkets Hus Överkalix","Överkalix","Överkalix","Norrbotten",""],["2026-06-24","Onsdag","20.00-24.00","Jive","Furuviken Hällesjö","Hällesjö","Bräcke","Jämtland",""],["2026-06-25","Torsdag","","BarraBazz","Grand Artic Resort","Överkalix","Överkalix","Norrbotten",""],["2026-06-25","Torsdag","","Höilands","Viking Glory","Södermalm, Stadsgårdshamnen","Stockholm","Stockholm",""],["2026-06-25","Torsdag","13.00-16.00","Tomaz & Co","Herrängens Gård","Herrängen","Stockholm","Stockholm",""],["2026-06-25","Torsdag","13.00-17.00","Engdahls","Ängby park","Knivsta","Knivsta","Uppsala",""],["2026-06-25","Torsdag","14.00-17.00","Junix","Föreningsborg Bettna","Bettna","Flen","Södermanland",""],["2026-06-25","Torsdag","17.00-20.30","Holens","Gammelgården Torsåker","Torsåker","Hofors","Gävleborg",""],["2026-06-25","Torsdag","18.00-24.00","Black Jack","Hedevi IP","Ullared","Falkenberg","Halland",""],["2026-06-25","Torsdag","18.00-24.00","Casanovas","Hedevi IP","Ullared","Falkenberg","Halland",""],["2026-06-25","Torsdag","18.30-22.00","Jive","Hanssons Loge","Långsele","Sollefteå","Västernorrland",""],["2026-06-25","Torsdag","19.00-22.00","Sannex","Liseberg Polketten","Göteborg","Göteborg","Västra Götaland",""],["2026-06-25","Torsdag","19.00-22.00","Eklöfs","Årstaliden","Årsta","Stockholm","Stockholm",""],["2026-06-25","Torsdag","19.00-23.00","Rignells","Barva Loge","Barva","Eskilstuna","Södermanland",""],["2026-06-25","Torsdag","19.00-23.00","Donnez","Folkets Park Ljungsbro","Ljungsbro","Linköping","Östergötland",""],["2026-06-25","Torsdag","19.00-23.00","Blender","Hågelbyparken","Tumba","Botkyrka","Stockholm",""],["2026-06-25","Torsdag","19.00-23.00","Highlights","Laduholmen","Forsbacka","Gävle","Gävleborg",""],["2026-06-25","Torsdag","19.00-23.00","Allstars","Lilltorpet","Falun","Falun","Dalarna",""],["2026-06-25","Torsdag","20.00-01.00","Larz Kristerz","Brännabergets Festplats","Överkalix","Överkalix","Norrbotten",""],["2026-06-25","Torsdag","20.00-24.00","PHs","Folkparken Skellefteå","Skellefteå","Skellefteå","Västerbotten",""],["2026-06-25","Torsdag","20.00-24.00","Perikles","Ånäsparken Kovland","Kovland","Sundsvall","Västernorrland",""],["2026-06-26","Fredag","","Mickes","Byvikens Wärdshus, Novas Inn","Holmön","Umeå","Västerbotten",""],["2026-06-26","Fredag","","BarraBazz","Grand Artic Resort","Överkalix","Överkalix","Norrbotten",""],["2026-06-26","Fredag","","Sannex","Small Lake Meet","Hedekas","Munkedal","Västra Götaland",""],["2026-06-26","Fredag","","Höilands","Viking Glory","Södermalm, Stadsgårdshamnen","Stockholm","Stockholm",""],["2026-06-26","Fredag","13.30-17.00","Strike","Söderbärkeparken","Söderbärke","Smedjebacken","Dalarna","PRO"],["2026-06-26","Fredag","14.00-17.30","Trippz","Änga Festplats","Väderstad","Mjölby","Östergötland","PRO"],["2026-06-26","Fredag","17.00-20.30","Timmys","Ängstugans festplats","Nyköping","Nyköping","Södermanland",""],["2026-06-26","Fredag","18.00-01.00","Lasse Stefanz","Hedevi IP","Ullared","Falkenberg","Halland",""],["2026-06-26","Fredag","18.00-01.00","Blender","Hedevi IP","Ullared","Falkenberg","Halland",""],["2026-06-26","Fredag","18.00-01.00","Perikles","Hedevi IP","Ullared","Falkenberg","Halland",""],["2026-06-26","Fredag","18.00-21.30","Kent & Henke","Bullerbyn Pelarne","Pelarne","Vimmerby","Kalmar",""],["2026-06-26","Fredag","18.00-22.00","Stickanz","Rättviksparken","Rättvik","Rättvik","Dalarna",""],["2026-06-26","Fredag","18.00-22.00","Rignells","Skansen Galejan","Djurgården","Stockholm","Stockholm",""],["2026-06-26","Fredag","19.00-23.00","Sandraz","Bergsjöparken","Bergsjö","Nordanstig","Gävleborg",""],["2026-06-26","Fredag","19.00-23.00","Date","Dalaborgsparken","Vänersborg","Vänersborg","Västra Götaland",""],["2026-06-26","Fredag","19.00-23.00","Donnez","Kärrasand","Urshult","Tingsryd","Kronoberg",""],["2026-06-26","Fredag","19.00-23.00","Ingvar Fahsts","Trollsjön","Eslöv","Eslöv","Skåne",""],["2026-06-26","Fredag","20.00-01.00","PHs","Brännabergets Festplats","Överkalix","Överkalix","Norrbotten",""],["2026-06-26","Fredag","20.00-01.00","Jive","Brännabergets Festplats","Överkalix","Överkalix","Norrbotten",""],["2026-06-26","Fredag","20.00-24.00","Black Jack","Bergviksparken","Bergvik","Söderhamn","Gävleborg",""],["2026-06-26","Fredag","20.00-24.00","Brogrens","Folkets Park Billesholm","Billesholm","Bjuv","Skåne",""],["2026-06-26","Fredag","20.00-24.00","Highlights","Gräsmyr Loge","Gräsmyr","Nordmaling","Västerbotten",""],["2026-06-26","Fredag","20.00-24.00","Streaplers","Nya Åhusparken","Åhus","Kristianstad","Skåne",""],["2026-06-26","Fredag","20.00-24.00","Allstars","Skälby Loge","Kalmar","Kalmar","Kalmar",""],["2026-06-26","Fredag","20.30-24.00","Royz Rollerz","Hanssons Loge","Långsele","Sollefteå","Västernorrland",""],["2026-06-26","Fredag","21.00-01.00","Martinez","Sommarparadiset Sandviken","Sandviken","Östersund","Jämtland",""],["2026-06-26","Fredag","22.00-01.30","Callinaz","Badhusparken","Vara","Vara","Västra Götaland",""],["2026-06-27","Lördag","","Mickes","Byvikens Wärdshus, Novas Inn","Holmön","Umeå","Västerbotten",""],["2026-06-27","Lördag","","BarraBazz","Grand Artic Resort","Överkalix","Överkalix","Norrbotten",""],["2026-06-27","Lördag","","Höilands","Viking Glory","Södermalm, Stadsgårdshamnen","Stockholm","Stockholm",""],["2026-06-27","Lördag","18.00-01.00","Donnez","Hedevi IP","Ullared","Falkenberg","Halland",""],["2026-06-27","Lördag","18.00-01.00","Sannex","Hedevi IP","Ullared","Falkenberg","Halland",""],["2026-06-27","Lördag","18.00-01.00","Date","Hedevi IP","Ullared","Falkenberg","Halland",""],["2026-06-27","Lördag","18.00-22.00","Orient","Folkets Park Malmö","Malmö","Malmö","Skåne","Fri entré"],["2026-06-27","Lördag","19.00-02.00","PHs","Vildmannahallen","Storuman","Storuman","Västerbotten",""],["2026-06-27","Lördag","19.00-02.00","Jive","Vildmannahallen","Storuman","Storuman","Västerbotten",""],["2026-06-27","Lördag","19.00-22.30","Hardys","Delsbo bygdegård","Delsbo","Hudiksvall","Gävleborg",""],["2026-06-27","Lördag","19.00-23.00","Rignells","Rydsnäs loge","Rydnäs","Ydre","Östergötland",""],["2026-06-27","Lördag","19.00-23.00","Claes Hermans","Sanda Bygdegårdspark","Sanda","Gotland","Gotland",""],["2026-06-27","Lördag","19.00-23.00","Framed","Tjusta gård","Rosersberg","Sigtuna","Stockholm",""],["2026-06-27","Lördag","20.00-01.00","Thor Görans","Brännabergets Festplats","Överkalix","Överkalix","Norrbotten",""],["2026-06-27","Lördag","20.00-01.00","Puls","Brännabergets Festplats","Överkalix","Överkalix","Norrbotten",""],["2026-06-27","Lördag","20.00-24.00","Martinez","Bredsele Park","Kusfors","Norsjö","Västerbotten",""],["2026-06-27","Lördag","20.00-24.00","Streaplers","Dalaborgsparken","Vänersborg","Vänersborg","Västra Götaland",""],["2026-06-27","Lördag","20.00-24.00","Black Jack","Folkets Park Moliden","Moliden","Örnsköldsvik","Västernorrland",""],["2026-06-27","Lördag","20.00-24.00","Bob Stevens","Fågelsångs festplats","Våxtorp","Laholm","Halland",""],["2026-06-27","Lördag","20.00-24.00","Tommys","Gerålund Bispgården","Bispgården","Ragunda","Jämtland",""],["2026-06-27","Lördag","20.00-24.00","Perikles","Godegårds festplats","Godegård","Motala","Östergötland",""],["2026-06-27","Lördag","20.00-24.00","Highlights","Logen Käcktjärn","Bölebyn","Piteå","Norrbotten",""],["2026-06-27","Lördag","20.00-24.00","Sandins","Solliden Koppom","Koppom","Eda","Värmland",""],["2026-06-27","Lördag","20.00-24.00","Holidays","Utängens Loge","Tanumshede","Tanum","Västra Götaland",""],["2026-06-27","Lördag","20.00–24.00","Blender","Borkhults festplats","Borkhult","Åtvidaberg","Östergötland",""],["2026-06-27","Lördag","20.30-00.30","Allstars","Lundegård","Köpingsvik","Borgholm","Kalmar",""],["2026-06-27","Lördag","21.00-01.00","Casanovas","Folkets Park Knutby","Knutby","Uppsala","Uppsala",""],["2026-06-27","Lördag","21.00-01.00","Extract","Sidskogens Dansbana","Järvsö","Ljusdal","Gävleborg",""],["2026-06-27","Lördag","21.00-01.00","Matz Bladhs","Trolldalen","Degeberga","Kristianstad","Skåne",""],["2026-06-28","Söndag","","Höilands","Viking Glory","Södermalm, Stadsgårdshamnen","Stockholm","Stockholm",""],["2026-06-28","Söndag","16.30-20.30","Engdahls","Gemla Folkpark","Gemla","Växjö","Kronoberg","Fri entré"],["2026-06-28","Söndag","17.00-20.30","Cedrix","Björkbacken","Hynnenäs","Alvesta","Kronoberg",""],["2026-06-28","Söndag","17.00-20.30","Patrick Eklöf","Folkets Hus Vrena","Vrena","Nyköping","Södermanland",""],["2026-06-28","Söndag","17.00-21.00","Bob Stevens","Eda Park","Eda","Eda","Värmland",""],["2026-06-28","Söndag","18.00-21.30","Hedins","Upperudslogen","Molkom","Karlstad","Värmland","PRO"],["2026-06-28","Söndag","18.00-21.30","Tommys","Ånäsparken Kovland","Kovland","Sundsvall","Västernorrland",""],["2026-06-28","Söndag","18.00-22.00","Matz Bladhs","Stallet Vassmolösa","Vassmolösa","Kalmar","Kalmar",""],["2026-06-28","Söndag","18.00-22.00","Mickes","Täftelogen","Täfteå","Umeå","Västerbotten",""],["2026-06-28","Söndag","18.30-20.30","Streaplers","Ramnaparken","Borås","Borås","Västra Götaland",""],["2026-06-28","Söndag","18.30-22.00","Strike","Hårkvallen Lit","Lit","Östersund","Jämtland",""],["2026-06-28","Söndag","19.00-22.30","Jive","Logen Ljusvattnet","Burträsk","Skellefteå","Västerbotten",""],["2026-06-28","Söndag","19.00-23.00","Kjellez","Lilltorpet","Falun","Falun","Dalarna",""],["2026-06-28","Söndag","20.30-00.30","Blender","Lundegård","Köpingsvik","Borgholm","Kalmar",""],["2026-06-29","Måndag","13.30-17.00","Tomaz & Co","Svedboäng","Västerfärnebo","Sala","Västmanland",""],["2026-06-29","Måndag","17.00-20.30","Rixons","Fågelsångs festplats","Våxtorp","Laholm","Halland","SPF"],["2026-06-29","Måndag","18.00-21.30","Black Jack","Tidaholmsparken","Tidaholm","Tidaholm","Västra Götaland",""],["2026-06-29","Måndag","19.30-23.00","Tribond","Hjortnäs Festplats","Torestorp","Mark","Västra Götaland",""],["2026-06-29","Måndag","20.30-01.30","Donnez","Lundegård","Köpingsvik","Borgholm","Kalmar",""],["2026-06-29","Måndag","20.30-01.30","Excess","Lundegård","Köpingsvik","Borgholm","Kalmar",""],["2026-06-29","Måndag","21.00-01.00","Sannex","Hotell Tylösand","Halmstad","Halmstad","Halland",""],["2026-06-30","Tisdag","13.00-16.00","Edwings","Wij Gammelgård","Hölö","Södertälje","Stockholm",""],["2026-06-30","Tisdag","13.00-17.00","Kjellez","Liljekonvaljeholmen","Sunnersta","Uppsala","Uppsala",""],["2026-06-30","Tisdag","15.00-19.00","Rixons","Folkets Park Sjöbo","Sjöbo","Sjöbo","Skåne","PRO/SPF"],["2026-06-30","Tisdag","16.00-19.00","Charlies","Kungälvsparken","Kungälv","Kungälv","Västra Götaland","SPF/PRO"],["2026-06-30","Tisdag","17.00-20.30","Junix","Gammelgården Torsåker","Torsåker","Hofors","Gävleborg",""],["2026-06-30","Tisdag","18.00-21.30","Hasse Peters","Hindås Rotunda","Hindås","Härryda","Västra Götaland",""],["2026-06-30","Tisdag","18.30-22.00","Engdahls","Bredasjön","Holmsjö","Karlskrona","Blekinge",""],["2026-06-30","Tisdag","18.30-22.00","Hardys","Folkets Park Smålandsstenar","Smålandsstenar","Gislaved","Jönköping",""],["2026-06-30","Tisdag","18.30-22.30","Matz Bladhs","Folkets Park Billesholm","Billesholm","Bjuv","Skåne",""],["2026-06-30","Tisdag","19.00-21.00","Martinoz","Dansbanan Gamla Linköping","Gamla Linköping","Linköping","Östergötland",""],["2026-06-30","Tisdag","19.00-22.00","Gideons","Ulvsättra loge","Kallhäll","Järfälla","Stockholm",""],["2026-06-30","Tisdag","19.00-23.00","Donnez","Broby Bettna","Bettna","Flen","Södermanland",""],["2026-06-30","Tisdag","19.00-23.00","Extract","Åsliden","Nor","Ljusdal","Gävleborg",""],["2026-06-30","Tisdag","20.30-00.30","Perikles","Lundegård","Köpingsvik","Borgholm","Kalmar",""],["2026-06-30","Tisdag","20.30-24.00","Rent drag","Västerhagen","Haverdal","Halmstad","Halland",""],["2026-06-30","Tisdag","20.30-24.00","Black Jack","Västerhagen","Haverdal","Halmstad","Halland",""]];
+const JUNE_DATA = [["2026-06-01", "Måndag", "", "Spotlight", "Birka Gotland", "Södermalm, Stadsgårdshamnen", "Stockholm", "Stockholm", ""], ["2026-06-01", "Måndag", "19.30-23.00", "Martinez", "Hjortnäs Festplats", "Torestorp", "Mark", "Västra Götaland", ""], ["2026-06-01", "Måndag", "18.00-21.30", "Holidays", "Tidaholmsparken", "Tidaholm", "Tidaholm", "Västra Götaland", ""], ["2026-06-01", "Måndag", "", "Höilands", "Viking Glory", "Södermalm, Stadsgårdshamnen", "Stockholm", "Stockholm", ""], ["2026-06-02", "Tisdag", "13.00-16.00", "Sverre Carlsson", "Alviks Kulturhus", "Alvik", "Stockholm", "Stockholm", "4M1G"], ["2026-06-02", "Tisdag", "", "Jive", "Birka Gotland", "Södermalm, Stadsgårdshamnen", "Stockholm", "Stockholm", ""], ["2026-06-02", "Tisdag", "19.00-23.00", "Holidays", "Broby Bettna", "Bettna", "Flen", "Södermanland", ""], ["2026-06-02", "Tisdag", "19.00-21.00", "Lars Erikssons", "Dansbanan Gamla Linköping", "Gamla Linköping", "Linköping", "Östergötland", ""], ["2026-06-02", "Tisdag", "18.30-22.30", "Kjellez", "Folkets Park Billesholm", "Billesholm", "Bjuv", "Skåne", ""], ["2026-06-02", "Tisdag", "15.00-19.00", "Candys", "Folkets Park Sjöbo", "Sjöbo", "Sjöbo", "Skåne", "PRO/SPF"], ["2026-06-02", "Tisdag", "18.30-22.00", "Cosmos Cowboys", "Folkets Park Smålandsstenar", "Smålandsstenar", "Gislaved", "Jönköping", ""], ["2026-06-02", "Tisdag", "18.00-21.30", "Cedrix", "Hindås Rotunda", "Hindås", "Härryda", "Västra Götaland", ""], ["2026-06-02", "Tisdag", "13.00-17.00", "Micke Ahlgrens", "Liljekonvaljeholmen", "Sunnersta", "Uppsala", "Uppsala", ""], ["2026-06-02", "Tisdag", "18.00-21.30", "Mogna Män", "Timmeleparken", "Timmele", "Ulricehamn", "Västra Götaland", ""], ["2026-06-02", "Tisdag", "19.00-23.00", "Perikles", "Tyllsnäs Udde", "Borlänge", "Borlänge", "Dalarna", ""], ["2026-06-02", "Tisdag", "19.00-22.00", "Eklöfs", "Ulvsättra loge", "Kallhäll", "Järfälla", "Stockholm", ""], ["2026-06-02", "Tisdag", "", "Höilands", "Viking Glory", "Södermalm, Stadsgårdshamnen", "Stockholm", "Stockholm", ""], ["2026-06-02", "Tisdag", "20.30-24.00", "Diggarna", "Västerhagen", "Haverdal", "Halmstad", "Halland", ""], ["2026-06-02", "Tisdag", "20.30-24.00", "Tribond", "Västerhagen", "Haverdal", "Halmstad", "Halland", ""], ["2026-06-02", "Tisdag", "13.00-16.00", "Tomaz & Co", "Wij Gammelgård", "Hölö", "Södertälje", "Stockholm", ""], ["2026-06-02", "Tisdag", "19.00-23.00", "Allstars", "Åsliden", "Nor", "Ljusdal", "Gävleborg", ""], ["2026-06-03", "Onsdag", "", "Jive", "Birka Gotland", "Södermalm, Stadsgårdshamnen", "Stockholm", "Stockholm", ""], ["2026-06-03", "Onsdag", "18.00-21.30", "Kenneth & Classe", "Folkets Park Degerfors", "Degerfors", "Degerfors", "Örebro", ""], ["2026-06-03", "Onsdag", "19.30-22.30", "Kent & Henke", "Folkets Park Ödeborg", "Ödeborg", "Färgelanda", "Västra Götaland", ""], ["2026-06-03", "Onsdag", "18.00-23.00", "Allstars", "Fröjden, Stadsparken", "Jönköping", "Jönköping", "Jönköping", ""], ["2026-06-03", "Onsdag", "18.00-23.00", "Callinaz", "Fröjden, Stadsparken", "Jönköping", "Jönköping", "Jönköping", ""], ["2026-06-03", "Onsdag", "18.00-22.00", "Casanovas", "Gröna Lund", "Djurgården", "Stockholm", "Stockholm", ""], ["2026-06-03", "Onsdag", "18.30-22.00", "Peter G's", "Grönänge", "Dvärsätt", "Krokom", "Jämtland", ""], ["2026-06-03", "Onsdag", "13.30-17.00", "Edwings", "Kolbäcksparken", "Kolbäck", "Hallstahammar", "Västmanland", ""], ["2026-06-03", "Onsdag", "11.00-14.00", "Tång & Co", "Liseberg Polketten", "Göteborg", "Göteborg", "Västra Götaland", "Fri Entré"], ["2026-06-03", "Onsdag", "18.30-22.30", "Donnez", "Lyktan Vilshult", "Vilshult", "Olofström", "Blekinge", ""], ["2026-06-03", "Onsdag", "17.00-20.00", "Junix", "Löfstad Loge", "Löfstad", "Norrköping", "Östergötland", "PRO"], ["2026-06-03", "Onsdag", "18.00-21.30", "Mogna Män", "Orrnäset", "Högboda", "Kil", "Värmland", ""], ["2026-06-03", "Onsdag", "17.00-20.30", "Cedrix", "Södra Ljunga bygdegård", "Södra Ljunga", "Ljungby", "Kronoberg", ""], ["2026-06-03", "Onsdag", "", "Höilands", "Viking Glory", "Södermalm, Stadsgårdshamnen", "Stockholm", "Stockholm", ""], ["2026-06-04", "Torsdag", "19.00-23.00", "Bob Stevens", "Barva Loge", "Barva", "Eskilstuna", "Södermanland", ""], ["2026-06-04", "Torsdag", "19.00-23.00", "Perikles", "Dalaborgsparken", "Vänersborg", "Vänersborg", "Västra Götaland", ""], ["2026-06-04", "Torsdag", "18.00-21.30", "Donnez", "Folkets Park Herrljunga", "Herrljunga", "Herrljunga", "Västra Götaland", ""], ["2026-06-04", "Torsdag", "18.00-22.00", "Kjellez", "Folkets Park Åseda", "Åseda", "Uppvidinge", "Kronoberg", ""], ["2026-06-04", "Torsdag", "14.00-17.00", "Stisses Duo", "Föreningsborg Bettna", "Bettna", "Flen", "Södermanland", ""], ["2026-06-04", "Torsdag", "19.00-22.00", "Allstars", "Liseberg Polketten", "Göteborg", "Göteborg", "Västra Götaland", ""], ["2026-06-04", "Torsdag", "17.00-20.30", "Rixons", "Tornsborgs Tivoli", "Färingtofta", "Klippan", "Skåne", "SPF"], ["2026-06-04", "Torsdag", "", "Höilands", "Viking Glory", "Södermalm, Stadsgårdshamnen", "Stockholm", "Stockholm", ""], ["2026-06-04", "Torsdag", "20.00-24.00", "PHs", "Ånäsparken Kovland", "Kovland", "Sundsvall", "Västernorrland", ""], ["2026-06-04", "Torsdag", "19.00-22.00", "Janssons orkester", "Årstaliden", "Årsta", "Stockholm", "Stockholm", ""], ["2026-06-04", "Torsdag", "13.00-17.00", "Matz Bladhs", "Ängby park", "Knivsta", "Knivsta", "Uppsala", ""], ["2026-06-05", "Fredag", "20.00-24.00", "Martinez", "Björknäsparken", "Boden", "Boden", "Norrbotten", ""], ["2026-06-05", "Fredag", "19.00-24.00", "Allstars", "Brunnsparken", "Örebro", "Örebro", "Örebro", ""], ["2026-06-05", "Fredag", "19.00-24.00", "Callinaz", "Brunnsparken", "Örebro", "Örebro", "Örebro", ""], ["2026-06-05", "Fredag", "19.00-23.00", "Kjellez", "Danshallen Belganet", "Hallabro", "Ronneby", "Blekinge", ""], ["2026-06-05", "Fredag", "20.00-24.00", "Perikles", "Gamleby Folkpark", "Gamleby", "Västervik", "Kalmar", ""], ["2026-06-05", "Fredag", "20.00-24.00", "Bob Stevens", "Kustladan", "Skoved", "Kramfors", "Västernorrland", ""], ["2026-06-05", "Fredag", "17.00-20.00", "Rignells", "Lagagården", "Laholm", "Laholm", "Halland", ""], ["2026-06-05", "Fredag", "18.00-22.00", "Matz Bladhs", "Skansen Galejan", "Djurgården", "Stockholm", "Stockholm", ""], ["2026-06-05", "Fredag", "21.00-01.00", "Eloge", "Sommarparadiset Sandviken", "Sandviken", "Östersund", "Jämtland", ""], ["2026-06-05", "Fredag", "20.00-24.00", "Wahlströms", "Sägnernas Hus", "Sandhem", "Mullsjö", "Jönköping", ""], ["2026-06-05", "Fredag", "13.30-17.00", "Lars Erikssons", "Söderbärkeparken", "Söderbärke", "Smedjebacken", "Dalarna", "PRO"], ["2026-06-05", "Fredag", "20.00-24.00", "PHs", "Täftelogen", "Täfteå", "Umeå", "Västerbotten", ""], ["2026-06-05", "Fredag", "20.00-24.00", "Streaplers", "Uddeholmsladan", "Uddeholm", "Hagfors", "Värmland", ""], ["2026-06-05", "Fredag", "20.00-24.00", "Casanovas", "Valö Festplats", "Rimforsa", "Kinda", "Östergötland", ""], ["2026-06-05", "Fredag", "20.00-01.00", "Larz Kristerz", "Åfesten", "Falun", "Falun", "Dalarna", "Fri entré"], ["2026-06-05", "Fredag", "14.00-17.30", "Cedrix", "Änga Festplats", "Väderstad", "Mjölby", "Östergötland", "PRO"], ["2026-06-06", "Lördag", "20.00-24.00", "PHs", "Aspåsnäset", "Aspås", "Krokom", "Jämtland", ""], ["2026-06-06", "Lördag", "20.00-24.00", "Ron Thomson", "Bredsele Park", "Kusfors", "Norsjö", "Västerbotten", ""], ["2026-06-06", "Lördag", "21.00-02.00", "Monia Sjöström och Eidskogarna", "Eda Park", "Eda", "Eda", "Värmland", ""], ["2026-06-06", "Lördag", "20.00-24.00", "Martinez", "Folkets Park Moliden", "Moliden", "Örnsköldsvik", "Västernorrland", ""], ["2026-06-06", "Lördag", "19.00-22.30", "Mickes", "Fromhedens danspaviljong", "Fromheden", "Norsjö", "Västerbotten", ""], ["2026-06-06", "Lördag", "20.00-24.00", "Donnez", "Granbacken Löberöd", "Löberöd", "Eslöv", "Skåne", ""], ["2026-06-06", "Lördag", "19.00-23.00", "Richard & Lenas orkester", "Hejde Bygdegård", "Hejde", "Gotland", "Gotland", ""], ["2026-06-06", "Lördag", "18.00-22.00", "Sandraz", "Kolbäcksparken", "Kolbäck", "Hallstahammar", "Västmanland", "Dream team"], ["2026-06-06", "Lördag", "21.30-01.30", "Björklundz", "Likenäsparken", "Likenäs", "Torsby", "Värmland", ""], ["2026-06-06", "Lördag", "21.00-01.00", "Håkan & Kenta", "Locktorps Festplats", "Nygård", "Lilla Edet", "Västra Götaland", "Föranmälan"], ["2026-06-06", "Lördag", "21.00-01.00", "Eloge", "Nornan Stugun", "Stugun", "Ragunda", "Jämtland", ""], ["2026-06-06", "Lördag", "19.00-23.00", "Matz Bladhs", "Rangelstorps loge", "Rangelstorp", "Vimmerby", "Kalmar", ""], ["2026-06-06", "Lördag", "20.00-24.00", "Bob Stevens", "Täftelogen", "Täfteå", "Umeå", "Västerbotten", ""], ["2026-06-06", "Lördag", "19.00-24.00", "Excess", "Uddeholmsladan", "Uddeholm", "Hagfors", "Värmland", ""], ["2026-06-06", "Lördag", "19.00-24.00", "Casanovas", "Uddeholmsladan", "Uddeholm", "Hagfors", "Värmland", ""], ["2026-06-06", "Lördag", "17.00-21.00", "Callinaz", "Ugglans Park", "Strängnäs", "Strängnäs", "Södermanland", ""], ["2026-06-06", "Lördag", "20.00-24.00", "Engdahls", "Utängens Loge", "Tanumshede", "Tanum", "Västra Götaland", ""], ["2026-06-06", "Lördag", "21.00-01.00", "Streaplers", "Vittingeparken", "Vittinge", "Heby", "Uppsala", ""], ["2026-06-06", "Lördag", "22.00-01.00", "Thelins Tributeband", "Åfesten", "Falun", "Falun", "Dalarna", "Fri entré"], ["2026-06-07", "Söndag", "17.00-21.00", "Highlights", "Alingsåsparken", "Alingsås", "Alingsås", "Västra Götaland", ""], ["2026-06-07", "Söndag", "", "Sandraz", "Birka Gotland", "Södermalm, Stadsgårdshamnen", "Stockholm", "Stockholm", ""], ["2026-06-07", "Söndag", "17.00-20.30", "Rixons", "Björkbacken", "Hynnenäs", "Alvesta", "Kronoberg", ""], ["2026-06-07", "Söndag", "17.00-21.00", "Callinaz", "Broby Bettna", "Bettna", "Flen", "Södermanland", ""], ["2026-06-07", "Söndag", "15.00-18.30", "Sandbergs", "Dahls loge", "Nordankärr Dal", "Katrineholm", "Södermanland", ""], ["2026-06-07", "Söndag", "15.00-19.00", "Hardys", "Folkets Hus Arkelstorp", "Arkelstorp", "Kristianstad", "Skåne", "PRO/SPF"], ["2026-06-07", "Söndag", "17.00-21.00", "Bob Stevens", "Folkets Park Hedemora", "Hedemora", "Hedemora", "Dalarna", ""], ["2026-06-07", "Söndag", "18.00-22.00", "Wahlströms", "Folkets Park Vadstena Krogaränga", "Vadstena", "Vadstena", "Östergötland", ""], ["2026-06-07", "Söndag", "18.00-21.30", "Chrilles", "Folkets Park Ödeborg", "Ödeborg", "Färgelanda", "Västra Götaland", "Föranmälan"], ["2026-06-07", "Söndag", "16.30-20.30", "Casanovas", "Gemla Folkpark", "Gemla", "Växjö", "Kronoberg", ""], ["2026-06-07", "Söndag", "18.30-22.00", "Christerz", "Hårkvallen Lit", "Lit", "Östersund", "Jämtland", ""], ["2026-06-07", "Söndag", "17.00-21.00", "PHs", "Liljekonvaljeholmen", "Sunnersta", "Uppsala", "Uppsala", ""], ["2026-06-07", "Söndag", "13.00-16.00", "Patrick Eklöf", "Ludgo bygdegård", "Ludgo", "Nyköping", "Södermanland", ""], ["2026-06-07", "Söndag", "18.00-22.00", "Dolbyz", "Stallet Vassmolösa", "Vassmolösa", "Kalmar", "Kalmar", ""], ["2026-06-07", "Söndag", "18.00-21.30", "Stefan & Tony", "Upperudslogen", "Molkom", "Karlstad", "Värmland", "PRO"], ["2026-06-07", "Söndag", "18.00-21.30", "Strike", "Ånäsparken Kovland", "Kovland", "Sundsvall", "Västernorrland", ""], ["2026-06-08", "Måndag", "", "Sandraz", "Birka Gotland", "Södermalm, Stadsgårdshamnen", "Stockholm", "Stockholm", ""], ["2026-06-08", "Måndag", "18.00-21.30", "Bob Stevens", "Folkets Park Falköping", "Falköping", "Falköping", "Västra Götaland", ""], ["2026-06-08", "Måndag", "17.00-20.30", "Erik Arnolds", "Fågelsångs festplats", "Våxtorp", "Laholm", "Halland", "SPF"], ["2026-06-08", "Måndag", "19.00-23.00", "Highlights", "Rotundan, Nöjesparken", "Varberg", "Varberg", "Halland", ""], ["2026-06-09", "Tisdag", "18.00-21.30", "Cedrix", "Alingsåsparken", "Alingsås", "Alingsås", "Västra Götaland", ""], ["2026-06-09", "Tisdag", "19.00-23.00", "Kjellez", "Broby Bettna", "Bettna", "Flen", "Södermanland", ""], ["2026-06-09", "Tisdag", "18.30-22.30", "Voize", "Folkets Park Billesholm", "Billesholm", "Bjuv", "Skåne", ""], ["2026-06-09", "Tisdag", "18.00-21.30", "Orient", "Folkets Park Lidköping", "Lidköping", "Lidköping", "Västra Götaland", ""], ["2026-06-09", "Tisdag", "15.00-19.00", "Stefan & Tony", "Folkets Park Sjöbo", "Sjöbo", "Sjöbo", "Skåne", "PRO/SPF"], ["2026-06-09", "Tisdag", "18.30-22.00", "Jive", "Logen Hej", "Jörn", "Skellefteå", "Västerbotten", ""], ["2026-06-09", "Tisdag", "18.30-22.00", "Kenneth & Classe", "Sjöviken Ätran", "Ätran", "Falkenberg", "Halland", ""], ["2026-06-09", "Tisdag", "19.00-23.00", "Callinaz", "Tyllsnäs Udde", "Borlänge", "Borlänge", "Dalarna", ""], ["2026-06-09", "Tisdag", "19.00-22.00", "Samzons", "Ulvsättra loge", "Kallhäll", "Järfälla", "Stockholm", ""], ["2026-06-09", "Tisdag", "20.30-24.00", "C-Laget", "Västerhagen", "Haverdal", "Halmstad", "Halland", ""], ["2026-06-09", "Tisdag", "20.30-24.00", "PHs", "Västerhagen", "Haverdal", "Halmstad", "Halland", ""], ["2026-06-10", "Onsdag", "18.00-21.30", "Orient", "Folkets Park Degerfors", "Degerfors", "Degerfors", "Örebro", ""], ["2026-06-10", "Onsdag", "19.30-22.30", "Svenne och Jörgen", "Folkets Park Ödeborg", "Ödeborg", "Färgelanda", "Västra Götaland", ""], ["2026-06-10", "Onsdag", "18.00-23.00", "PHs", "Fröjden, Stadsparken", "Jönköping", "Jönköping", "Jönköping", ""], ["2026-06-10", "Onsdag", "18.00-23.00", "Streaplers", "Fröjden, Stadsparken", "Jönköping", "Jönköping", "Jönköping", ""], ["2026-06-10", "Onsdag", "19.00-22.30", "Jive", "Gräsmyr Loge", "Gräsmyr", "Nordmaling", "Västerbotten", ""], ["2026-06-10", "Onsdag", "18.00-22.00", "Holidays", "Gröna Lund", "Djurgården", "Stockholm", "Stockholm", ""], ["2026-06-10", "Onsdag", "18.30-22.00", "Mickes", "Grönänge", "Dvärsätt", "Krokom", "Jämtland", ""], ["2026-06-10", "Onsdag", "13.30-17.00", "Stisses Duo", "Kolbäcksparken", "Kolbäck", "Hallstahammar", "Västmanland", ""], ["2026-06-10", "Onsdag", "11.00-14.00", "Charlies", "Liseberg Polketten", "Göteborg", "Göteborg", "Västra Götaland", "Fri Entré"], ["2026-06-10", "Onsdag", "19.00-22.00", "Tomaz & Co", "Lohärads bygdegård", "Lohärad", "Norrtälje", "Stockholm", ""], ["2026-06-10", "Onsdag", "18.30-22.30", "Rignells", "Lyktan Vilshult", "Vilshult", "Olofström", "Blekinge", ""], ["2026-06-10", "Onsdag", "17.00-20.00", "Hedins", "Löfstad Loge", "Löfstad", "Norrköping", "Östergötland", "PRO"], ["2026-06-10", "Onsdag", "19.00-23.00", "Kjellez", "Stjärnsundsparken", "Stjärnsund", "Hedemora", "Dalarna", ""], ["2026-06-10", "Onsdag", "18.00-22.00", "Engdahls", "Vallsjöbaden", "Sävsjö", "Sävsjö", "Jönköping", ""], ["2026-06-10", "Onsdag", "22.00-01.00", "Larz Kristerz", "Visholmen", "Strängnäs", "Strängnäs", "Södermanland", ""], ["2026-06-10", "Onsdag", "18.00-20.00", "Framed", "Visholmen", "Strängnäs", "Strängnäs", "Södermanland", ""], ["2026-06-11", "Torsdag", "19.00-23.00", "Holidays", "Barva Loge", "Barva", "Eskilstuna", "Södermanland", ""], ["2026-06-11", "Torsdag", "19.00-23.00", "PHs", "Bredasjön", "Holmsjö", "Karlskrona", "Blekinge", ""], ["2026-06-11", "Torsdag", "18.30-22.00", "Jive", "Folkets Hus Bollsta", "Bollstabruk", "Kramfors", "Västernorrland", ""], ["2026-06-11", "Torsdag", "19.00-23.00", "Martinez", "Folkets Park Nora", "Nora", "Nora", "Örebro", ""], ["2026-06-11", "Torsdag", "20.00-24.00", "Callinaz", "Folkparken Skellefteå", "Skellefteå", "Skellefteå", "Västerbotten", ""], ["2026-06-11", "Torsdag", "19.00-23.00", "Highlights", "Hågelbyparken", "Tumba", "Botkyrka", "Stockholm", ""], ["2026-06-11", "Torsdag", "19.00-22.00", "Date", "Liseberg Polketten", "Göteborg", "Göteborg", "Västra Götaland", ""], ["2026-06-11", "Torsdag", "19.00-22.00", "Tomaz & Co", "Årstaliden", "Årsta", "Stockholm", "Stockholm", ""], ["2026-06-11", "Torsdag", "13.00-17.00", "Bob Stevens", "Ängby park", "Knivsta", "Knivsta", "Uppsala", ""], ["2026-06-12", "Fredag", "20.00-24.00", "Jive", "Bergviksparken", "Bergvik", "Söderhamn", "Gävleborg", ""], ["2026-06-12", "Fredag", "20.00-24.00", "Eloge", "Björknäsparken", "Boden", "Boden", "Norrbotten", ""], ["2026-06-12", "Fredag", "18.00-22.00", "Rignells", "Folkets Park Malmö", "Malmö", "Malmö", "Skåne", "Fri entré"], ["2026-06-12", "Fredag", "14.00-17.30", "Stisses Duo", "Folkets Park Vadstena Krogaränga", "Vadstena", "Vadstena", "Östergötland", "PRO"], ["2026-06-12", "Fredag", "20.00-24.00", "Callinaz", "Gräsmyr Loge", "Gräsmyr", "Nordmaling", "Västerbotten", ""], ["2026-06-12", "Fredag", "20.00-24.00", "Martinez", "Kornsjö-Strand", "Kornsjöstrand", "Örnsköldsvik", "Västernorrland", ""], ["2026-06-12", "Fredag", "20.00-24.00", "Sannex", "Kungälvsparken", "Kungälv", "Kungälv", "Västra Götaland", ""], ["2026-06-12", "Fredag", "19.00-23.00", "Engdahls", "Kärrasand", "Urshult", "Tingsryd", "Kronoberg", ""], ["2026-06-12", "Fredag", "17.00-20.00", "Dancemän", "Ponduroza", "Söderköping", "Söderköping", "Östergötland", ""], ["2026-06-12", "Fredag", "18.00-22.00", "Micke Ahlgrens", "Skansen Galejan", "Djurgården", "Stockholm", "Stockholm", ""], ["2026-06-12", "Fredag", "20.00-24.00", "PHs", "Skälby Loge", "Kalmar", "Kalmar", "Kalmar", ""], ["2026-06-12", "Fredag", "21.00-01.00", "Allstars", "Sommarparadiset Sandviken", "Sandviken", "Östersund", "Jämtland", ""], ["2026-06-12", "Fredag", "13.30-17.00", "Hedins", "Söderbärkeparken", "Söderbärke", "Smedjebacken", "Dalarna", "PRO"], ["2026-06-13", "Lördag", "19.00-23.00", "Date", "Alingsåsparken", "Alingsås", "Alingsås", "Västra Götaland", ""], ["2026-06-13", "Lördag", "20.00-24.00", "Callinaz", "Aspåsnäset", "Aspås", "Krokom", "Jämtland", ""], ["2026-06-13", "Lördag", "19.00-22.30", "Loffez", "Delsbo bygdegård", "Delsbo", "Hudiksvall", "Gävleborg", ""], ["2026-06-13", "Lördag", "19.30-23.30", "Kjellez", "Fjärestadtorp", "Vallåkra", "Helsingborg", "Skåne", "Föranmälan"], ["2026-06-13", "Lördag", "20.00-24.00", "Rignells", "Fågelsångs festplats", "Våxtorp", "Laholm", "Halland", ""], ["2026-06-13", "Lördag", "19.00-22.30", "Bendix", "Föreningshuset Lajksjö", "Lajksjö", "Dorotea", "Västerbotten", ""], ["2026-06-13", "Lördag", "19.00-23.00", "Streaks", "Gemla Folkpark", "Gemla", "Växjö", "Kronoberg", ""], ["2026-06-13", "Lördag", "20.00-24.00", "Streaplers", "Kåtebols festplats", "Sanne", "Munkedal", "Västra Götaland", ""], ["2026-06-13", "Lördag", "20.00-24.00", "Allstars", "Logen Käcktjärn", "Bölebyn", "Piteå", "Norrbotten", ""], ["2026-06-13", "Lördag", "20.00-24.00", "PHs", "Mannes Loge", "Boda, Svärdsjö", "Falun", "Dalarna", ""], ["2026-06-13", "Lördag", "21.00-01.00", "Eloge", "Nunisvaaraparken", "Gällivare", "Gällivare", "Norrbotten", ""], ["2026-06-13", "Lördag", "18.00-22.00", "Remix", "Oreparken", "Furudal", "Rättvik", "Dalarna", ""], ["2026-06-13", "Lördag", "17.00-20.00", "Östgötarna", "Ponduroza", "Söderköping", "Söderköping", "Östergötland", ""], ["2026-06-13", "Lördag", "19.00-23.00", "Bob Stevens", "Rydsnäs loge", "Rydnäs", "Ydre", "Östergötland", ""], ["2026-06-13", "Lördag", "19.00-23.00", "Richard & Lenas orkester", "Stenkyrka Bygdegård", "Stenkyrka", "Gotland", "Gotland", ""], ["2026-06-13", "Lördag", "20.00-24.00", "Martinez", "Täftelogen", "Täfteå", "Umeå", "Västerbotten", ""], ["2026-06-14", "Söndag", "17.00-21.00", "Streaks", "Alingsåsparken", "Alingsås", "Alingsås", "Västra Götaland", ""], ["2026-06-14", "Söndag", "", "Rospiggarna", "Birka Gotland", "Södermalm, Stadsgårdshamnen", "Stockholm", "Stockholm", ""], ["2026-06-14", "Söndag", "15.00-18.30", "Kent & Henke", "Dahls loge", "Nordankärr Dal", "Katrineholm", "Södermanland", ""], ["2026-06-14", "Söndag", "17.00-21.00", "Thor Görans", "Folkets Park Hedemora", "Hedemora", "Hedemora", "Dalarna", ""], ["2026-06-14", "Söndag", "19.00-22.30", "Avant", "Folkparken Bursiljum", "Bursiljum", "Skellefteå", "Västerbotten", ""], ["2026-06-14", "Söndag", "16.00-19.30", "Eklöfs", "Gamleby Folkpark", "Gamleby", "Västervik", "Kalmar", "SPF"], ["2026-06-14", "Söndag", "16.30-20.30", "Sannex", "Gemla Folkpark", "Gemla", "Växjö", "Kronoberg", ""], ["2026-06-14", "Söndag", "18.30-22.00", "Glads", "Hårkvallen Lit", "Lit", "Östersund", "Jämtland", ""], ["2026-06-14", "Söndag", "18.00-21.30", "Engdahls", "Kungälvsparken", "Kungälv", "Kungälv", "Västra Götaland", ""], ["2026-06-14", "Söndag", "18.00-22.00", "Rignells", "Stallet Vassmolösa", "Vassmolösa", "Kalmar", "Kalmar", ""], ["2026-06-14", "Söndag", "18.00-21.30", "Tobbez", "Upperudslogen", "Molkom", "Karlstad", "Värmland", "PRO"], ["2026-06-14", "Söndag", "18.00-21.30", "Mickes", "Ånäsparken Kovland", "Kovland", "Sundsvall", "Västernorrland", ""], ["2026-06-15", "Måndag", "", "Rospiggarna", "Birka Gotland", "Södermalm, Stadsgårdshamnen", "Stockholm", "Stockholm", ""], ["2026-06-15", "Måndag", "17.00-20.30", "Elvis4ever", "Fågelsångs festplats", "Våxtorp", "Laholm", "Halland", "SPF"], ["2026-06-15", "Måndag", "19.30-23.00", "Streaks", "Hjortnäs Festplats", "Torestorp", "Mark", "Västra Götaland", ""], ["2026-06-15", "Måndag", "13.30-17.00", "BarraBazz", "Svedboäng", "Västerfärnebo", "Sala", "Västmanland", ""], ["2026-06-15", "Måndag", "18.00-21.30", "Voize", "Tidaholmsparken", "Tidaholm", "Tidaholm", "Västra Götaland", ""], ["2026-06-16", "Tisdag", "18.30-22.00", "Orient", "Bredasjön", "Holmsjö", "Karlskrona", "Blekinge", ""], ["2026-06-16", "Tisdag", "19.00-23.00", "Micke Ahlgrens", "Broby Bettna", "Bettna", "Flen", "Södermanland", ""], ["2026-06-16", "Tisdag", "19.00-21.00", "Stisses Duo", "Dansbanan Gamla Linköping", "Gamla Linköping", "Linköping", "Östergötland", ""], ["2026-06-16", "Tisdag", "18.30-22.30", "Bob Stevens", "Folkets Park Billesholm", "Billesholm", "Bjuv", "Skåne", ""], ["2026-06-16", "Tisdag", "15.00-19.00", "Ingvar Fahsts", "Folkets Park Sjöbo", "Sjöbo", "Sjöbo", "Skåne", "PRO/SPF"], ["2026-06-16", "Tisdag", "18.30-22.00", "Kenneth & Classe", "Folkets Park Smålandsstenar", "Smålandsstenar", "Gislaved", "Jönköping", ""], ["2026-06-16", "Tisdag", "18.00-21.30", "Hazzes med Maria", "Hindås Rotunda", "Hindås", "Härryda", "Västra Götaland", ""], ["2026-06-16", "Tisdag", "13.00-17.00", "Rignells", "Liljekonvaljeholmen", "Sunnersta", "Uppsala", "Uppsala", ""], ["2026-06-16", "Tisdag", "18.30-22.00", "Bendix", "Logen Hej", "Jörn", "Skellefteå", "Västerbotten", ""], ["2026-06-16", "Tisdag", "13.30-16.30", "Magnus Persson", "Nya Åhusparken", "Åhus", "Kristianstad", "Skåne", ""], ["2026-06-16", "Tisdag", "18.00-22.00", "B&W", "Pilaboparken", "Anneberg", "Nässjö", "Jönköping", ""], ["2026-06-16", "Tisdag", "18.00-21.30", "Brogrens", "Timmeleparken", "Timmele", "Ulricehamn", "Västra Götaland", ""], ["2026-06-16", "Tisdag", "19.00-23.00", "Highlights", "Tyllsnäs Udde", "Borlänge", "Borlänge", "Dalarna", ""], ["2026-06-16", "Tisdag", "19.00-22.00", "Junix", "Ulvsättra loge", "Kallhäll", "Järfälla", "Stockholm", ""], ["2026-06-16", "Tisdag", "20.30-24.00", "Emg", "Västerhagen", "Haverdal", "Halmstad", "Halland", ""], ["2026-06-16", "Tisdag", "20.30-24.00", "Excess", "Västerhagen", "Haverdal", "Halmstad", "Halland", ""], ["2026-06-16", "Tisdag", "13.00-16.00", "Sverre Carlsson", "Wij Gammelgård", "Hölö", "Södertälje", "Stockholm", ""], ["2026-06-16", "Tisdag", "19.00-23.00", "Martinez", "Åsliden", "Nor", "Ljusdal", "Gävleborg", ""], ["2026-06-17", "Onsdag", "18.00-21.30", "Junix", "Folkets Park Degerfors", "Degerfors", "Degerfors", "Örebro", ""], ["2026-06-17", "Onsdag", "18.30-21.30", "Sandraz", "Folkets Park Nora", "Nora", "Nora", "Örebro", "Föranmälan"], ["2026-06-17", "Onsdag", "18.00-22.00", "Bennrix", "Folkets Park Åseda", "Åseda", "Uppvidinge", "Kronoberg", ""], ["2026-06-17", "Onsdag", "19.30-22.30", "Kenneth & Classe", "Folkets Park Ödeborg", "Ödeborg", "Färgelanda", "Västra Götaland", ""], ["2026-06-17", "Onsdag", "18.30-22.30", "The Smokings", "Fröjden, Stadsparken", "Jönköping", "Jönköping", "Jönköping", ""], ["2026-06-17", "Onsdag", "18.00-22.00", "Titanix", "Gröna Lund", "Djurgården", "Stockholm", "Stockholm", ""], ["2026-06-17", "Onsdag", "18.30-22.00", "Strike", "Grönänge", "Dvärsätt", "Krokom", "Jämtland", ""], ["2026-06-17", "Onsdag", "13.30-17.00", "Cedrix", "Kolbäcksparken", "Kolbäck", "Hallstahammar", "Västmanland", ""], ["2026-06-17", "Onsdag", "11.00-14.00", "Frippez", "Liseberg Polketten", "Göteborg", "Göteborg", "Västra Götaland", "Fri entré"], ["2026-06-17", "Onsdag", "18.30-22.30", "Bob Stevens", "Lyktan Vilshult", "Vilshult", "Olofström", "Blekinge", ""], ["2026-06-17", "Onsdag", "17.00-20.00", "Bosse Franks", "Löfstad Loge", "Löfstad", "Norrköping", "Östergötland", "PRO"], ["2026-06-17", "Onsdag", "14.00-16.00", "Tyttiz", "Nya Åhusparken", "Åhus", "Kristianstad", "Skåne", ""], ["2026-06-17", "Onsdag", "18.00-21.30", "Stefan & Tony", "Orrnäset", "Högboda", "Kil", "Värmland", ""], ["2026-06-18", "Torsdag", "20.00-01.00", "Streaks", "Aspåsnäset", "Aspås", "Krokom", "Jämtland", ""], ["2026-06-18", "Torsdag", "20.00-01.00", "Mickeys", "Aspåsnäset", "Aspås", "Krokom", "Jämtland", ""], ["2026-06-18", "Torsdag", "19.00-23.00", "Sandins", "Barva Loge", "Barva", "Eskilstuna", "Södermanland", ""], ["2026-06-18", "Torsdag", "19.00-22.00", "Engdahls", "Liseberg Polketten", "Göteborg", "Göteborg", "Västra Götaland", ""], ["2026-06-18", "Torsdag", "18.30-22.30", "Tribond", "Sandsjöns Festplats", "Lockryd", "Svenljunga", "Västra Götaland", ""], ["2026-06-18", "Torsdag", "", "Höilands", "Viking Glory", "Södermalm, Stadsgårdshamnen", "Stockholm", "Stockholm", ""], ["2026-06-19", "Fredag", "21.00-01.00", "Finezze", "Brattbäckens loge", "Hoting", "Strömsund", "Jämtland", ""], ["2026-06-19", "Fredag", "20.00-24.00", "Ola & Jag", "Fromhedens danspaviljong", "Fromheden", "Norsjö", "Västerbotten", ""], ["2026-06-19", "Fredag", "21.00-01.00", "Magnus Wilenz Kvintett", "Fröjdholmen", "Oviken", "Berg", "Jämtland", ""], ["2026-06-19", "Fredag", "18.00-21.30", "Sounders", "Kungälvsparken", "Kungälv", "Kungälv", "Västra Götaland", ""], ["2026-06-19", "Fredag", "20.00-24.00", "Kjellez", "Kärrasand", "Urshult", "Tingsryd", "Kronoberg", ""], ["2026-06-19", "Fredag", "19.00-22.00", "Titanix", "Liseberg Polketten", "Göteborg", "Göteborg", "Västra Götaland", ""], ["2026-06-19", "Fredag", "21.00-01.00", "Mickes", "Norsträsk Camping", "Norsträsk", "Vindeln", "Västerbotten", ""], ["2026-06-19", "Fredag", "20.00-24.00", "Engdahls", "Rangelstorps loge", "Rangelstorp", "Vimmerby", "Kalmar", ""], ["2026-06-19", "Fredag", "18.00-22.00", "Sandins", "Skansen Galejan", "Djurgården", "Stockholm", "Stockholm", ""], ["2026-06-19", "Fredag", "18.00-22.30", "Candys", "Tornsborgs Tivoli", "Färingtofta", "Klippan", "Skåne", "SPF Föranmälan"], ["2026-06-20", "Lördag", "20.00-24.00", "Frisco", "Ava havsbad", "Lögdeå", "Nordmaling", "Västerbotten", ""], ["2026-06-20", "Lördag", "16.00-19.30", "Cedrix", "Folkets Park Nora", "Nora", "Nora", "Örebro", ""], ["2026-06-20", "Lördag", "20.00-24.00", "Blender", "Folkets Park Vadstena Krogaränga", "Vadstena", "Vadstena", "Östergötland", ""], ["2026-06-20", "Lördag", "20.00-24.00", "Ola & Jag", "Fromhedens danspaviljong", "Fromheden", "Norsjö", "Västerbotten", ""], ["2026-06-20", "Lördag", "20.00-24.00", "Engdahls", "Fågelsångs festplats", "Våxtorp", "Laholm", "Halland", ""], ["2026-06-20", "Lördag", "21.00-02.00", "Fernandoz", "Gunnevi Festplats", "Gunnarskog", "Arvika", "Värmland", ""], ["2026-06-20", "Lördag", "21.00-02.00", "Pia Pihlgrens", "Gunnevi Festplats", "Gunnarskog", "Arvika", "Värmland", ""], ["2026-06-20", "Lördag", "20.00-24.00", "Westlights", "Hjortnäs Brygga", "Hjortnäs", "Leksand", "Dalarna", ""], ["2026-06-20", "Lördag", "20.00-24.00", "Finezze", "Kornsjö-Strand", "Kornsjöstrand", "Örnsköldsvik", "Västernorrland", ""], ["2026-06-20", "Lördag", "20.00-24.00", "eBand", "Kulla Nöjesplats", "Rörum", "Simrishamn", "Skåne", ""], ["2026-06-20", "Lördag", "20.00-24.00", "Jive", "Kärrasand", "Urshult", "Tingsryd", "Kronoberg", ""], ["2026-06-20", "Lördag", "21.00-01.00", "Titanix", "Lustikullen", "Brevens Bruk", "Örebro", "Örebro", ""], ["2026-06-20", "Lördag", "21.00-01.00", "Casanovas", "Mannes Loge", "Boda, Svärdsjö", "Falun", "Dalarna", ""], ["2026-06-20", "Lördag", "21.00-01.00", "Micke Ahlgrens", "Pottåkers loge", "Funbo", "Uppsala", "Uppsala", ""], ["2026-06-20", "Lördag", "19.00-23.00", "Canyons", "Rangelstorps loge", "Rangelstorp", "Vimmerby", "Kalmar", ""], ["2026-06-20", "Lördag", "20.00-24.00", "Lundbergs", "Rätans hembygdsgård", "Rätansbyn", "Berg", "Jämtland", ""], ["2026-06-20", "Lördag", "18.00-22.00", "Sandins", "Skansen Galejan", "Djurgården", "Stockholm", "Stockholm", ""], ["2026-06-20", "Lördag", "20.00-24.00", "Rignells", "Tallparken", "Vinslöv", "Hässleholm", "Skåne", ""], ["2026-06-21", "Söndag", "17.00-21.00", "Blender", "Alingsåsparken", "Alingsås", "Alingsås", "Västra Götaland", ""], ["2026-06-21", "Söndag", "17.00-21.00", "Swedish Dance Mafia", "Bellevueparken", "Karlshamn", "Karlshamn", "Blekinge", ""], ["2026-06-21", "Söndag", "17.00-21.00", "Casanovas", "Broby Bettna", "Bettna", "Flen", "Södermanland", ""], ["2026-06-21", "Söndag", "15.00-18.30", "Gideons", "Dahls loge", "Nordankärr Dal", "Katrineholm", "Södermanland", ""], ["2026-06-21", "Söndag", "18.00-21.30", "Mickes", "Festplatsen Vännäsby", "Vännäsby", "Vännäs", "Västerbotten", ""], ["2026-06-21", "Söndag", "18.00-21.00", "Hardys", "Folkets Park Rabbalshede", "Rabbalshede", "Tanum", "Västra Götaland", ""], ["2026-06-21", "Söndag", "14.00-18.00", "Lövgrens Duo", "Folkets Park Åseda", "Åseda", "Uppvidinge", "Kronoberg", ""], ["2026-06-21", "Söndag", "19.00-22.30", "Bendix", "Folkparken Bursiljum", "Bursiljum", "Skellefteå", "Västerbotten", ""], ["2026-06-21", "Söndag", "17.00-20.30", "Robert Nilssons Orkester", "Gemla Folkpark", "Gemla", "Växjö", "Kronoberg", ""], ["2026-06-21", "Söndag", "19.00-23.00", "Donnez", "Lilltorpet", "Falun", "Falun", "Dalarna", ""], ["2026-06-21", "Söndag", "18.00-22.00", "Avant", "Logen Käcktjärn", "Bölebyn", "Piteå", "Norrbotten", ""], ["2026-06-21", "Söndag", "19.00-23.00", "Tony Mobergs", "Sommarparadiset Sandviken", "Sandviken", "Östersund", "Jämtland", ""], ["2026-06-21", "Söndag", "18.00-22.00", "Engdahls", "Stallet Vassmolösa", "Vassmolösa", "Kalmar", "Kalmar", ""], ["2026-06-21", "Söndag", "18.00-21.30", "Cedrix", "Upperudslogen", "Molkom", "Karlstad", "Värmland", "PRO"], ["2026-06-21", "Söndag", "18.00-21.30", "Finezze", "Ånäsparken Kovland", "Kovland", "Sundsvall", "Västernorrland", ""], ["2026-06-22", "Måndag", "18.00-21.30", "Engdahls", "Folkets Park Falköping", "Falköping", "Falköping", "Västra Götaland", ""], ["2026-06-22", "Måndag", "17.00-20.30", "Deluxe", "Fågelsångs festplats", "Våxtorp", "Laholm", "Halland", "SPF"], ["2026-06-22", "Måndag", "19.00-23.00", "Excess", "Rotundan, Nöjesparken", "Varberg", "Varberg", "Halland", ""], ["2026-06-22", "Måndag", "", "Höilands", "Viking Glory", "Södermalm, Stadsgårdshamnen", "Stockholm", "Stockholm", ""], ["2026-06-23", "Tisdag", "18.30-22.00", "Hedins", "Bredasjön", "Holmsjö", "Karlskrona", "Blekinge", ""], ["2026-06-23", "Tisdag", "19.00-23.00", "Engdahls", "Broby Bettna", "Bettna", "Flen", "Södermanland", ""], ["2026-06-23", "Tisdag", "19.00-23.00", "Donnez", "Brunnsparken", "Örebro", "Örebro", "Örebro", ""], ["2026-06-23", "Tisdag", "20.00-24.00", "Martinez", "Folkets Hus Överkalix", "Överkalix", "Överkalix", "Norrbotten", ""], ["2026-06-23", "Tisdag", "18.30-22.30", "Streaplers", "Folkets Park Billesholm", "Billesholm", "Bjuv", "Skåne", ""], ["2026-06-23", "Tisdag", "18.00-21.30", "Kent & Henke", "Folkets Park Lidköping", "Lidköping", "Lidköping", "Västra Götaland", ""], ["2026-06-23", "Tisdag", "15.00-19.00", "Christer & Fredrik", "Folkets Park Sjöbo", "Sjöbo", "Sjöbo", "Skåne", "PRO/SPF"], ["2026-06-23", "Tisdag", "16.00-19.00", "Svenne och Jörgen", "Kungälvsparken", "Kungälv", "Kungälv", "Västra Götaland", ""], ["2026-06-23", "Tisdag", "18.30-22.00", "Mickes", "Logen Hej", "Jörn", "Skellefteå", "Västerbotten", ""], ["2026-06-23", "Tisdag", "18.30-22.00", "Cedrix", "Sjöviken Ätran", "Ätran", "Falkenberg", "Halland", ""], ["2026-06-23", "Tisdag", "19.00-23.00", "Extract", "Tyllsnäs Udde", "Borlänge", "Borlänge", "Dalarna", ""], ["2026-06-23", "Tisdag", "19.00-22.00", "Lars Erikssons", "Ulvsättra loge", "Kallhäll", "Järfälla", "Stockholm", ""], ["2026-06-23", "Tisdag", "", "Höilands", "Viking Glory", "Södermalm, Stadsgårdshamnen", "Stockholm", "Stockholm", ""], ["2026-06-23", "Tisdag", "20.30-24.00", "Blender", "Västerhagen", "Haverdal", "Halmstad", "Halland", ""], ["2026-06-23", "Tisdag", "20.30-24.00", "Charlies", "Västerhagen", "Haverdal", "Halmstad", "Halland", ""], ["2026-06-23", "Tisdag", "19.00-23.00", "Perikles", "Åsliden", "Nor", "Ljusdal", "Gävleborg", ""], ["2026-06-24", "Onsdag", "18.30-21.30", "Wickys", "Djäknebergets dansbana", "Västerås", "Västerås", "Västmanland", "Fri entré"], ["2026-06-24", "Onsdag", "20.00-24.00", "Martinez", "Folkets Hus Överkalix", "Överkalix", "Överkalix", "Norrbotten", ""], ["2026-06-24", "Onsdag", "18.00-21.30", "Loffez", "Folkets Park Degerfors", "Degerfors", "Degerfors", "Örebro", ""], ["2026-06-24", "Onsdag", "19.30-22.30", "Junix", "Folkets Park Ödeborg", "Ödeborg", "Färgelanda", "Västra Götaland", ""], ["2026-06-24", "Onsdag", "18.00-23.00", "Casanovas", "Fröjden, Stadsparken", "Jönköping", "Jönköping", "Jönköping", ""], ["2026-06-24", "Onsdag", "18.00-23.00", "Blender", "Fröjden, Stadsparken", "Jönköping", "Jönköping", "Jönköping", ""], ["2026-06-24", "Onsdag", "20.00-24.00", "Jive", "Furuviken Hällesjö", "Hällesjö", "Bräcke", "Jämtland", ""], ["2026-06-24", "Onsdag", "18.00-22.00", "Black Jack", "Gröna Lund", "Djurgården", "Stockholm", "Stockholm", ""], ["2026-06-24", "Onsdag", "18.30-22.00", "Pär Norlings", "Grönänge", "Dvärsätt", "Krokom", "Jämtland", ""], ["2026-06-24", "Onsdag", "19.00-23.00", "Framed", "Gårdsjölogen", "Gårdsjö", "Sunne", "Värmland", ""], ["2026-06-24", "Onsdag", "13.30-17.00", "Orient", "Kolbäcksparken", "Kolbäck", "Hallstahammar", "Västmanland", ""], ["2026-06-24", "Onsdag", "11.00-14.00", "Sven-Gunnars", "Liseberg Polketten", "Göteborg", "Göteborg", "Västra Götaland", "Fri Entré"], ["2026-06-24", "Onsdag", "19.00-22.00", "Janssons orkester", "Lohärads bygdegård", "Lohärad", "Norrtälje", "Stockholm", ""], ["2026-06-24", "Onsdag", "18.30-22.30", "Streaplers", "Lyktan Vilshult", "Vilshult", "Olofström", "Blekinge", ""], ["2026-06-24", "Onsdag", "17.00-20.00", "Lars Erikssons", "Löfstad Loge", "Löfstad", "Norrköping", "Östergötland", "PRO"], ["2026-06-24", "Onsdag", "18.00-22.00", "Bob Stevens", "Vallsjöbaden", "Sävsjö", "Sävsjö", "Jönköping", ""], ["2026-06-24", "Onsdag", "", "Höilands", "Viking Glory", "Södermalm, Stadsgårdshamnen", "Stockholm", "Stockholm", ""], ["2026-06-25", "Torsdag", "19.00-23.00", "Rignells", "Barva Loge", "Barva", "Eskilstuna", "Södermanland", ""], ["2026-06-25", "Torsdag", "20.00-01.00", "Larz Kristerz", "Brännabergets Festplats", "Överkalix", "Överkalix", "Norrbotten", ""], ["2026-06-25", "Torsdag", "19.00-23.00", "Donnez", "Folkets Park Ljungsbro", "Ljungsbro", "Linköping", "Östergötland", ""], ["2026-06-25", "Torsdag", "20.00-24.00", "PHs", "Folkparken Skellefteå", "Skellefteå", "Skellefteå", "Västerbotten", ""], ["2026-06-25", "Torsdag", "14.00-17.00", "Junix", "Föreningsborg Bettna", "Bettna", "Flen", "Södermanland", ""], ["2026-06-25", "Torsdag", "", "BarraBazz", "Grand Artic Resort", "Överkalix", "Överkalix", "Norrbotten", ""], ["2026-06-25", "Torsdag", "18.30-22.00", "Jive", "Hanssons Loge", "Långsele", "Sollefteå", "Västernorrland", ""], ["2026-06-25", "Torsdag", "18.00-24.00", "Casanovas", "Hedevi IP", "Ullared", "Falkenberg", "Halland", ""], ["2026-06-25", "Torsdag", "18.00-24.00", "Black Jack", "Hedevi IP", "Ullared", "Falkenberg", "Halland", ""], ["2026-06-25", "Torsdag", "13.00-16.00", "Tomaz & Co", "Herrängens Gård", "Herrängen", "Stockholm", "Stockholm", ""], ["2026-06-25", "Torsdag", "19.00-23.00", "Blender", "Hågelbyparken", "Tumba", "Botkyrka", "Stockholm", ""], ["2026-06-25", "Torsdag", "19.00-23.00", "Highlights", "Laduholmen", "Forsbacka", "Gävle", "Gävleborg", ""], ["2026-06-25", "Torsdag", "19.00-23.00", "Allstars", "Lilltorpet", "Falun", "Falun", "Dalarna", ""], ["2026-06-25", "Torsdag", "19.00-22.00", "Sannex", "Liseberg Polketten", "Göteborg", "Göteborg", "Västra Götaland", ""], ["2026-06-25", "Torsdag", "17.00-20.30", "Holens", "Tors loge", "Torsåker", "Hofors", "Gävleborg", ""], ["2026-06-25", "Torsdag", "", "Höilands", "Viking Glory", "Södermalm, Stadsgårdshamnen", "Stockholm", "Stockholm", ""], ["2026-06-25", "Torsdag", "20.00-24.00", "Perikles", "Ånäsparken Kovland", "Kovland", "Sundsvall", "Västernorrland", ""], ["2026-06-25", "Torsdag", "19.00-22.00", "Eklöfs", "Årstaliden", "Årsta", "Stockholm", "Stockholm", ""], ["2026-06-25", "Torsdag", "13.00-17.00", "Engdahls", "Ängby park", "Knivsta", "Knivsta", "Uppsala", ""], ["2026-06-26", "Fredag", "22.00-01.30", "Callinaz", "Badhusparken", "Vara", "Vara", "Västra Götaland", ""], ["2026-06-26", "Fredag", "19.00-23.00", "Sandraz", "Bergsjöparken", "Bergsjö", "Nordanstig", "Gävleborg", ""], ["2026-06-26", "Fredag", "20.00-24.00", "Black Jack", "Bergviksparken", "Bergvik", "Söderhamn", "Gävleborg", ""], ["2026-06-26", "Fredag", "20.00-01.00", "PHs", "Brännabergets Festplats", "Överkalix", "Överkalix", "Norrbotten", ""], ["2026-06-26", "Fredag", "20.00-01.00", "Jive", "Brännabergets Festplats", "Överkalix", "Överkalix", "Norrbotten", ""], ["2026-06-26", "Fredag", "18.00-21.30", "Kent & Henke", "Bullerbyn Pelarne", "Pelarne", "Vimmerby", "Kalmar", ""], ["2026-06-26", "Fredag", "19.00-23.00", "Date", "Dalaborgsparken", "Vänersborg", "Vänersborg", "Västra Götaland", ""], ["2026-06-26", "Fredag", "20.00-24.00", "Brogrens", "Folkets Park Billesholm", "Billesholm", "Bjuv", "Skåne", ""], ["2026-06-26", "Fredag", "", "BarraBazz", "Grand Artic Resort", "Överkalix", "Överkalix", "Norrbotten", ""], ["2026-06-26", "Fredag", "20.00-24.00", "Highlights", "Gräsmyr Loge", "Gräsmyr", "Nordmaling", "Västerbotten", ""], ["2026-06-26", "Fredag", "20.30-24.00", "Royz Rollerz", "Hanssons Loge", "Långsele", "Sollefteå", "Västernorrland", ""], ["2026-06-26", "Fredag", "18.00-01.00", "Blender", "Hedevi IP", "Ullared", "Falkenberg", "Halland", ""], ["2026-06-26", "Fredag", "18.00-01.00", "Perikles", "Hedevi IP", "Ullared", "Falkenberg", "Halland", ""], ["2026-06-26", "Fredag", "18.00-01.00", "Lasse Stefanz", "Hedevi IP", "Ullared", "Falkenberg", "Halland", ""], ["2026-06-26", "Fredag", "19.00-23.00", "Donnez", "Kärrasand", "Urshult", "Tingsryd", "Kronoberg", ""], ["2026-06-26", "Fredag", "20.00-24.00", "Streaplers", "Nya Åhusparken", "Åhus", "Kristianstad", "Skåne", ""], ["2026-06-26", "Fredag", "18.00-22.00", "Stickanz", "Rättviksparken", "Rättvik", "Rättvik", "Dalarna", ""], ["2026-06-26", "Fredag", "18.00-22.00", "Rignells", "Skansen Galejan", "Djurgården", "Stockholm", "Stockholm", ""], ["2026-06-26", "Fredag", "20.00-24.00", "Allstars", "Skälby Loge", "Kalmar", "Kalmar", "Kalmar", ""], ["2026-06-26", "Fredag", "", "Sannex", "Small Lake Meet", "Hedekas", "Munkedal", "Västra Götaland", ""], ["2026-06-26", "Fredag", "21.00-01.00", "Martinez", "Sommarparadiset Sandviken", "Sandviken", "Östersund", "Jämtland", ""], ["2026-06-26", "Fredag", "13.30-17.00", "Strike", "Söderbärkeparken", "Söderbärke", "Smedjebacken", "Dalarna", "PRO"], ["2026-06-26", "Fredag", "", "Höilands", "Viking Glory", "Södermalm, Stadsgårdshamnen", "Stockholm", "Stockholm", ""], ["2026-06-26", "Fredag", "14.00-17.30", "Trippz", "Änga Festplats", "Väderstad", "Mjölby", "Östergötland", "PRO"], ["2026-06-26", "Fredag", "17.00-20.30", "Timmys", "Ängstugans festplats", "Nyköping", "Nyköping", "Södermanland", ""], ["2026-06-27", "Lördag", "20.00-24.00", "Blender", "Borkhults festplats", "Borkhult", "Åtvidaberg", "Östergötland", ""], ["2026-06-27", "Lördag", "20.00-24.00", "Martinez", "Bredsele Park", "Kusfors", "Norsjö", "Västerbotten", ""], ["2026-06-27", "Lördag", "20.00-01.00", "Puls", "Brännabergets Festplats", "Överkalix", "Överkalix", "Norrbotten", ""], ["2026-06-27", "Lördag", "20.00-01.00", "Thor Görans", "Brännabergets Festplats", "Överkalix", "Överkalix", "Norrbotten", ""], ["2026-06-27", "Lördag", "20.00-24.00", "Streaplers", "Dalaborgsparken", "Vänersborg", "Vänersborg", "Västra Götaland", ""], ["2026-06-27", "Lördag", "19.00-22.30", "Hardys", "Delsbo bygdegård", "Delsbo", "Hudiksvall", "Gävleborg", ""], ["2026-06-27", "Lördag", "21.00-01.00", "Casanovas", "Folkets Park Knutby", "Knutby", "Uppsala", "Uppsala", ""], ["2026-06-27", "Lördag", "18.00-22.00", "Orient", "Folkets Park Malmö", "Malmö", "Malmö", "Skåne", "Fri entré"], ["2026-06-27", "Lördag", "20.00-24.00", "Black Jack", "Folkets Park Moliden", "Moliden", "Örnsköldsvik", "Västernorrland", ""], ["2026-06-27", "Lördag", "20.00-24.00", "Bob Stevens", "Fågelsångs festplats", "Våxtorp", "Laholm", "Halland", ""], ["2026-06-27", "Lördag", "20.00-24.00", "Tommys", "Gerålund Bispgården", "Bispgården", "Ragunda", "Jämtland", ""], ["2026-06-27", "Lördag", "21.00-01.00", "Perikles", "Godegårds festplats", "Godegård", "Motala", "Östergötland", ""], ["2026-06-27", "Lördag", "", "BarraBazz", "Grand Artic Resort", "Överkalix", "Överkalix", "Norrbotten", ""], ["2026-06-27", "Lördag", "18.00-01.00", "Date", "Hedevi IP", "Ullared", "Falkenberg", "Halland", ""], ["2026-06-27", "Lördag", "18.00-01.00", "Donnez", "Hedevi IP", "Ullared", "Falkenberg", "Halland", ""], ["2026-06-27", "Lördag", "18.00-01.00", "Sannex", "Hedevi IP", "Ullared", "Falkenberg", "Halland", ""], ["2026-06-27", "Lördag", "20.00-24.00", "Highlights", "Logen Käcktjärn", "Bölebyn", "Piteå", "Norrbotten", ""], ["2026-06-27", "Lördag", "20.30-00.30", "Allstars", "Lundegård", "Köpingsvik", "Borgholm", "Kalmar", ""], ["2026-06-27", "Lördag", "19.00-23.00", "Rignells", "Rydsnäs loge", "Rydnäs", "Ydre", "Östergötland", ""], ["2026-06-27", "Lördag", "19.00-23.00", "Claes Hermans", "Sanda Bygdegårdspark", "Sanda", "Gotland", "Gotland", ""], ["2026-06-27", "Lördag", "21.00-01.00", "Extract", "Sidskogens Dansbana", "Järvsö", "Ljusdal", "Gävleborg", ""], ["2026-06-27", "Lördag", "20.00-24.00", "Sandins", "Solliden Koppom", "Koppom", "Eda", "Värmland", ""], ["2026-06-27", "Lördag", "19.00-23.00", "Framed", "Tjusta gård", "Rosersberg", "Sigtuna", "Stockholm", ""], ["2026-06-27", "Lördag", "21.00-01.00", "Matz Bladhs", "Trolldalen", "Degeberga", "Kristianstad", "Skåne", ""], ["2026-06-27", "Lördag", "20.00-24.00", "Holidays", "Utängens Loge", "Tanumshede", "Tanum", "Västra Götaland", ""], ["2026-06-27", "Lördag", "", "Höilands", "Viking Glory", "Södermalm, Stadsgårdshamnen", "Stockholm", "Stockholm", ""], ["2026-06-27", "Lördag", "19.00-02.00", "Jive", "Vildmannahallen", "Storuman", "Storuman", "Västerbotten", ""], ["2026-06-27", "Lördag", "19.00-02.00", "PHs", "Vildmannahallen", "Storuman", "Storuman", "Västerbotten", ""], ["2026-06-28", "Söndag", "17.00-20.30", "Cedrix", "Björkbacken", "Hynnenäs", "Alvesta", "Kronoberg", ""], ["2026-06-28", "Söndag", "17.00-21.00", "Bob Stevens", "Eda Park", "Eda", "Eda", "Värmland", ""], ["2026-06-28", "Söndag", "17.00-20.30", "Patrick Eklöf", "Folkets Hus Vrena", "Vrena", "Nyköping", "Södermanland", ""], ["2026-06-28", "Söndag", "16.30-20.30", "Engdahls", "Gemla Folkpark", "Gemla", "Växjö", "Kronoberg", "Fri entré"], ["2026-06-28", "Söndag", "18.30-22.00", "Strike", "Hårkvallen Lit", "Lit", "Östersund", "Jämtland", ""], ["2026-06-28", "Söndag", "19.00-23.00", "Kjellez", "Lilltorpet", "Falun", "Falun", "Dalarna", ""], ["2026-06-28", "Söndag", "19.00-22.30", "Jive", "Logen Ljusvattnet", "Burträsk", "Skellefteå", "Västerbotten", ""], ["2026-06-28", "Söndag", "20.30-00.30", "Blender", "Lundegård", "Köpingsvik", "Borgholm", "Kalmar", ""], ["2026-06-28", "Söndag", "18.30-20.30", "Streaplers", "Ramnaparken", "Borås", "Borås", "Västra Götaland", ""], ["2026-06-28", "Söndag", "18.00-22.00", "Matz Bladhs", "Stallet Vassmolösa", "Vassmolösa", "Kalmar", "Kalmar", ""], ["2026-06-28", "Söndag", "18.00-22.00", "Mickes", "Täftelogen", "Täfteå", "Umeå", "Västerbotten", ""], ["2026-06-28", "Söndag", "18.00-21.30", "Hedins", "Upperudslogen", "Molkom", "Karlstad", "Värmland", "PRO"], ["2026-06-28", "Söndag", "", "Höilands", "Viking Glory", "Södermalm, Stadsgårdshamnen", "Stockholm", "Stockholm", ""], ["2026-06-28", "Söndag", "18.00-21.30", "Tommys", "Ånäsparken Kovland", "Kovland", "Sundsvall", "Västernorrland", ""], ["2026-06-29", "Måndag", "17.00-20.30", "Rixons", "Fågelsångs festplats", "Våxtorp", "Laholm", "Halland", "SPF"], ["2026-06-29", "Måndag", "19.30-23.00", "Tribond", "Hjortnäs Festplats", "Torestorp", "Mark", "Västra Götaland", ""], ["2026-06-29", "Måndag", "21.00-01.00", "Sannex", "Hotell Tylösand", "Halmstad", "Halmstad", "Halland", ""], ["2026-06-29", "Måndag", "20.30-01.30", "Excess", "Lundegård", "Köpingsvik", "Borgholm", "Kalmar", ""], ["2026-06-29", "Måndag", "20.30-01.30", "Donnez", "Lundegård", "Köpingsvik", "Borgholm", "Kalmar", ""], ["2026-06-29", "Måndag", "13.30-17.00", "Tomaz & Co", "Svedboäng", "Västerfärnebo", "Sala", "Västmanland", ""], ["2026-06-29", "Måndag", "18.00-21.30", "Black Jack", "Tidaholmsparken", "Tidaholm", "Tidaholm", "Västra Götaland", ""], ["2026-06-30", "Tisdag", "18.30-22.00", "Engdahls", "Bredasjön", "Holmsjö", "Karlskrona", "Blekinge", ""], ["2026-06-30", "Tisdag", "19.00-23.00", "Donnez", "Broby Bettna", "Bettna", "Flen", "Södermanland", ""], ["2026-06-30", "Tisdag", "19.00-21.00", "Martinoz", "Dansbanan Gamla Linköping", "Gamla Linköping", "Linköping", "Östergötland", ""], ["2026-06-30", "Tisdag", "18.30-22.30", "Matz Bladhs", "Folkets Park Billesholm", "Billesholm", "Bjuv", "Skåne", ""], ["2026-06-30", "Tisdag", "15.00-19.00", "Rixons", "Folkets Park Sjöbo", "Sjöbo", "Sjöbo", "Skåne", "PRO/SPF"], ["2026-06-30", "Tisdag", "18.30-22.00", "Hardys", "Folkets Park Smålandsstenar", "Smålandsstenar", "Gislaved", "Jönköping", ""], ["2026-06-30", "Tisdag", "18.00-21.30", "Hasse Peters", "Hindås Rotunda", "Hindås", "Härryda", "Västra Götaland", ""], ["2026-06-30", "Tisdag", "16.00-19.00", "Charlies", "Kungälvsparken", "Kungälv", "Kungälv", "Västra Götaland", ""], ["2026-06-30", "Tisdag", "13.00-17.00", "Kjellez", "Liljekonvaljeholmen", "Sunnersta", "Uppsala", "Uppsala", ""], ["2026-06-30", "Tisdag", "20.30-00.30", "Perikles", "Lundegård", "Köpingsvik", "Borgholm", "Kalmar", ""], ["2026-06-30", "Tisdag", "17.00-20.30", "Junix", "Tors loge", "Torsåker", "Hofors", "Gävleborg", ""], ["2026-06-30", "Tisdag", "19.00-22.00", "Gideons", "Ulvsättra loge", "Kallhäll", "Järfälla", "Stockholm", ""], ["2026-06-30", "Tisdag", "20.30-24.00", "Rent drag", "Västerhagen", "Haverdal", "Halmstad", "Halland", ""], ["2026-06-30", "Tisdag", "20.30-24.00", "Black Jack", "Västerhagen", "Haverdal", "Halmstad", "Halland", ""], ["2026-06-30", "Tisdag", "13.00-16.00", "Edwings", "Wij Gammelgård", "Hölö", "Södertälje", "Stockholm", ""], ["2026-06-30", "Tisdag", "19.00-23.00", "Extract", "Åsliden", "Nor", "Ljusdal", "Gävleborg", ""]];
 
 const API_URL = 'https://cronstierna.se/api.php';
 let currentUser = null;
@@ -495,12 +455,6 @@ function load() {
   try { const v = localStorage.getItem('goingSet'); if(v) goingSet = new Set(JSON.parse(v)); } catch(e){}
   try { const v = localStorage.getItem('favVenues'); if(v) favVenues = new Set(JSON.parse(v)); } catch(e){}
   try { const v = localStorage.getItem('blockedBands'); if(v) blockedBands = new Set(JSON.parse(v)); } catch(e){}
-  // Rensa misstag där tid blockerats istället för band
-  const cleaned = [...blockedBands].filter(b => !looksLikeTime(b));
-  if (cleaned.length !== blockedBands.size) {
-    blockedBands = new Set(cleaned);
-    saveBlocked();
-  }
   try { const v = localStorage.getItem('extraRows'); if(v) extraRows = JSON.parse(v); } catch(e){}
   try { const v = localStorage.getItem('notes'); if(v) notes = JSON.parse(v); } catch(e){}
   try { const v = localStorage.getItem('activeFilter'); if(v) activeFilter = JSON.parse(v); } catch(e){}
@@ -534,42 +488,21 @@ function cloudSave() {
 
 function showLogin() {
   document.getElementById('login-modal').classList.add('open');
-  document.getElementById('login-modal-title').textContent = 'Logga in';
-  document.getElementById('login-modal-desc').textContent = 'Logga in med ditt smeknamn. Har du inget än? Tryck Skapa.';
   document.getElementById('login-name').value = '';
   document.getElementById('login-pin').value = '';
   document.getElementById('login-msg').textContent = '';
   document.getElementById('pin-row').style.display = 'none';
   setTimeout(function(){ document.getElementById('login-name').focus(); }, 100);
 }
-function showRegister() {
-  document.getElementById('login-modal').classList.add('open');
-  document.getElementById('login-modal-title').textContent = 'Skapa profil';
-  document.getElementById('login-modal-desc').textContent = 'Skapa ett smeknamn och använd det varje gång — så sparas dina val från mobil, surfplatta eller dator. Bara du ser dina egna val.';
-  document.getElementById('login-name').value = '';
-  document.getElementById('login-pin').value = '';
-  document.getElementById('login-msg').textContent = '';
-  document.getElementById('pin-row').style.display = 'block';
-  setTimeout(function(){ document.getElementById('login-name').focus(); }, 100);
-}
 function closeLogin() {
   document.getElementById('login-modal').classList.remove('open');
-}
-
-function loginSuccess(namn, pin, is_admin, settings) {
-  currentUser = {namn: namn, pin: pin, is_admin: is_admin};
-  localStorage.setItem('cloudUser', JSON.stringify(currentUser));
-  if(settings) applyCloudSettings(settings);
-  closeLogin();
-  updateUserBar(true);
-  render();
 }
 
 function doLogin() {
   const namn = document.getElementById('login-name').value.trim();
   const pin = document.getElementById('login-pin').value.trim() || null;
   const msg = document.getElementById('login-msg');
-  if(namn.length < 2) { msg.textContent = 'Minst 2 tecken.'; msg.style.color = '#e74c3c'; return; }
+  if(namn.length < 2) { msg.textContent = 'Minst 2 tecken.'; return; }
   msg.textContent = 'Ansluter...';
   msg.style.color = 'var(--muted)';
 
@@ -579,51 +512,38 @@ function doLogin() {
     body: JSON.stringify({namn: namn, pin: pin})
   }).then(r => r.json()).then(d => {
     if(d.ok) {
-      loginSuccess(d.namn, pin, d.is_admin, d.settings);
-      msg.textContent = '';
+      currentUser = {namn: d.namn, pin: pin, is_admin: d.is_admin};
+      localStorage.setItem('cloudUser', JSON.stringify(currentUser));
+      applyCloudSettings(d.settings);
+      closeLogin();
+      updateUserBar(true);
+      render();
+      return;
+    }
+    if(d.error === 'Profilen finns inte') {
+      fetch(API_URL + '?action=register', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({namn: namn, pin: pin})
+      }).then(r => r.json()).then(d2 => {
+        if(d2.ok) {
+          currentUser = {namn: namn, pin: pin, is_admin: false};
+          localStorage.setItem('cloudUser', JSON.stringify(currentUser));
+          cloudSave();
+          closeLogin();
+          updateUserBar(true);
+          msg.textContent = '';
+        } else {
+          msg.style.color = '#e74c3c';
+          msg.textContent = d2.error || 'Något gick fel.';
+        }
+      });
       return;
     }
     if(d.error === 'Fel PIN') {
       document.getElementById('pin-row').style.display = 'block';
       msg.style.color = '#e74c3c';
       msg.textContent = 'Den profilen har en PIN — fyll i den.';
-      return;
-    }
-    if(d.error === 'Profilen finns inte') {
-      msg.style.color = '#e74c3c';
-      msg.textContent = 'Profilen finns inte. Tryck Skapa om du vill skapa ett nytt smeknamn.';
-      return;
-    }
-    msg.style.color = '#e74c3c';
-    msg.textContent = d.error || 'Något gick fel.';
-  }).catch(function() {
-    msg.style.color = '#e74c3c';
-    msg.textContent = 'Kunde inte ansluta till servern.';
-  });
-}
-
-function doRegister() {
-  const namn = document.getElementById('login-name').value.trim();
-  const pin = document.getElementById('login-pin').value.trim() || null;
-  const msg = document.getElementById('login-msg');
-  if(namn.length < 2) { msg.textContent = 'Minst 2 tecken.'; msg.style.color = '#e74c3c'; return; }
-  msg.textContent = 'Skapar profil...';
-  msg.style.color = 'var(--muted)';
-
-  fetch(API_URL + '?action=register', {
-    method: 'POST',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({namn: namn, pin: pin})
-  }).then(r => r.json()).then(d => {
-    if(d.ok) {
-      loginSuccess(namn, pin, false, null);
-      cloudSave();
-      msg.textContent = '';
-      return;
-    }
-    if(d.error === 'Namnet är redan taget') {
-      msg.style.color = '#e74c3c';
-      msg.textContent = 'Namnet är redan taget. Tryck Logga in om du redan har en profil.';
       return;
     }
     msg.style.color = '#e74c3c';
@@ -652,8 +572,7 @@ function updateUserBar(synced) {
       + (currentUser.is_admin ? ' <button onclick="showAdminUsers()">👑 Användare</button>' : '')
       + ' <button onclick="doLogout()">Logga ut</button>';
   } else {
-    bar.innerHTML = '<span><span class="sync-icon sync-off"></span>Titta fritt — eller skapa ett smeknamn för att spara favoriter</span>'
-      + '<div class="bar-btns"><button onclick="showLogin()">Logga in</button><button class="bar-create" onclick="showRegister()">Skapa</button></div>';
+    bar.innerHTML = '<span><span class="sync-icon sync-off"></span>Titta fritt — eller skapa ett smeknamn för att spara favoriter</span> <button onclick="showLogin()">Logga in</button>';
   }
 }
 
@@ -673,18 +592,13 @@ function showAdminUsers() {
     body: JSON.stringify({namn: currentUser.namn, pin: currentUser.pin})
   }).then(r => r.json()).then(d => {
     if(!d.ok) { document.getElementById('admin-list').innerHTML = d.error; return; }
-    document.getElementById('admin-list').innerHTML = d.users.map(u => {
-      const isAdmin = u.is_admin==='1' || u.is_admin===1;
-      const canDelete = !isAdmin && u.namn !== currentUser.namn;
-      return '<div class="admin-user" id="au-' + encodeURIComponent(u.namn) + '">'
-      + '<div class="admin-user-row">'
-      + '<div class="au-side au-side-left"><button class="au-view" onclick="showUserDetail(\'' + u.namn.replace(/'/g,"\\'") + '\')">Visa</button></div>'
-      + '<div class="au-info"><span class="au-name">' + (isAdmin?'👑 ':'') + u.namn + '</span>'
+    document.getElementById('admin-list').innerHTML = d.users.map(u =>
+      '<div class="admin-user" id="au-' + encodeURIComponent(u.namn) + '">'
+      + '<div><span class="au-name">' + (u.is_admin==='1'||u.is_admin===1?'👑 ':'') + u.namn + '</span>'
       + '<br><span class="au-date">Gick med: ' + u.created_at.substring(0,10) + ' · Senast: ' + u.updated_at.substring(0,10) + '</span></div>'
-      + '<div class="au-side au-side-right">'
-      + (canDelete ? '<button class="au-del" onclick="deleteUser(\'' + u.namn.replace(/'/g,"\\'") + '\')">Ta bort</button>' : '')
-      + '</div></div></div>';
-    }).join('');
+      + '<button onclick="showUserDetail(\'' + u.namn.replace(/'/g,"\\'") + '\')">Visa</button>'
+      + '</div>'
+    ).join('');
   });
 }
 
@@ -731,25 +645,6 @@ function showUserDetail(namn) {
   });
 }
 
-function deleteUser(namn) {
-  if(!currentUser || !currentUser.is_admin) return;
-  if(!confirm('Ta bort profilen "' + namn + '"? Det går inte att ångra.')) return;
-  fetch(API_URL + '?action=admin-delete', {
-    method: 'POST',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({namn: currentUser.namn, pin: currentUser.pin, target: namn})
-  }).then(r => r.json()).then(d => {
-    if(d.ok) {
-      const el = document.getElementById('au-' + encodeURIComponent(namn));
-      if(el) el.remove();
-      return;
-    }
-    alert(d.error || 'Kunde inte ta bort.');
-  }).catch(function() {
-    alert('Kunde inte ansluta till servern.');
-  });
-}
-
 function tryAutoLogin() {
   try {
     const saved = localStorage.getItem('cloudUser');
@@ -772,40 +667,9 @@ function tryAutoLogin() {
 
 function rowKey(r) { return r[0] + '|' + r[3] + '|' + r[4]; }
 
-function looksLikeTime(s) {
-  return /^\d{1,2}[.:]\d{2}/.test(String(s || '').trim());
-}
-
 function toggleFavBand(band) {
   if(favBands.has(band)) favBands.delete(band); else favBands.add(band);
   saveFavBands(); render();
-  if(document.getElementById('band-links-panel').style.display !== 'none') renderBandLinksPanel();
-}
-function toggleBandLinksPanel() {
-  const p = document.getElementById('band-links-panel');
-  const show = p.style.display === 'none';
-  p.style.display = show ? 'block' : 'none';
-  if(show) renderBandLinksPanel();
-}
-function renderBandLinksPanel() {
-  const el = document.getElementById('band-links-list');
-  if(!el) return;
-  const bands = [...favBands].sort((a,b) => a.localeCompare(b,'sv'));
-  if(!bands.length) {
-    el.innerHTML = '<p class="band-links-hint">Markera band med ★ i listan — då visas deras hemsidor här.</p>';
-    return;
-  }
-  const links = typeof BAND_LINKS !== 'undefined' ? BAND_LINKS : {};
-  const withLinks = bands.filter(b => links[b]);
-  if(!withLinks.length) {
-    el.innerHTML = '<p class="band-links-hint">Inga hemsidor hittade för dina favoritband (källa: danslogen).</p>';
-    return;
-  }
-  el.innerHTML = '<div class="band-links-grid">' + withLinks.map(b => {
-    const url = links[b];
-    const safe = b.replace(/&/g,'&amp;').replace(/</g,'&lt;');
-    return '<a class="band-link-item" href="' + url.replace(/"/g,'%22') + '" target="_blank" rel="noopener noreferrer">' + safe + ' ↗</a>';
-  }).join('') + '</div>';
 }
 function toggleFavVenue(venue) {
   if(favVenues.has(venue)) favVenues.delete(venue); else favVenues.add(venue);
@@ -814,88 +678,6 @@ function toggleFavVenue(venue) {
 function toggleGoing(key) {
   if(goingSet.has(key)) goingSet.delete(key); else goingSet.add(key);
   saveGoing(); render();
-}
-function getGoingRowsUpcoming() {
-  const today = new Date().toISOString().substring(0, 10);
-  return allData.filter(r => goingSet.has(rowKey(r)) && r[0] >= today);
-}
-function parseTid(tid) {
-  const m = (tid || '').match(/(\d{1,2})[.:](\d{2})\s*-\s*(\d{1,2})[.:](\d{2})/);
-  if (m) return { startH: +m[1], startM: +m[2], endH: +m[3], endM: +m[4] };
-  return { startH: 19, startM: 0, endH: 22, endM: 30 };
-}
-function icsDateTime(dateStr, h, m) {
-  const p = dateStr.split('-');
-  return p[0] + p[1] + p[2] + 'T' + String(h).padStart(2, '0') + String(m).padStart(2, '0') + '00';
-}
-function icsEscape(s) {
-  return String(s).replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\n/g, '\\n');
-}
-function exportGoingToCalendar() {
-  const rows = getGoingRowsUpcoming();
-  if (!rows.length) {
-    alert('Markera danser med ♥ först — inget att lägga i kalendern.');
-    return;
-  }
-  let ics = 'BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Dansprogram//SV\r\nCALSCALE:GREGORIAN\r\n';
-  rows.forEach(r => {
-    const { startH, startM, endH, endM } = parseTid(r[2]);
-    const dtStart = icsDateTime(r[0], startH, startM);
-    let endDate = r[0];
-    if (endH < startH || (endH === startH && endM <= startM)) {
-      const d = new Date(r[0] + 'T12:00:00');
-      d.setDate(d.getDate() + 1);
-      endDate = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
-    }
-    const dtEnd = icsDateTime(endDate, endH, endM);
-    const alarmD = new Date(r[0] + 'T12:00:00');
-    alarmD.setDate(alarmD.getDate() - 1);
-    const alarmDt = alarmD.getFullYear() + String(alarmD.getMonth() + 1).padStart(2, '0') + String(alarmD.getDate()).padStart(2, '0') + 'T180000';
-    const summary = icsEscape(r[3] + ' — ' + r[4]);
-    const location = icsEscape([r[4], r[5], r[6]].filter(Boolean).join(', '));
-    ics += 'BEGIN:VEVENT\r\n';
-    ics += 'UID:' + rowKey(r).replace(/[^a-zA-Z0-9|]/g, '_') + '@dansprogram\r\n';
-    ics += 'DTSTART:' + dtStart + '\r\n';
-    ics += 'DTEND:' + dtEnd + '\r\n';
-    ics += 'SUMMARY:' + summary + '\r\n';
-    if (location) ics += 'LOCATION:' + location + '\r\n';
-    ics += 'BEGIN:VALARM\r\n';
-    ics += 'TRIGGER;VALUE=DATE-TIME:' + alarmDt + '\r\n';
-    ics += 'ACTION:DISPLAY\r\n';
-    ics += 'DESCRIPTION:Påminnelse: ' + summary + '\r\n';
-    ics += 'END:VALARM\r\n';
-    ics += 'END:VEVENT\r\n';
-  });
-  ics += 'END:VCALENDAR\r\n';
-  const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'dansprogram-jag-ska-dit.ics';
-  a.click();
-  URL.revokeObjectURL(a.href);
-}
-function renderSnartGoing() {
-  const panel = document.getElementById('snart-going-panel');
-  const list = document.getElementById('snart-going-list');
-  if (!panel || !list) return;
-  const today = new Date();
-  const todayStr = today.toISOString().substring(0, 10);
-  const week = new Date(today);
-  week.setDate(week.getDate() + 7);
-  const weekStr = week.toISOString().substring(0, 10);
-  const rows = allData.filter(r => goingSet.has(rowKey(r)) && r[0] >= todayStr && r[0] <= weekStr);
-  rows.sort((a, b) => a[0].localeCompare(b[0]) || String(a[2]).localeCompare(String(b[2])));
-  if (!rows.length) {
-    panel.style.display = 'none';
-    return;
-  }
-  panel.style.display = 'block';
-  list.innerHTML = rows.map(r =>
-    '<div class="snart-going-item"><span class="snart-date">' + r[0] + '</span>'
-    + '<span class="snart-time">' + (r[2] || '') + '</span>'
-    + '<span class="snart-band">' + r[3] + '</span> @ ' + r[4] + ', ' + r[5] + '</div>'
-  ).join('')
-  + '<p class="snart-hint">📅 <button class="btn-add" onclick="exportGoingToCalendar()" style="margin-top:4px">Lägg alla i kalender</button> — påminnelse dagen före kl 18</p>';
 }
 function toggleFilter(f) {
   activeFilter = activeFilter === f ? null : f;
@@ -1009,7 +791,6 @@ function render() {
   const goingCount = goingSet.size;
   document.getElementById('stats').textContent =
     `${rows.length} spelningar visas${favCount?' · '+favCount+' favoritband':''}${goingCount?' · '+goingCount+' jag ska dit':''}`;
-  renderSnartGoing();
 }
 
 function buildLanFilter() {
